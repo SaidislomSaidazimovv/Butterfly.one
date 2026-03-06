@@ -1,0 +1,1442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>butterfly.one — The 30-Second Check-In Protocol</title>
+<meta name="description" content="A deployable protocol for emotional stability at organizational scale.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,200;1,9..144,300;1,9..144,600&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FFFFFF;--off:#F5F5F7;--ink:#0B0B0F;--sub:#5A5A66;--ghost:#6E6E73;
+  --line:#E9E9EF;--blue:#0A4AD6;--bsoft:#E8EEFB;--green:#1F8A5B;
+  --r:24px;--max:1100px;
+  --serif:'Fraunces',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;--mono:'DM Mono',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{font-family:var(--sans);cursor:pointer;background:none;border:none}
+img,svg{display:block}
+
+.skip{position:absolute;top:-60px;left:20px;z-index:9999;padding:8px 16px;background:var(--blue);color:#fff;border-radius:8px;font-size:13px;font-weight:600;transition:top .2s}
+.skip:focus{top:16px}
+
+/* Layout */
+.W{max-width:var(--max);margin:0 auto;padding:0 40px}
+.S{padding:clamp(80px,10vw,140px) 40px;border-top:1px solid var(--line)}
+.S:first-of-type{border-top:none}
+
+/* Type */
+.mono-label{display:block;font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.10em;text-transform:uppercase;color:var(--ghost);margin-bottom:18px}
+h1{font-family:var(--serif);font-size:clamp(52px,7vw,96px);font-weight:300;letter-spacing:-.03em;line-height:.96;color:var(--ink)}
+h1 em{font-style:italic;color:var(--blue)}
+h2{font-family:var(--serif);font-size:clamp(34px,4.5vw,58px);font-weight:300;letter-spacing:-.025em;line-height:1.04;color:var(--ink)}
+h3{font-family:var(--serif);font-size:clamp(20px,2vw,26px);font-weight:300;letter-spacing:-.015em;color:var(--ink)}
+p{font-size:17px;line-height:1.7;color:var(--sub);max-width:56ch}
+.fn{font-size:12px;color:var(--ghost);border-top:1px solid var(--line);padding-top:16px;margin-top:28px;line-height:1.6;max-width:64ch}
+sup{font-size:10px;color:var(--blue);vertical-align:super;line-height:0;font-weight:600}
+
+/* Buttons */
+.gbtn{display:inline-flex;align-items:center;gap:7px;padding:10px 20px;border:1.5px solid var(--blue);border-radius:100px;font-size:14px;font-weight:500;color:var(--blue);transition:background .16s,transform .16s;white-space:nowrap}
+.gbtn:hover{background:var(--bsoft);transform:translateY(-1px)}
+.gbtn:focus-visible{outline:none;box-shadow:0 0 0 3px rgba(10,74,214,.22)}
+.sbtn{display:flex;align-items:center;justify-content:center;width:100%;padding:16px;border-radius:100px;font-size:15px;font-weight:600;color:#fff;background:var(--ink);border:none;transition:opacity .16s,transform .16s}
+.sbtn:hover{opacity:.82;transform:translateY(-1px)}
+.tlink{color:var(--blue);font-size:14px;font-weight:500;border-bottom:1px solid transparent;transition:border-color .15s}
+.tlink:hover{border-color:var(--blue)}
+
+/* Animations */
+.fu{opacity:0;transform:translateY(20px);transition:opacity .6s cubic-bezier(.25,.1,.25,1),transform .6s cubic-bezier(.25,.1,.25,1)}
+.fu.on{opacity:1;transform:none}
+.fu.d1{transition-delay:.07s}.fu.d2{transition-delay:.14s}.fu.d3{transition-delay:.21s}
+.fu.d4{transition-delay:.28s}.fu.d5{transition-delay:.35s}.fu.d6{transition-delay:.42s}
+.si{opacity:0;transform:scale(.96);transition:opacity .7s cubic-bezier(.25,.1,.25,1),transform .7s cubic-bezier(.25,.1,.25,1)}
+.si.on{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.fu,.si{opacity:1!important;transform:none!important;transition:none!important}}
+
+/* ── NAV ── */
+#nav{position:sticky;top:0;z-index:300;height:56px;background:rgba(255,255,255,.88);backdrop-filter:blur(28px) saturate(180%);-webkit-backdrop-filter:blur(28px) saturate(180%);border-bottom:1px solid var(--line);transition:box-shadow .25s}
+#nav.sc{box-shadow:0 2px 20px rgba(0,0,0,.07)}
+.nav-in{max-width:var(--max);margin:0 auto;padding:0 40px;height:100%;display:flex;align-items:center;justify-content:space-between;gap:28px}
+.nav-logo{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.nav-glyph{width:22px;height:22px}
+.nav-wm{font-size:15px;font-weight:700;letter-spacing:-.025em;color:var(--ink)}
+.nav-ul{display:flex;gap:28px;list-style:none}
+.nav-ul a{font-size:14px;font-weight:500;color:var(--ghost);transition:color .15s}
+.nav-ul a:hover{color:var(--ink)}
+.nav-bg{display:none;flex-direction:column;gap:5px;width:28px;padding:3px}
+.nav-bg span{display:block;height:1.5px;background:var(--ink);border-radius:2px;transition:all .22s}
+.mob{display:none;position:fixed;inset:56px 0 0;background:rgba(255,255,255,.97);backdrop-filter:blur(28px);z-index:299;padding:36px;flex-direction:column;gap:2px}
+.mob.on{display:flex;animation:sd .28s ease forwards}
+@keyframes sd{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:none}}
+.mob a{font-family:var(--serif);font-size:26px;font-weight:300;color:var(--sub);padding:12px 0;border-bottom:1px solid var(--line)}
+.mob .gbtn{margin-top:24px;font-family:var(--sans);align-self:flex-start}
+
+/* ── HERO ── */
+#hero{padding:clamp(100px,12vw,160px) 40px clamp(80px,9vw,120px);border-top:none}
+.hero-g{max-width:var(--max);margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
+.hero-copy{display:flex;flex-direction:column;gap:28px}
+.hero-copy h1{max-width:11ch}
+.hero-sub{font-size:18px;line-height:1.65;color:var(--sub);max-width:44ch}
+.hero-acts{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.hero-eff{font-family:var(--mono);font-size:11px;color:var(--ghost);letter-spacing:.04em;margin-top:-8px}
+
+/* Hero Stack – auto-cycling */
+.hstack{border:1px solid var(--line);border-radius:28px;overflow:hidden;background:var(--off);box-shadow:0 4px 32px rgba(0,0,0,.05)}
+.hs-item{display:flex;align-items:stretch;background:#fff;border-bottom:1px solid var(--line);transition:background .35s,transform .25s}
+.hs-item:last-child{border-bottom:none}
+.hs-item.lit{background:var(--bsoft)}
+.hs-item:hover{transform:translateX(3px)}
+.hs-n{display:flex;align-items:center;justify-content:center;width:52px;flex-shrink:0;font-family:var(--mono);font-size:10px;font-weight:500;color:var(--ghost);border-right:1px solid var(--line)}
+.hs-item.lit .hs-n{color:var(--blue);border-right-color:rgba(10,74,214,.15)}
+.hs-b{flex:1;padding:18px 20px;display:flex;flex-direction:column;gap:4px}
+.hs-name{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--ink)}
+.hs-item.lit .hs-name{color:var(--blue)}
+.hs-desc{font-size:13px;color:var(--sub);line-height:1.45}
+.hs-arr{display:flex;align-items:center;justify-content:center;width:44px;flex-shrink:0;color:var(--line);font-size:15px;transition:color .35s}
+.hs-item.lit .hs-arr{color:var(--blue)}
+/* Progress bar at bottom of stack */
+.hs-progress{height:2px;background:var(--line);position:relative;overflow:hidden}
+.hs-progress-fill{position:absolute;left:0;top:0;height:100%;background:var(--blue);width:0;transition:width linear}
+
+/* ── HIGHLIGHTS ── */
+.hl-tiles{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin-top:48px}
+.hl-t{background:var(--bg);padding:28px 22px;display:flex;flex-direction:column;gap:10px;transition:background .18s,transform .18s}
+.hl-t:hover{background:#FAFAFA;transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.06);z-index:1;position:relative}
+.hl-icon{color:var(--ghost)}
+.hl-m{font-family:var(--serif);font-size:clamp(26px,2.5vw,34px);font-weight:600;letter-spacing:-.03em;color:var(--ink);line-height:1}
+.hl-tiles .hl-t:nth-child(2) .hl-m{color:var(--blue)}
+.hl-lbl{font-size:13px;line-height:1.45;color:var(--ghost)}
+
+/* ── CONTEXT waveform ── */
+.wf-wrap{margin-top:56px;overflow:hidden}
+.wf-svg{width:100%;display:block}
+
+/* animated wave paths */
+@keyframes waveShift{
+  0%{d:path("M0,80 C20,50 40,110 60,75 C80,40 100,95 120,65 C140,35 160,90 180,60 C200,30 220,85 240,55 C260,25 280,80 300,50 C320,20 340,75 360,45 C380,70 400,55 420,68")}
+  25%{d:path("M0,75 C20,45 40,105 60,70 C80,35 100,90 120,60 C140,30 160,85 180,55 C200,25 220,80 240,50 C260,20 280,75 300,45 C320,15 340,70 360,40 C380,65 400,50 420,63")}
+  50%{d:path("M0,85 C20,55 40,115 60,80 C80,45 100,100 120,70 C140,40 160,95 180,65 C200,35 220,90 240,60 C260,30 280,85 300,55 C320,25 340,80 360,50 C380,75 400,60 420,73")}
+  75%{d:path("M0,78 C20,48 40,108 60,73 C80,38 100,93 120,63 C140,33 160,88 180,58 C200,28 220,83 240,53 C260,23 280,78 300,48 C320,18 340,73 360,43 C380,68 400,53 420,66")}
+  100%{d:path("M0,80 C20,50 40,110 60,75 C80,40 100,95 120,65 C140,35 160,90 180,60 C200,30 220,85 240,55 C260,25 280,80 300,50 C320,20 340,75 360,45 C380,70 400,55 420,68")}
+}
+.wf-path1{animation:waveShift 4s ease-in-out infinite}
+.wf-path2{animation:waveShift 4s ease-in-out infinite .6s}
+.wf-path3{animation:waveShift 4s ease-in-out infinite 1.2s}
+
+/* dot pulse + sequential highlight */
+@keyframes dotPulse{0%,100%{r:5;opacity:.35}50%{r:6.5;opacity:1}}
+@keyframes dotActive{0%,100%{fill:#E9E9EF}50%{fill:#0A4AD6}}
+@keyframes connGrow{0%{stroke-dashoffset:60}100%{stroke-dashoffset:0}}
+@keyframes labelFade{0%,30%{opacity:0}60%,100%{opacity:1}}
+
+.wf-dot1{animation:dotPulse 3.2s ease-in-out infinite .2s}
+.wf-dot2{animation:dotActive 3.2s ease-in-out infinite .8s}
+.wf-dot3{animation:dotActive 3.2s ease-in-out infinite 1.4s}
+.wf-dot4{animation:dotActive 3.2s ease-in-out infinite 2s}
+.wf-conn{stroke-dasharray:60;animation:connGrow 1s ease forwards}
+@keyframes funnelFade{0%,100%{opacity:.4}50%{opacity:.9}}
+.wf-funnel{animation:funnelFade 4s ease-in-out infinite}
+
+@media(prefers-reduced-motion:reduce){
+  .wf-path1,.wf-path2,.wf-path3,.wf-dot1,.wf-dot2,.wf-dot3,.wf-dot4,.wf-funnel{animation:none}
+}
+
+/* ── CONTEXT waveform ── */
+.ctx-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.ctx-text .overline-rule{display:block;width:32px;height:1px;background:var(--line);margin-bottom:12px}
+.wf-canvas-wrap{position:relative}
+#wf-canvas{width:100%;height:160px;display:block}
+@media(max-width:768px){.ctx-grid{grid-template-columns:1fr;gap:40px}}
+
+/* ── CATEGORY ── */
+.cat-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:48px}
+.cat-card{padding:36px 30px;border:1px solid var(--line);border-radius:var(--r);display:flex;flex-direction:column;gap:14px;transition:transform .2s,box-shadow .2s}
+.cat-card:hover{transform:translateY(-4px);box-shadow:0 10px 28px rgba(0,0,0,.06)}
+.cat-tag{font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--blue)}
+.cat-card h3{font-size:22px}
+.cat-card p{font-size:15px;max-width:none}
+
+/* ── PROTOCOL STEPPER ── */
+.pt-g{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;margin-top:56px}
+.pt-sticky{position:sticky;top:80px}
+.pt-viz{display:flex;flex-direction:column;gap:5px}
+.pt-layer{display:flex;align-items:center;gap:14px;padding:16px 22px;border:1px solid var(--line);border-radius:14px;cursor:pointer;transition:all .3s cubic-bezier(.25,.1,.25,1)}
+.pt-layer.lit{border-color:var(--blue);background:var(--bsoft);transform:scale(1.02);box-shadow:0 4px 16px rgba(10,74,214,.12)}
+.pt-num{font-family:var(--mono);font-size:10px;font-weight:500;color:var(--ghost);width:18px}
+.pt-layer.lit .pt-num{color:var(--blue)}
+.pt-lbl{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--ink)}
+.pt-layer.lit .pt-lbl{color:var(--blue)}
+.pt-bar{flex:1;height:2px;background:var(--line);border-radius:1px;overflow:hidden}
+.pt-layer.lit .pt-bar::after{content:'';display:block;height:100%;background:var(--blue);animation:fb .45s ease forwards}
+@keyframes fb{from{width:0}to{width:100%}}
+.pt-items{display:flex;flex-direction:column}
+.pt-item{padding:48px 0;border-bottom:1px solid var(--line);opacity:.25;transform:translateX(-6px);transition:opacity .35s,transform .35s;cursor:pointer}
+.pt-item:last-child{border-bottom:none}
+.pt-item.lit{opacity:1;transform:none}
+.pt-badge{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--blue);margin-bottom:12px}
+.pt-item h3{font-size:clamp(22px,2.2vw,28px);margin-bottom:14px}
+.pt-item p{font-size:16px;max-width:44ch;line-height:1.65}
+
+/* ── ROI ── */
+.roi-g{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.roi-n{font-family:var(--serif);font-size:clamp(100px,16vw,180px);font-weight:600;letter-spacing:-.05em;line-height:.88;color:var(--blue);display:block}
+.roi-sub{font-size:17px;font-weight:600;letter-spacing:-.01em;color:var(--ink);margin-top:10px}
+.bc-row{display:flex;flex-direction:column;gap:16px;margin-top:20px}
+.bc-item{display:flex;flex-direction:column;gap:7px}
+.bc-meta{display:flex;justify-content:space-between}
+.bc-lbl{font-family:var(--mono);font-size:12px;color:var(--ghost)}
+.bc-val{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--ink)}
+.bc-track{height:8px;background:var(--line);border-radius:4px;overflow:hidden}
+.bc-fill{height:100%;border-radius:4px;width:0;transition:width 1.2s cubic-bezier(.25,.1,.25,1)}
+.bc-fill.g{background:rgba(110,110,115,.35)}
+.bc-fill.b{background:var(--blue)}
+
+/* ── GAP ── */
+.gap-g{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.gap-viz{display:flex;align-items:flex-end;gap:40px;padding:40px 36px 32px;border:1px solid var(--line);border-radius:var(--r);background:var(--off);min-height:280px}
+.gap-col{display:flex;flex-direction:column;align-items:center;gap:14px;flex:1}
+.gap-bw{width:100%;flex:1;background:var(--line);border-radius:8px 8px 0 0;overflow:hidden;min-height:20px;position:relative}
+.gap-f{position:absolute;bottom:0;left:0;right:0;border-radius:8px 8px 0 0;height:0;transition:height 1.3s cubic-bezier(.25,.1,.25,1)}
+.gap-f.av{background:#C4C4C8}
+.gap-f.us{background:var(--blue)}
+.gap-pct{font-family:var(--serif);font-size:24px;font-weight:600;letter-spacing:-.02em;color:var(--ink)}
+.gap-col:nth-child(2) .gap-pct{color:var(--blue)}
+.gap-lbl{font-size:12px;color:var(--ghost);text-align:center;line-height:1.4}
+
+/* ── BEHAVIORAL ── */
+.beh-chip{display:inline-flex;align-items:stretch;border:1px solid var(--line);border-radius:14px;overflow:hidden;font-family:var(--mono);font-size:15px;margin:36px 0}
+.ch-if{padding:18px 24px;background:var(--off);color:var(--sub)}
+.ch-if small{display:block;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--ghost);margin-bottom:4px}
+.ch-arr{display:flex;align-items:center;justify-content:center;width:44px;background:var(--bsoft);color:var(--blue);font-size:18px}
+.ch-then{padding:18px 24px;background:var(--bsoft);color:var(--blue);font-weight:500}
+.ch-then small{display:block;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);opacity:.7;margin-bottom:4px}
+
+/* ── CHECKLIST ── */
+.chl-g{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.chl-box{border:1px solid var(--line);border-radius:var(--r);padding:40px;background:var(--off);display:flex;align-items:center;gap:36px}
+.chl-items{display:flex;flex-direction:column;gap:12px;flex:1}
+.chl-item{display:flex;align-items:center;gap:10px;font-size:15px;color:var(--sub)}
+.chl-ck{width:18px;height:18px;border-radius:4px;background:var(--green);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.chl-arrow{font-size:22px;color:var(--ghost)}
+.proto-mini{display:flex;flex-direction:column;gap:4px}
+.pm-item{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.05em;text-transform:uppercase;color:var(--blue);padding:7px 12px;border:1px solid rgba(10,74,214,.25);border-radius:8px;background:var(--bsoft)}
+
+/* ── CRISIS NODE MAP ── */
+.node-map-wrap{margin:52px auto 0;max-width:700px;display:flex;justify-content:center}
+.node-svg{width:100%;max-width:700px;overflow:visible}
+
+/* ── KIT ── */
+.kit-g{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:48px}
+.kit-c{padding:32px 28px;border:1px solid var(--line);border-radius:var(--r);display:flex;flex-direction:column;gap:14px;transition:transform .22s,box-shadow .22s,border-color .22s}
+.kit-c:hover{transform:scale(1.02);box-shadow:0 12px 32px rgba(0,0,0,.07);border-color:rgba(10,74,214,.2)}
+.kit-num{font-family:var(--mono);font-size:10px;color:var(--ghost);letter-spacing:.06em}
+.kit-icon{color:var(--sub)}
+.kit-c h3{font-size:17px;font-weight:600;font-family:var(--sans);letter-spacing:-.01em}
+.kit-c p{font-size:14px;color:var(--sub);line-height:1.5;max-width:none}
+
+/* ── TIMELINE ── */
+.tl-track{margin-top:48px;position:relative}
+.tl-line{position:absolute;top:20px;left:0;right:0;height:1px;background:var(--line)}
+.tl-nodes{display:flex;justify-content:space-between;position:relative;z-index:1}
+.tl-node{display:flex;flex-direction:column;align-items:center;gap:16px;flex:1}
+.tl-dot{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--line);background:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;font-weight:500;color:var(--ghost);transition:all .25s}
+.tl-node:hover .tl-dot,.tl-node.lit .tl-dot{border-color:var(--blue);background:var(--blue);color:#fff}
+.tl-wk{font-family:var(--mono);font-size:10px;font-weight:600;color:var(--blue);letter-spacing:.04em;text-transform:uppercase}
+.tl-task{font-size:13px;color:var(--sub);text-align:center;max-width:10ch;line-height:1.3}
+
+/* ── MEASUREMENT ── */
+.dash-mock{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--off);margin-top:48px;max-width:800px}
+.dash-head{display:flex;align-items:center;justify-content:space-between;padding:20px 28px;border-bottom:1px solid var(--line);background:#fff}
+.dash-title{font-size:14px;font-weight:600}
+.dash-period{font-family:var(--mono);font-size:11px;color:var(--ghost);padding:4px 10px;border:1px solid var(--line);border-radius:6px}
+.dash-tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line)}
+.dash-t{background:#fff;padding:24px 22px;display:flex;flex-direction:column;gap:8px}
+.dash-lbl{font-size:11px;font-weight:500;color:var(--ghost);letter-spacing:.02em}
+.dash-val{font-family:var(--mono);font-size:28px;font-weight:500;letter-spacing:-.03em;color:var(--ink)}
+.dash-tiles .dash-t:nth-child(1) .dash-val{color:var(--green)}
+.dash-tiles .dash-t:nth-child(3) .dash-val{color:var(--blue)}
+.dash-trend{font-size:12px;color:var(--green);font-weight:500}
+
+/* ── VALUES ── */
+.val-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:48px}
+.val-c{padding:36px 30px;border:1px solid var(--line);border-radius:var(--r);display:flex;flex-direction:column;gap:14px;transition:transform .2s,box-shadow .2s}
+.val-c:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.06)}
+.val-icon{color:var(--sub)}
+.val-c h3{font-size:19px}
+.val-c p{font-size:15px;max-width:none}
+
+/* ── GOVERNANCE ── */
+.gov-g{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+.gov-lnk{display:flex;gap:20px;flex-wrap:wrap;margin-top:28px}
+.changelog{border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.cl-row{display:grid;grid-template-columns:88px 108px 1fr;align-items:center;border-bottom:1px solid var(--line);transition:background .15s}
+.cl-row:last-child{border-bottom:none}
+.cl-row:hover{background:#FAFAFA}
+.cl-v{padding:20px 18px;font-family:var(--mono);font-size:13px;font-weight:500;color:var(--blue);border-right:1px solid var(--line)}
+.cl-row:not(:first-child) .cl-v{color:var(--ghost)}
+.cl-d{padding:20px 16px;font-family:var(--mono);font-size:12px;color:var(--ghost);border-right:1px solid var(--line)}
+.cl-n{padding:20px 18px;font-size:14px;color:var(--sub)}
+.cl-row:first-child .cl-n{color:var(--ink);font-weight:500}
+.partners-s{margin-top:20px;padding:22px 24px;border:1px solid var(--line);border-radius:var(--r);background:var(--off)}
+.ps-lbl{font-family:var(--mono);font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--ghost);display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.dot-g{width:6px;height:6px;border-radius:50%;background:var(--green);display:inline-block}
+.dot-y{width:6px;height:6px;border-radius:50%;background:#C4A700;display:inline-block}
+.p-pills{display:flex;gap:10px;flex-wrap:wrap}
+.p-pill{padding:7px 14px;border:1px solid var(--line);border-radius:8px;font-size:13px;font-weight:600;color:var(--sub);background:#fff;transition:border-color .16s,transform .16s}
+.p-pill:hover{border-color:var(--ink);transform:translateY(-1px)}
+.p-dis{font-size:11px;color:var(--ghost);margin-top:12px;font-style:italic}
+.p-group{margin-bottom:16px}
+.p-group:last-child{margin-bottom:0}
+
+/* ── FAQ ── */
+.faq-w{max-width:740px;margin-top:48px}
+.faq-i{border-bottom:1px solid var(--line)}
+.faq-q{width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:22px 0;font-size:17px;font-weight:500;color:var(--ink);text-align:left;background:none;border:none;cursor:pointer;font-family:var(--sans);transition:color .15s}
+.faq-q:hover{color:var(--blue)}
+.faq-q:focus-visible{outline:2px solid var(--blue);outline-offset:4px;border-radius:4px}
+.faq-ic{width:24px;height:24px;flex-shrink:0;border:1.5px solid var(--line);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--ghost);font-size:16px;font-weight:300;transition:all .25s}
+.faq-i.op .faq-ic{background:var(--blue);border-color:var(--blue);color:#fff;transform:rotate(45deg)}
+.faq-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .38s cubic-bezier(.25,.1,.25,1)}
+.faq-i.op .faq-body{grid-template-rows:1fr}
+.faq-inner{overflow:hidden}
+.faq-txt{padding-bottom:24px;font-size:16px;line-height:1.7;color:var(--sub);max-width:60ch}
+
+/* ── FORM ── */
+.cta-g{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+.f-fields{display:flex;flex-direction:column}
+.fld{display:flex;flex-direction:column;gap:5px;padding:15px 0;border-bottom:1px solid var(--line);transition:border-color .2s}
+.fld:focus-within{border-bottom-color:var(--ink)}
+.fld label{font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:var(--ghost);transition:color .2s}
+.fld:focus-within label{color:var(--blue)}
+.fld input,.fld textarea{border:none;outline:none;background:transparent;font-family:var(--sans);font-size:16px;color:var(--ink);padding:5px 0;width:100%}
+.fld input::placeholder,.fld textarea::placeholder{color:#D1D1D6}
+.fld textarea{resize:none;min-height:64px;line-height:1.5}
+.f-foot{margin-top:28px;display:flex;flex-direction:column;gap:11px}
+.f-note{font-size:12px;color:var(--ghost)}
+.f-ok{display:none;padding:24px 28px;border:1px solid rgba(31,138,91,.25);border-radius:var(--r);background:rgba(31,138,91,.04);font-size:16px;color:var(--green);font-weight:500;line-height:1.55}
+
+/* ── FOOTER ── */
+footer{padding:clamp(60px,7vw,88px) 40px 40px;border-top:1px solid var(--line)}
+.ft-g{max-width:var(--max);margin:0 auto;display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:48px;padding-bottom:36px;border-bottom:1px solid var(--line);margin-bottom:24px}
+.ft-wm{font-size:15px;font-weight:700;letter-spacing:-.02em}
+.ft-desc{font-size:13px;color:var(--ghost);margin-top:8px;line-height:1.6}
+.ft-desc a{color:var(--blue)}
+.ft-h{font-family:var(--mono);font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--ghost);margin-bottom:14px}
+.ft-ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+.ft-ul a{font-size:13px;color:var(--ghost);transition:color .14s}
+.ft-ul a:hover{color:var(--ink)}
+.ft-bar{max-width:var(--max);margin:0 auto;padding:0 40px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-family:var(--mono);font-size:11px;color:var(--ghost)}
+.ft-bar a{color:var(--ghost);transition:color .14s}
+.ft-bar a:hover{color:var(--ink)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:960px){
+  .hero-g,.ctx-g,.roi-g,.gap-g,.chl-g,.gov-g,.cta-g{grid-template-columns:1fr;gap:52px}
+  .pt-g{grid-template-columns:1fr}
+  .pt-sticky{position:relative;top:0}
+  .cat-cards,.val-cards{grid-template-columns:1fr}
+  .kit-g{grid-template-columns:repeat(2,1fr)}
+  .hl-tiles{grid-template-columns:repeat(3,1fr)}
+  .ft-g{grid-template-columns:1fr 1fr}
+  .nav-ul,#nav .gbtn{display:none}
+  .nav-bg{display:flex}
+  .dash-tiles{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:600px){
+  .W,.S,#hero,footer{padding-left:20px;padding-right:20px}
+  .nav-in,.ft-bar{padding-left:20px;padding-right:20px}
+  .hl-tiles{display:flex;overflow-x:auto;gap:12px;background:none;border:none;border-radius:0;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .hl-tiles::-webkit-scrollbar{display:none}
+  .hl-t{min-width:160px;flex-shrink:0;border:1px solid var(--line);border-radius:16px}
+  .kit-g{grid-template-columns:1fr}
+  .ft-g{grid-template-columns:1fr}
+  .hero-acts{flex-direction:column;align-items:flex-start}
+  .tl-nodes{flex-direction:column;gap:24px}
+  .tl-line{display:none}
+  .tl-node{flex-direction:row;gap:20px}
+  .r-branches{flex-wrap:wrap}
+  .beh-chip{flex-direction:column;max-width:300px}
+  .ch-arr{width:100%;height:36px}
+}
+</style>
+</head>
+<body>
+<a href="#main" class="skip">Skip to main content</a>
+
+<!-- NAV -->
+<nav id="nav" role="navigation" aria-label="Main">
+  <div class="nav-in">
+    <a href="/" class="nav-logo" aria-label="butterfly.one">
+      <svg class="nav-glyph" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+        <path d="M11 11C11 11 6.5 6.5 3.5 8C2 8.7 2 11 3.5 12.5C5 14 8 13.5 11 11Z" fill="#0B0B0F"/>
+        <path d="M11 11C11 11 15.5 6.5 18.5 8C20 8.7 20 11 18.5 12.5C17 14 14 13.5 11 11Z" fill="#0B0B0F"/>
+        <path d="M11 11C11 11 8.5 14 9.2 17C9.6 18.8 10.4 19.5 11 19.5C11.6 19.5 12.4 18.8 12.8 17C13.5 14 11 11 11 11Z" fill="#0B0B0F" opacity=".45"/>
+      </svg>
+      <span class="nav-wm">butterfly.one</span>
+    </a>
+    <ul class="nav-ul" role="list">
+      <li><a href="#highlights">Overview</a></li>
+      <li><a href="#protocol">Protocol</a></li>
+      <li><a href="#roi">Evidence</a></li>
+      <li><a href="#governance">Governance</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <a href="#contact" class="gbtn">Request Brief</a>
+    <button class="nav-bg" id="burger" aria-expanded="false" aria-controls="mob" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="mob" id="mob" role="menu">
+    <a href="#highlights">Overview</a>
+    <a href="#protocol">Protocol</a>
+    <a href="#roi">Evidence</a>
+    <a href="#governance">Governance</a>
+    <a href="#faq">FAQ</a>
+    <a href="#contact" class="gbtn">Request Brief</a>
+  </div>
+</nav>
+
+<main id="main">
+
+<!-- § 0 HERO -->
+<section id="hero" aria-labelledby="h1">
+  <div class="hero-g">
+    <div class="hero-copy">
+      <span class="mono-label fu">The Standard</span>
+      <h1 id="h1" class="fu d1">The<br><em>30&#8209;Second</em><br>Check&#8209;In.</h1>
+      <p class="hero-sub fu d2">A deployable protocol for emotional stability at organizational scale. Designed for HR, ESG, and performance leaders.</p>
+      <div class="hero-acts fu d3">
+        <a href="#contact" class="gbtn">Request Implementation Brief</a>
+        <a href="#" class="tlink">Download Protocol (PDF)</a>
+      </div>
+      <span class="hero-eff fu d4">Protocol v1.0 · Effective May 3, 2026 · One Humanity Foundation · 501(c)(3)</span>
+    </div>
+    <div class="si d2">
+      <div class="hstack" id="hstack" role="img" aria-label="Butterfly Protocol 4 steps: Signal, Script, Route, Measure">
+        <div class="hs-item" data-idx="0" role="listitem">
+          <div class="hs-n">01</div>
+          <div class="hs-b"><div class="hs-name">Signal</div><div class="hs-desc">"I care" / "I see you" / "I've got you" — a universal gesture.</div></div>
+          <div class="hs-arr" aria-hidden="true">↓</div>
+        </div>
+        <div class="hs-item" data-idx="1" role="listitem">
+          <div class="hs-n">02</div>
+          <div class="hs-b"><div class="hs-name">Script</div><div class="hs-desc">A 30-second response that removes bystander paralysis.</div></div>
+          <div class="hs-arr" aria-hidden="true">↓</div>
+        </div>
+        <div class="hs-item" data-idx="2" role="listitem">
+          <div class="hs-n">03</div>
+          <div class="hs-b"><div class="hs-name">Route</div><div class="hs-desc">Decision tree — peer, manager, EAP, crisis line, local services.</div></div>
+          <div class="hs-arr" aria-hidden="true">↓</div>
+        </div>
+        <div class="hs-item" data-idx="3" role="listitem">
+          <div class="hs-n">04</div>
+          <div class="hs-b"><div class="hs-name">Measure</div><div class="hs-desc">Aggregate, anonymized metrics. ESG-ready. Zero PII.</div></div>
+          <div class="hs-arr" aria-hidden="true">&nbsp;</div>
+        </div>
+        <div class="hs-progress"><div class="hs-progress-fill" id="hpf"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- § 1 HIGHLIGHTS -->
+<section class="S" id="highlights" aria-labelledby="hl-h2">
+  <div class="W">
+    <span class="mono-label fu">At a Glance</span>
+    <h2 id="hl-h2" class="fu d1">Get the highlights.</h2>
+    <div class="hl-tiles fu d2" role="list">
+      <div class="hl-t" role="listitem">
+        <svg class="hl-icon" width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><circle cx="11" cy="11" r="8.5"/><polyline points="11,6.5 11,11 14,13.5"/></svg>
+        <div class="hl-m">30 sec</div><div class="hl-lbl">Signal to support in under a minute.</div>
+      </div>
+      <div class="hl-t" role="listitem">
+        <svg class="hl-icon" width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><polyline points="2,16 7,8 11,12 16,5 20,8"/><line x1="2" y1="18" x2="20" y2="18"/></svg>
+        <div class="hl-m">£4.70<sup>1</sup></div><div class="hl-lbl">Return per £1 — Deloitte UK.<sup>1</sup></div>
+      </div>
+      <div class="hl-t" role="listitem">
+        <svg class="hl-icon" width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><circle cx="11" cy="7.5" r="3.5"/><path d="M3.5 19C3.5 15.4 6.9 12.5 11 12.5C15.1 12.5 18.5 15.4 18.5 19"/></svg>
+        <div class="hl-m">97%</div><div class="hl-lbl">Who never call EAP — reached upstream.<sup>5</sup></div>
+      </div>
+      <div class="hl-t" role="listitem">
+        <svg class="hl-icon" width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="4" y="4" width="14" height="14" rx="2.5"/><polyline points="8,11 10.5,13.5 14.5,9"/></svg>
+        <div class="hl-m">v1.0</div><div class="hl-lbl">Versioned. Auditable. Improvable.</div>
+      </div>
+      <div class="hl-t" role="listitem">
+        <svg class="hl-icon" width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="6" y="9" width="10" height="10" rx="1.5"/><path d="M8.5 9V6.5C8.5 5.1 9.6 4 11 4C12.4 4 13.5 5.1 13.5 6.5V9"/></svg>
+        <div class="hl-m">0 PII</div><div class="hl-lbl">No personal data. No diagnosis. No surveillance.</div>
+      </div>
+    </div>
+    <p class="fn fu d3">¹ Deloitte UK, "Mental health and employers," 2020–2024. &nbsp;⁵ Multiple industry sources on EAP utilization.</p>
+  </div>
+</section>
+
+<!-- § 2 CONTEXT -->
+<section class="S" id="context" aria-label="Context: chaotic emotional signals converging into the Butterfly Protocol">
+  <div class="W">
+    <div class="ctx-grid">
+      <div class="ctx-text fu">
+        <span class="overline-rule" aria-hidden="true"></span>
+        <span class="mono-label" style="margin-bottom:18px">The Gap</span>
+        <h2 id="ctx-h2">Volatility is rising.</h2>
+        <p style="margin-top:20px">Work is faster. Feedback is louder. AI is rewriting identity. Small emotional misses compound into attrition, incidents, and reputational risk. Support exists — but utilization doesn't.</p>
+        <p class="fn">⁷ WHO: 25% increase in anxiety and depression prevalence post-COVID. &nbsp;⁸ WEF: major workforce disruption through 2030.</p>
+      </div>
+      <div class="wf-canvas-wrap fu d1" role="img" aria-label="Animated waveform: chaotic signals converging into the 4-step protocol — Signal, Script, Route, Measure">
+        <canvas id="wf-canvas" aria-hidden="true"></canvas>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- § 3 CATEGORY -->
+<section class="S" id="category" aria-labelledby="cat-h2">
+  <div class="W">
+    <span class="mono-label fu">What This Is</span>
+    <h2 id="cat-h2" class="fu d1">A standard, not a program.</h2>
+    <p class="fu d2" style="margin-top:16px;max-width:52ch">Programs are optional. Standards are operational. The Butterfly Protocol is a shared micro-behavior designed to be trained, measured, audited, and improved — like any safety system.</p>
+    <div class="cat-cards">
+      <div class="cat-card fu d1">
+        <span class="cat-tag">ISO-style · Scope</span>
+        <h3>Scope</h3>
+        <p>Workplace, education, sport, community — any organized environment under shared accountability.</p>
+      </div>
+      <div class="cat-card fu d2">
+        <span class="cat-tag">ISO-style · Definition</span>
+        <h3>Definition</h3>
+        <p>A structured check-in triggered by observable behavioral signals, governed by versioned scripts and escalation rules.</p>
+      </div>
+      <div class="cat-card fu d3">
+        <span class="cat-tag">ISO-style · Interfaces</span>
+        <h3>Interfaces</h3>
+        <p>Integrates with existing EAP infrastructure, crisis lines, and HR systems. Complements, not replaces.</p>
+      </div>
+    </div>
+    <div style="margin-top:32px" class="fu d3"><a href="#" class="tlink">Read Scope &amp; Definitions (PDF) →</a></div>
+  </div>
+</section>
+
+<!-- § 4 PROTOCOL STEPPER -->
+<section class="S" id="protocol" aria-labelledby="pt-h2">
+  <div class="W">
+    <span class="mono-label fu">How It Works</span>
+    <h2 id="pt-h2" class="fu d1">Signal → Script → Route → Measure.</h2>
+    <p class="fu d2" style="margin-top:14px">Four steps. Trained in 90 minutes. Deployed in 30 days.</p>
+    <div class="pt-g">
+      <div class="pt-sticky fu d1" aria-hidden="true">
+        <div class="pt-viz" id="pt-viz">
+          <div class="pt-layer lit" data-pt="0" role="button" tabindex="0" aria-label="Step 1: Signal">
+            <span class="pt-num">01</span><span class="pt-lbl">Signal</span><div class="pt-bar"></div>
+          </div>
+          <div style="height:6px"></div>
+          <div class="pt-layer" data-pt="1" role="button" tabindex="0" aria-label="Step 2: Script">
+            <span class="pt-num">02</span><span class="pt-lbl">Script</span><div class="pt-bar"></div>
+          </div>
+          <div style="height:6px"></div>
+          <div class="pt-layer" data-pt="2" role="button" tabindex="0" aria-label="Step 3: Route">
+            <span class="pt-num">03</span><span class="pt-lbl">Route</span><div class="pt-bar"></div>
+          </div>
+          <div style="height:6px"></div>
+          <div class="pt-layer" data-pt="3" role="button" tabindex="0" aria-label="Step 4: Measure">
+            <span class="pt-num">04</span><span class="pt-lbl">Measure</span><div class="pt-bar"></div>
+          </div>
+        </div>
+      </div>
+      <div id="pt-items">
+        <div class="pt-item lit fu" data-pt-item="0">
+          <div class="pt-badge">01 — Signal</div>
+          <h3>The gesture that opens the door.</h3>
+          <p>A trained observer notices withdrawal, tone shift, pattern break — or someone shows the butterfly gesture: "I need support."</p>
+        </div>
+        <div class="pt-item fu" data-pt-item="1">
+          <div class="pt-badge">02 — Script</div>
+          <h3>No improvisation. No clinical language.</h3>
+          <p>"I noticed [X]. Can I check in for 30 seconds?" Pre-decided language reduces friction to near zero.<sup>2</sup></p>
+        </div>
+        <div class="pt-item fu" data-pt-item="2">
+          <div class="pt-badge">03 — Route</div>
+          <h3>The right support, every time.</h3>
+          <p>Peer → Manager → EAP → 988 → Local services. A decision tree so no one figures it out alone.<sup>4</sup></p>
+        </div>
+        <div class="pt-item fu" data-pt-item="3">
+          <div class="pt-badge">04 — Measure</div>
+          <h3>Data that earns organizational trust.</h3>
+          <p>Adoption rate, routing frequency, follow-through. Aggregate only. ESG-ready reporting from day one.</p>
+        </div>
+      </div>
+    </div>
+    <p class="fn fu">² Gollwitzer &amp; Sheeran meta-analysis — medium-to-large effect sizes. &nbsp;³ WHO Surgical Safety Checklist. &nbsp;⁴ Lifeline evaluation, caller-reported outcomes.</p>
+  </div>
+</section>
+
+<!-- § 5 KIT PREVIEW -->
+<section class="S" id="kit" aria-labelledby="kit-h2">
+  <div class="W">
+    <span class="mono-label fu">What You Get</span>
+    <h2 id="kit-h2" class="fu d1">Looks simple. Is precise.</h2>
+    <p class="fu d2" style="margin-top:14px">Each step has a default script, escalation rules, and measurement definitions.</p>
+    <div class="kit-g">
+      <div class="kit-c fu d1"><div class="kit-num">01</div><svg class="kit-icon" width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="5" y="3" width="18" height="22" rx="3"/><path d="M9 9L19 9M9 13L16 13M9 17L13 17"/></svg><h3>Training Guide</h3><p>90-minute facilitator kit with session plan and workbook.</p></div>
+      <div class="kit-c fu d2"><div class="kit-num">02</div><svg class="kit-icon" width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M5 6C5 6 9 4.5 14 6.5C19 8.5 23 7 23 7L23 21C23 21 19 22.5 14 20.5C9 18.5 5 20 5 20Z"/></svg><h3>Script Library</h3><p>Default scripts for 6 organizational contexts.</p></div>
+      <div class="kit-c fu d3"><div class="kit-num">03</div><svg class="kit-icon" width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><circle cx="14" cy="8" r="4"/><circle cx="6" cy="22" r="3"/><circle cx="22" cy="22" r="3"/><line x1="14" y1="12" x2="8.5" y2="19"/><line x1="14" y1="12" x2="19.5" y2="19"/></svg><h3>Route Map</h3><p>Decision tree with escalation paths for every risk level.</p></div>
+      <div class="kit-c fu d1"><div class="kit-num">04</div><svg class="kit-icon" width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="3" y="3" width="22" height="22" rx="3"/><path d="M7 21L11 16L14 18.5L17 12L21 15"/></svg><h3>Measurement Schema</h3><p>Adoption, routing, and follow-through metric definitions.</p></div>
+      <div class="kit-c fu d2"><div class="kit-num">05</div><svg class="kit-icon" width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="5" y="3" width="18" height="22" rx="2"/><path d="M9 8L19 8M9 12L19 12M9 16L14 16"/></svg><h3>Manager Quick-Ref Card</h3><p>One-page field guide for in-the-moment decisions.</p></div>
+      <div class="kit-c fu d3"><div class="kit-num">06</div><svg class="kit-icon" width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M14 3L23 7L23 14C23 19.5 18.5 23.5 14 25C9.5 23.5 5 19.5 5 14L5 7Z"/><polyline points="10,14 12.5,16.5 18,11"/></svg><h3>Compliance &amp; Privacy Framework</h3><p>GDPR, CCPA, and regional privacy law alignment.</p></div>
+    </div>
+    <div style="margin-top:40px" class="fu d3"><a href="#contact" class="gbtn">Download Implementation Brief (PDF)</a></div>
+  </div>
+</section>
+
+<!-- § 6 ROI -->
+<section class="S" id="roi" aria-labelledby="roi-h2">
+  <div class="W">
+    <div class="roi-g">
+      <div class="fu">
+        <span class="mono-label">Return on Investment</span>
+        <span class="roi-n" id="roi-num" aria-label="£4.70 return per pound invested">£4.70</span>
+        <div class="roi-sub">return per £1 invested<sup>1</sup></div>
+      </div>
+      <div class="fu d1">
+        <p>Deloitte's UK analysis of workplace mental health interventions found £4.70–£5.30 average return. Results depend on implementation quality and baseline organizational risk.<sup>1</sup></p>
+        <div class="bc-row" aria-label="Investment vs return">
+          <div class="bc-item"><div class="bc-meta"><span class="bc-lbl">Investment</span><span class="bc-val">£1.00</span></div><div class="bc-track"><div class="bc-fill g" data-w="21%"></div></div></div>
+          <div class="bc-item"><div class="bc-meta"><span class="bc-lbl">Average return</span><span class="bc-val" style="color:var(--blue)">£4.70</span></div><div class="bc-track"><div class="bc-fill b" data-w="94%"></div></div></div>
+        </div>
+        <p class="fn">¹ Deloitte UK, "Mental health and employers," 2020–2024.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- § 7 UTILIZATION GAP -->
+<section class="S" id="gap" aria-labelledby="gap-h2">
+  <div class="W">
+    <div class="gap-g">
+      <div class="fu">
+        <span class="mono-label">The Problem</span>
+        <h2 id="gap-h2">Support exists.<br>Usage doesn't.</h2>
+        <p style="margin-top:20px">Traditional EAP programs report utilization in low single digits — even when need is high. The protocol closes this gap upstream, before crisis.<sup>5</sup></p>
+        <p class="fn">⁵ Multiple industry sources on EAP utilization rates.</p>
+      </div>
+      <div class="gap-viz fu d1" role="img" aria-label="Bar chart: 100% support offered versus 3-6% accessed">
+        <div class="gap-col">
+          <div class="gap-bw" style="max-height:200px"><div class="gap-f av" data-gh="200px"></div></div>
+          <div class="gap-pct">100%</div><div class="gap-lbl">Support programs<br>offered</div>
+        </div>
+        <div class="gap-col">
+          <div class="gap-bw" style="max-height:200px"><div class="gap-f us" data-gh="13px"></div></div>
+          <div class="gap-pct">~3–6%</div><div class="gap-lbl">Employees who<br>access them<sup>5</sup></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- § 8 BEHAVIORAL SCIENCE -->
+<section class="S" id="behavioral" aria-labelledby="beh-h2">
+  <div class="W">
+    <div style="max-width:640px">
+      <span class="mono-label fu">The Mechanism</span>
+      <h2 id="beh-h2" class="fu d1">If&#8209;then plans, operationalized.</h2>
+      <p class="fu d2" style="margin-top:16px">Implementation intentions — pre-deciding "if X happens, I will do Y" — show medium-to-large effects on goal attainment. The protocol converts this logic into a workplace micro-behavior.<sup>2</sup></p>
+      <div class="beh-chip fu d3" role="img" aria-label="If signal observed then script activates">
+        <div class="ch-if"><small>Trigger</small>If [signal observed]</div>
+        <div class="ch-arr" aria-hidden="true">→</div>
+        <div class="ch-then"><small>Response</small>Script activates</div>
+      </div>
+      <p class="fn fu d3">² Gollwitzer &amp; Sheeran meta-analysis of implementation intentions.</p>
+    </div>
+  </div>
+</section>
+
+<!-- § 10 CRISIS ROUTING -->
+<section class="S" id="crisis" aria-labelledby="cr-h2">
+  <div class="W">
+    <span class="mono-label fu">Safety Net</span>
+    <h2 id="cr-h2" class="fu d1">Route to real help.</h2>
+    <p class="fu d2" style="margin-top:16px;max-width:52ch">In an evaluation of Lifeline callers, most reported the call helped and many reported it prevented self-harm. Routing is a safety system, not a slogan.<sup>4</sup></p>
+
+    <div class="node-map-wrap fu d2" role="img" aria-label="Route map: Observer detects, Protocol routes to Manager, EAP, 988 Crisis Line, and Local Services">
+      <svg id="nm-svg" class="node-svg" viewBox="0 0 700 290" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+
+        <!-- CONNECTOR: Observer → Protocol (gray base + blue overlay) -->
+        <line x1="140" y1="145" x2="280" y2="145" stroke="#D1D1D6" stroke-width="1.2"/>
+        <line id="nm-line-blue" x1="140" y1="145" x2="280" y2="145" stroke="#0A4AD6" stroke-width="1.8" stroke-dasharray="140" stroke-dashoffset="140" opacity="0"/>
+
+        <!-- BRANCH LINES: gray bases + blue overlays -->
+        <path id="nm-b1-base" d="M370,145 C430,145 460,50 540,50" stroke="#D1D1D6" stroke-width="1.2" fill="none"/>
+        <path id="nm-b1-blue" d="M370,145 C430,145 460,50 540,50" stroke="#0A4AD6" stroke-width="1.8" fill="none" stroke-dasharray="220" stroke-dashoffset="220" opacity="0"/>
+        <path id="nm-b2-base" d="M370,145 C430,145 460,110 540,110" stroke="#D1D1D6" stroke-width="1.2" fill="none"/>
+        <path id="nm-b2-blue" d="M370,145 C430,145 460,110 540,110" stroke="#0A4AD6" stroke-width="1.8" fill="none" stroke-dasharray="220" stroke-dashoffset="220" opacity="0"/>
+        <path id="nm-b3-base" d="M370,145 C430,145 460,175 540,175" stroke="#D1D1D6" stroke-width="1.2" fill="none"/>
+        <path id="nm-b3-blue" d="M370,145 C430,145 460,175 540,175" stroke="#0A4AD6" stroke-width="1.8" fill="none" stroke-dasharray="220" stroke-dashoffset="220" opacity="0"/>
+        <path id="nm-b4-base" d="M370,145 C430,145 460,238 540,238" stroke="#D1D1D6" stroke-width="1.2" fill="none"/>
+        <path id="nm-b4-blue" d="M370,145 C430,145 460,238 540,238" stroke="#0A4AD6" stroke-width="1.8" fill="none" stroke-dasharray="220" stroke-dashoffset="220" opacity="0"/>
+
+        <!-- NODE: Observer -->
+        <circle id="nm-obs-ring" cx="80" cy="145" r="52" stroke="#D1D1D6" stroke-width="1.2" fill="#FAFAFA"/>
+        <text id="nm-obs-txt1" x="80" y="140" font-size="13" fill="#5A5A66" text-anchor="middle" font-family="DM Sans,system-ui,sans-serif" font-weight="500">Observer</text>
+        <text id="nm-obs-txt2" x="80" y="158" font-size="10" fill="#9A9AA6" text-anchor="middle" font-family="DM Mono,monospace">detects</text>
+
+        <!-- NODE: Protocol (gray base + blue overlay) -->
+        <circle id="nm-proto-ring" cx="325" cy="145" r="52" stroke="#D1D1D6" stroke-width="1.2" fill="#FAFAFA"/>
+        <circle id="nm-proto-fill" cx="325" cy="145" r="52" stroke="#0A4AD6" stroke-width="1.8" fill="#F0F4FD" opacity="0"/>
+        <text id="nm-proto-txt1" x="325" y="140" font-size="13" fill="#9A9AA6" text-anchor="middle" font-family="DM Sans,system-ui,sans-serif" font-weight="600">Protocol</text>
+        <text id="nm-proto-txt2" x="325" y="158" font-size="10" fill="#9A9AA6" text-anchor="middle" font-family="DM Mono,monospace" opacity=".6">routes</text>
+
+        <!-- DESTINATION: Manager -->
+        <circle id="nm-d1-ring" cx="605" cy="50" r="44" stroke="#D1D1D6" stroke-width="1.2" fill="#FAFAFA"/>
+        <circle id="nm-d1-fill" cx="605" cy="50" r="44" stroke="#0A4AD6" stroke-width="1.2" fill="#F0F4FD" opacity="0"/>
+        <text id="nm-d1-txt" x="605" y="55" font-size="12" fill="#5A5A66" text-anchor="middle" font-family="DM Sans,system-ui,sans-serif" font-weight="500">Manager</text>
+
+        <!-- DESTINATION: EAP -->
+        <circle id="nm-d2-ring" cx="605" cy="110" r="34" stroke="#D1D1D6" stroke-width="1.2" fill="#FAFAFA"/>
+        <circle id="nm-d2-fill" cx="605" cy="110" r="34" stroke="#0A4AD6" stroke-width="1.2" fill="#F0F4FD" opacity="0"/>
+        <text id="nm-d2-txt" x="605" y="114" font-size="12" fill="#5A5A66" text-anchor="middle" font-family="DM Sans,system-ui,sans-serif" font-weight="500">EAP</text>
+
+        <!-- DESTINATION: 988 -->
+        <circle id="nm-d3-ring" cx="605" cy="175" r="34" stroke="#D1D1D6" stroke-width="1.2" fill="#FAFAFA"/>
+        <circle id="nm-d3-fill" cx="605" cy="175" r="34" stroke="#0A4AD6" stroke-width="1.2" fill="#F0F4FD" opacity="0"/>
+        <text id="nm-d3-txt1" x="605" y="171" font-size="13" fill="#5A5A66" text-anchor="middle" font-family="DM Sans,system-ui,sans-serif" font-weight="600">988</text>
+        <text id="nm-d3-txt2" x="605" y="186" font-size="9.5" fill="#9A9AA6" text-anchor="middle" font-family="DM Mono,monospace" opacity=".6">Crisis Line</text>
+
+        <!-- DESTINATION: Local Services -->
+        <circle id="nm-d4-ring" cx="605" cy="238" r="44" stroke="#D1D1D6" stroke-width="1.2" fill="#FAFAFA"/>
+        <circle id="nm-d4-fill" cx="605" cy="238" r="44" stroke="#0A4AD6" stroke-width="1.2" fill="#F0F4FD" opacity="0"/>
+        <text id="nm-d4-txt1" x="605" y="234" font-size="11.5" fill="#5A5A66" text-anchor="middle" font-family="DM Sans,system-ui,sans-serif" font-weight="500">Local</text>
+        <text id="nm-d4-txt2" x="605" y="249" font-size="11.5" fill="#9A9AA6" text-anchor="middle" font-family="DM Sans,system-ui,sans-serif">Services</text>
+
+      </svg>
+    </div>
+
+    <p class="fn fu d3">⁴ National Suicide Prevention Lifeline evaluation. Caller-reported outcomes.</p>
+  </div>
+</section>
+
+<!-- § 12 TIMELINE + MEASUREMENT -->
+<section class="S" id="implementation" aria-labelledby="tl-h2">
+  <div class="W">
+    <span class="mono-label fu">From Day One</span>
+    <h2 id="tl-h2" class="fu d1">Deploy &amp; Measure.</h2>
+    <p class="fu d2" style="margin-top:14px">Pilot. Train. Route. Measure. Expand only after baseline is stable.</p>
+    <div class="tl-track fu d2">
+      <div class="tl-line" aria-hidden="true"></div>
+      <div class="tl-nodes" role="list">
+        <div class="tl-node lit" role="listitem"><div class="tl-dot" aria-label="Week 0">W0</div><div class="tl-wk">Week 0</div><div class="tl-task">Pilot design</div></div>
+        <div class="tl-node" role="listitem"><div class="tl-dot" aria-label="Week 1">W1</div><div class="tl-wk">Week 1</div><div class="tl-task">Facilitator training</div></div>
+        <div class="tl-node" role="listitem"><div class="tl-dot" aria-label="Week 2">W2</div><div class="tl-wk">Week 2</div><div class="tl-task">Team deployment</div></div>
+        <div class="tl-node" role="listitem"><div class="tl-dot" aria-label="Week 4">W4</div><div class="tl-wk">Week 4</div><div class="tl-task">First measurement cycle</div></div>
+        <div class="tl-node" role="listitem"><div class="tl-dot" aria-label="Week 8">W8</div><div class="tl-wk">Week 8</div><div class="tl-task">Expansion decision</div></div>
+      </div>
+    </div>
+    <p class="fu d3" style="margin-top:56px">A minimal index: adoption rate, stability signals, routing outcomes, follow-through. No invasive surveillance. No individual tracking. ESG-ready aggregate reporting.</p>
+    <div class="dash-mock fu d4" style="margin-top:56px" role="img" aria-label="Dashboard: adoption 78%, routing 34/month, follow-through 91%, stability index 0.84">
+      <div class="dash-head"><div class="dash-title">Butterfly Protocol — Organizational Dashboard</div><div class="dash-period">Q1 2026 · Pilot Cohort</div></div>
+      <div class="dash-tiles">
+        <div class="dash-t"><div class="dash-lbl">Adoption Rate</div><div class="dash-val">78%</div><div class="dash-trend">↑ +12% vs baseline</div></div>
+        <div class="dash-t"><div class="dash-lbl">Routing Frequency</div><div class="dash-val">34</div><div class="dash-trend" style="color:var(--ghost)">Monthly check-ins</div></div>
+        <div class="dash-t"><div class="dash-lbl">Follow-through Rate</div><div class="dash-val">91%</div><div class="dash-trend">↑ Routed to support</div></div>
+        <div class="dash-t"><div class="dash-lbl">Stability Index</div><div class="dash-val">0.84</div><div class="dash-trend" style="color:var(--ghost)">Aggregate signal</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- § 14 VALUES -->
+<section class="S" id="values" aria-labelledby="val-h2">
+  <div class="W">
+    <span class="mono-label fu">Constraints</span>
+    <h2 id="val-h2" class="fu d1">Not diagnosis. Not ideology.</h2>
+    <p class="fu d2" style="margin-top:16px">The protocol operates at the behavioral level. It is optional, privacy-respecting, and designed within clinical boundaries.</p>
+    <div class="val-cards">
+      <div class="val-c fu d1">
+        <svg class="val-icon" width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="7" y="12" width="14" height="12" rx="2"/><path d="M10 12V8C10 5.79 11.79 4 14 4C16.21 4 18 5.79 18 8V12"/></svg>
+        <h3>No personal data collected.</h3>
+        <p>All metrics are aggregate and anonymized. Individual identity is never recorded or tracked.</p>
+      </div>
+      <div class="val-c fu d2">
+        <svg class="val-icon" width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><circle cx="14" cy="14" r="10"/><path d="M14 9V14L17 17"/></svg>
+        <h3>No clinical diagnosis implied.</h3>
+        <p>This is a behavioral standard operating upstream of therapy and crisis — at early recognition and response.</p>
+      </div>
+      <div class="val-c fu d3">
+        <svg class="val-icon" width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M14 3L23 7L23 14C23 19.5 18.5 23.5 14 25C9.5 23.5 5 19.5 5 14L5 7Z"/><polyline points="10,14 12.5,16.5 18,11"/></svg>
+        <h3>Compliant with local privacy law.</h3>
+        <p>Designed with GDPR, CCPA, and regional requirements in mind. Compliance framework included.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- § 15 GOVERNANCE -->
+<section class="S" id="governance" aria-labelledby="gov-h2">
+  <div class="W">
+    <div class="gov-g">
+      <div class="fu">
+        <span class="mono-label">Standard Governance</span>
+        <h2 id="gov-h2">Versioned.<br>Governed.<br>Auditable.</h2>
+        <p style="margin-top:18px">A standard must evolve without breaking trust. Version history, change control, and oversight are published.</p>
+        <div class="gov-lnk">
+          <a href="#" class="tlink">Governance Committee →</a>
+          <a href="#" class="tlink">Change Control Policy →</a>
+          <a href="#" class="tlink">Public Record →</a>
+        </div>
+      </div>
+      <div class="fu d1">
+        <div class="changelog" role="table" aria-label="Version history">
+          <div class="cl-row" role="row"><div class="cl-v" role="cell">v1.0</div><div class="cl-d" role="cell">May 2026</div><div class="cl-n" role="cell">Initial publication. Effective date.</div></div>
+          <div class="cl-row" role="row"><div class="cl-v" role="cell">v0.9</div><div class="cl-d" role="cell">Feb 2026</div><div class="cl-n" role="cell">Draft under review.</div></div>
+          <div class="cl-row" role="row"><div class="cl-v" role="cell">v0.8</div><div class="cl-d" role="cell">Dec 2025</div><div class="cl-n" role="cell">Working draft. Internal.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- § 16 SOCIAL PROOF -->
+<section class="S" id="partners" aria-labelledby="sp-h2">
+  <div class="W">
+    <span class="mono-label fu">Partners</span>
+    <h2 id="sp-h2" class="fu d1">Built with serious operators.</h2>
+    <p class="fu d2" style="margin-top:14px">Founding partners are shaping the deployment standard. Relationships are verified and labeled.</p>
+    <div style="margin-top:48px" class="fu d2">
+      <div class="p-group">
+        <div class="ps-lbl"><span class="dot-g"></span>Confirmed</div>
+        <div class="p-pills">
+          <a href="https://www.itpmediagroup.com" target="_blank" rel="noopener" class="p-pill">ITP Media Group<span style="font-size:11px;font-weight:400;color:var(--ghost);margin-left:8px">Influencer ops</span></a>
+          <a href="https://www.komi.io" target="_blank" rel="noopener" class="p-pill">KOMI<span style="font-size:11px;font-weight:400;color:var(--ghost);margin-left:8px">Creator tools</span></a>
+        </div>
+      </div>
+      <div class="p-group" style="margin-top:20px">
+        <div class="ps-lbl"><span class="dot-y"></span>In Progress</div>
+        <div class="p-pills">
+          <div class="p-pill" style="opacity:.55">APCO Worldwide<span style="font-size:11px;font-weight:400;color:var(--ghost);margin-left:8px">Proposal pending</span></div>
+          <div class="p-pill" style="opacity:.55">Edelman<span style="font-size:11px;font-weight:400;color:var(--ghost);margin-left:8px">In discussion</span></div>
+        </div>
+      </div>
+      <p class="p-dis">Participation does not imply endorsement of final standards.</p>
+    </div>
+  </div>
+</section>
+
+<!-- § 17 FAQ -->
+<section class="S" id="faq" aria-labelledby="faq-h2">
+  <div class="W">
+    <span class="mono-label fu">Questions</span>
+    <h2 id="faq-h2" class="fu d1">Questions, answered.</h2>
+    <div class="faq-w fu d2" role="list">
+      <div class="faq-i" role="listitem"><button class="faq-q" aria-expanded="false" aria-controls="fq1">What is the Butterfly Protocol?<span class="faq-ic" aria-hidden="true">+</span></button><div class="faq-body" id="fq1" role="region"><div class="faq-inner"><p class="faq-txt">A 30-second structured check-in for organizations. It trains a shared micro-behavior: detect signals, respond with a script, route to support, and measure adoption. It is a behavioral standard — not a clinical program.</p></div></div></div>
+      <div class="faq-i" role="listitem"><button class="faq-q" aria-expanded="false" aria-controls="fq2">Is this a mental health program?<span class="faq-ic" aria-hidden="true">+</span></button><div class="faq-body" id="fq2" role="region"><div class="faq-inner"><p class="faq-txt">It is a behavioral standard, not a clinical program. It operates upstream of therapy and crisis — at the level of early recognition and structured response. It routes to clinical support; it does not replace it.</p></div></div></div>
+      <div class="faq-i" role="listitem"><button class="faq-q" aria-expanded="false" aria-controls="fq3">What evidence supports this?<span class="faq-ic" aria-hidden="true">+</span></button><div class="faq-body" id="fq3" role="region"><div class="faq-inner"><p class="faq-txt">The protocol draws on implementation intentions research (Gollwitzer &amp; Sheeran, medium-to-large effect sizes), WHO Surgical Safety Checklist principles, and Deloitte's ROI analysis. Sources are footnoted throughout.</p></div></div></div>
+      <div class="faq-i" role="listitem"><button class="faq-q" aria-expanded="false" aria-controls="fq4">How long does deployment take?<span class="faq-ic" aria-hidden="true">+</span></button><div class="faq-body" id="fq4" role="region"><div class="faq-inner"><p class="faq-txt">30 days for a pilot. 90 days for organization-wide deployment. Expansion decisions are data-driven — we recommend waiting until the first measurement cycle is stable before scaling.</p></div></div></div>
+      <div class="faq-i" role="listitem"><button class="faq-q" aria-expanded="false" aria-controls="fq5">What data is collected?<span class="faq-ic" aria-hidden="true">+</span></button><div class="faq-body" id="fq5" role="region"><div class="faq-inner"><p class="faq-txt">Aggregate, anonymized metrics only: adoption rate, routing frequency, follow-through. No personal data. No individual tracking. The protocol is invisible to individuals and informative for organizations.</p></div></div></div>
+      <div class="faq-i" role="listitem"><button class="faq-q" aria-expanded="false" aria-controls="fq6">How does this differ from EAP?<span class="faq-ic" aria-hidden="true">+</span></button><div class="faq-body" id="fq6" role="region"><div class="faq-inner"><p class="faq-txt">EAP is downstream — crisis response and counseling. The protocol is upstream — early detection and structured routing. They work together: the protocol increases the likelihood that employees reach existing EAP support.</p></div></div></div>
+      <div class="faq-i" role="listitem"><button class="faq-q" aria-expanded="false" aria-controls="fq7">Is this compliant with privacy regulations?<span class="faq-ic" aria-hidden="true">+</span></button><div class="faq-body" id="fq7" role="region"><div class="faq-inner"><p class="faq-txt">Designed with GDPR, CCPA, and local privacy law in mind. A compliance framework is included in the deployment kit. Organizations are advised to review with General Counsel before deployment.</p></div></div></div>
+      <div class="faq-i" role="listitem"><button class="faq-q" aria-expanded="false" aria-controls="fq8">How do we get started?<span class="faq-ic" aria-hidden="true">+</span></button><div class="faq-body" id="fq8" role="region"><div class="faq-inner"><p class="faq-txt">Request an implementation brief below. The team will send the brief, a pilot plan template, and deployment timeline. Response within 48 hours.</p></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- § 18 FORM -->
+<section class="S" id="contact" aria-labelledby="ct-h2">
+  <div class="W">
+    <div class="cta-g">
+      <div class="fu">
+        <span class="mono-label">Get Started</span>
+        <h2 id="ct-h2">Request the implementation brief.</h2>
+        <p style="margin-top:16px">We'll send the brief, a pilot plan template, and a deployment timeline. No mailing list. No spam.</p>
+      </div>
+      <div class="fu d1">
+        <form id="form" novalidate aria-label="Implementation brief request">
+          <div class="f-fields">
+            <div class="fld"><label for="fn">Name</label><input type="text" id="fn" name="name" autocomplete="name" placeholder="Full name" required aria-required="true"></div>
+            <div class="fld"><label for="fo">Organization</label><input type="text" id="fo" name="org" autocomplete="organization" placeholder="Company or institution" required aria-required="true"></div>
+            <div class="fld"><label for="fr">Role</label><input type="text" id="fr" name="role" autocomplete="organization-title" placeholder="Your title" required aria-required="true"></div>
+            <div class="fld"><label for="fe">Email</label><input type="email" id="fe" name="email" autocomplete="email" placeholder="Organization email" required aria-required="true"></div>
+            <div class="fld"><label for="fm">Message <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:9px">(optional)</span></label><textarea id="fm" name="msg" rows="2" placeholder="Anything useful about your context"></textarea></div>
+          </div>
+          <div class="f-foot">
+            <button type="submit" class="sbtn">Send Inquiry</button>
+            <p class="f-note">Please use your primary organization email. <a href="#" class="tlink" style="font-size:12px">Privacy policy →</a></p>
+          </div>
+        </form>
+        <div class="f-ok" id="fok" role="alert" aria-live="polite">The implementation team will respond within 48 hours.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- § 19 FOOTER -->
+<footer role="contentinfo">
+  <div class="ft-g">
+    <div>
+      <div class="ft-wm">butterfly.one</div>
+      <div class="ft-desc">A standard by One Humanity Foundation.<br>Part of the Emotional Sustainability standard.<br><a href="https://butterflychallenge.org" target="_blank" rel="noopener">See the Butterfly Challenge →</a></div>
+    </div>
+    <div>
+      <div class="ft-h">Protocol</div>
+      <ul class="ft-ul" role="list">
+        <li><a href="#highlights">Overview</a></li><li><a href="#protocol">Protocol</a></li><li><a href="#roi">Evidence</a></li><li><a href="#governance">Governance</a></li><li><a href="#faq">FAQ</a></li><li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="ft-h">Legal</div>
+      <ul class="ft-ul" role="list">
+        <li><a href="#">Privacy Policy</a></li><li><a href="#">Terms of Use</a></li><li><a href="#">Safeguarding</a></li><li><a href="#">Whistleblower</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="ft-bar">
+    <span>Seat: New York · 501(c)(3) · Protocol v1.0 effective May 3, 2026 · Last updated: March 2026</span>
+    <a href="#" id="top-lnk">↑ Back to top</a>
+  </div>
+</footer>
+
+<script>
+(function(){
+'use strict';
+const rm=matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+/* NAV */
+const nav=document.getElementById('nav');
+addEventListener('scroll',()=>nav.classList.toggle('sc',scrollY>10),{passive:true});
+const burger=document.getElementById('burger');
+const mob=document.getElementById('mob');
+burger.addEventListener('click',()=>{
+  const o=mob.classList.toggle('on');
+  burger.setAttribute('aria-expanded',o);
+  const[a,b,c]=burger.querySelectorAll('span');
+  a.style.transform=o?'rotate(45deg) translate(5px,5px)':'';
+  b.style.opacity=o?'0':'1';
+  c.style.transform=o?'rotate(-45deg) translate(5px,-5px)':'';
+});
+mob.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
+  mob.classList.remove('on');
+  burger.setAttribute('aria-expanded','false');
+  burger.querySelectorAll('span').forEach(s=>{s.style.transform='';s.style.opacity='1';});
+}));
+
+/* SCROLL REVEAL */
+if(!rm){
+  const io=new IntersectionObserver(es=>{
+    es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target);}});
+  },{threshold:.10,rootMargin:'0px 0px -44px 0px'});
+  document.querySelectorAll('.fu,.si').forEach(el=>io.observe(el));
+}else{
+  document.querySelectorAll('.fu,.si').forEach(el=>el.classList.add('on'));
+}
+
+/* HERO AUTO-CYCLE */
+const hItems=document.querySelectorAll('.hs-item');
+const hpf=document.getElementById('hpf');
+let hIdx=0,hTimer=null,hStart=null,HDUR=2600;
+function hLight(i){
+  hItems.forEach(x=>x.classList.remove('lit'));
+  hItems[i].classList.add('lit');
+}
+function hTick(ts){
+  if(!hStart)hStart=ts;
+  const p=Math.min((ts-hStart)/HDUR,1);
+  if(hpf)hpf.style.width=(p*100)+'%';
+  if(p<1){hTimer=requestAnimationFrame(hTick);}
+  else{
+    hIdx=(hIdx+1)%hItems.length;
+    hLight(hIdx);
+    hStart=null;
+    hTimer=requestAnimationFrame(hTick);
+  }
+}
+if(!rm){hLight(0);hTimer=requestAnimationFrame(hTick);}
+else{hLight(1);}
+hItems.forEach((item,i)=>{
+  item.addEventListener('mouseenter',()=>{
+    if(hTimer){cancelAnimationFrame(hTimer);hTimer=null;}
+    hLight(i);hIdx=i;
+  });
+  item.addEventListener('mouseleave',()=>{
+    hStart=null;
+    hTimer=requestAnimationFrame(hTick);
+  });
+});
+
+/* PROTOCOL STEPPER – click sync */
+const ptLayers=document.querySelectorAll('.pt-layer');
+const ptItems=document.querySelectorAll('.pt-item');
+function ptSet(i){
+  ptLayers.forEach(l=>l.classList.remove('lit'));
+  ptItems.forEach(x=>x.classList.remove('lit'));
+  ptLayers[i].classList.add('lit');
+  ptItems[i].classList.add('lit');
+}
+ptLayers.forEach((l,i)=>{
+  l.addEventListener('click',()=>ptSet(i));
+  l.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' ')ptSet(i);});
+});
+ptItems.forEach((item,i)=>item.addEventListener('click',()=>ptSet(i)));
+/* scroll-driven */
+if(!rm){
+  const ptIO=new IntersectionObserver(es=>{
+    es.forEach(e=>{if(e.isIntersecting)ptSet(parseInt(e.target.dataset.ptItem));});
+  },{threshold:.6});
+  ptItems.forEach(el=>ptIO.observe(el));
+}
+
+/* BAR CHARTS */
+const bcIO=new IntersectionObserver(es=>{
+  es.forEach(e=>{if(e.isIntersecting){e.target.style.width=e.target.dataset.w;bcIO.unobserve(e.target);}});
+},{threshold:.5});
+document.querySelectorAll('.bc-fill').forEach(el=>bcIO.observe(el));
+
+/* GAP BARS */
+const gapIO=new IntersectionObserver(es=>{
+  es.forEach(e=>{if(e.isIntersecting){e.target.style.height=e.target.dataset.gh;gapIO.unobserve(e.target);}});
+},{threshold:.3});
+document.querySelectorAll('.gap-f').forEach(el=>gapIO.observe(el));
+
+/* TIMELINE sequential reveal */
+const tlNodes=document.querySelectorAll('.tl-node');
+if(!rm){
+  const tlIO=new IntersectionObserver(es=>{
+    es.forEach(e=>{
+      if(e.isIntersecting){
+        tlNodes.forEach((n,i)=>setTimeout(()=>n.classList.add('lit'),i*120));
+        tlIO.disconnect();
+      }
+    });
+  },{threshold:.4});
+  const tlt=document.querySelector('.tl-track');
+  if(tlt)tlIO.observe(tlt);
+}
+
+/* ROI COUNT-UP */
+const roiEl=document.getElementById('roi-num');
+if(roiEl&&!rm){
+  let done=false;
+  const rIO=new IntersectionObserver(es=>{
+    es.forEach(e=>{
+      if(e.isIntersecting&&!done){
+        done=true;
+        let t0=null;const DUR=1400;
+        const tick=ts=>{
+          if(!t0)t0=ts;
+          const p=Math.min((ts-t0)/DUR,1);
+          const ease=1-Math.pow(1-p,3);
+          roiEl.textContent='£'+(ease*4.70).toFixed(2);
+          if(p<1)requestAnimationFrame(tick);
+          else roiEl.textContent='£4.70';
+        };
+        requestAnimationFrame(tick);
+        rIO.unobserve(e.target);
+      }
+    });
+  },{threshold:.4});
+  rIO.observe(roiEl);
+}
+
+/* FAQ */
+document.querySelectorAll('.faq-i').forEach(item=>{
+  const btn=item.querySelector('.faq-q');
+  btn.addEventListener('click',()=>{
+    const o=item.classList.contains('op');
+    document.querySelectorAll('.faq-i').forEach(x=>{x.classList.remove('op');x.querySelector('.faq-q').setAttribute('aria-expanded','false');});
+    if(!o){item.classList.add('op');btn.setAttribute('aria-expanded','true');}
+  });
+});
+
+/* FORM */
+const form=document.getElementById('form');
+const fok=document.getElementById('fok');
+if(form)form.addEventListener('submit',e=>{e.preventDefault();form.style.display='none';fok.style.display='block';});
+
+/* TOP LINK */
+document.getElementById('top-lnk')?.addEventListener('click',e=>{e.preventDefault();scrollTo({top:0,behavior:'smooth'});});
+
+})();
+
+/* ── WAVEFORM CANVAS ── */
+(function(){
+  const canvas = document.getElementById('wf-canvas');
+  if(!canvas) return;
+  const c = canvas.getContext('2d');
+  const rm = matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  /* ── CONFIG ── */
+  const WAVES = [
+    { ph:0,             am:1.00, gray:'rgba(175,175,182,0.90)', lw:1.5 },
+    { ph:Math.PI*0.58,  am:0.80, gray:'rgba(190,190,196,0.68)', lw:1.1 },
+    { ph:Math.PI*1.15,  am:0.63, gray:'rgba(204,204,210,0.52)', lw:1.0 },
+    { ph:Math.PI*1.72,  am:0.47, gray:'rgba(215,215,220,0.40)', lw:0.9 },
+  ];
+  const FREQ  = 0.027;   // wave spatial frequency
+  const AMPL  = 30;      // max wave amplitude px
+  const WSPD  = 0.0012;  // wave oscillation speed
+  const PSPD  = 0.0022;  // pulse travel speed  ← tweak to taste
+  const TAIL  = 0.13;    // trailing glow length (fraction of full path)
+
+  // Dots: position as fraction of the dot zone width
+  const DOTS = [
+    { frac:0.08, lbl:'S' },
+    { frac:0.36, lbl:'S' },
+    { frac:0.64, lbl:'R' },
+    { frac:0.92, lbl:'M' },
+  ];
+
+  // TOTAL path conceptually split:
+  //   0.00 → WEND : traveling through wave zone
+  //   WEND → 1.00 : traveling through dot zone (connector line)
+  const WEND = 0.55;
+
+  let waveT = 0;   // oscillation clock
+  let pulse = 0;   // 0 → 1+  (loops)
+  let raf   = null;
+
+  /* ── HELPERS ── */
+  function setSize(){
+    const dpr = window.devicePixelRatio || 1;
+    const r   = canvas.getBoundingClientRect();
+    canvas.width  = r.width  * dpr;
+    canvas.height = r.height * dpr;
+    c.setTransform(dpr,0,0,dpr,0,0);
+  }
+
+  // y of wave wi at pixel x
+  function wy(x, W, H, wi){
+    const cy     = H * 0.46;
+    const waveW  = W * 0.50;
+    const t_     = Math.min(x / waveW, 1);
+    const taper  = Math.pow(1 - t_, 1.15);
+    return cy + Math.sin(x * FREQ + waveT + WAVES[wi].ph) * AMPL * WAVES[wi].am * taper;
+  }
+
+  /* ── MAIN DRAW ── */
+  function render(){
+    const W = canvas.getBoundingClientRect().width  || canvas.width;
+    const H = canvas.getBoundingClientRect().height || canvas.height;
+    c.clearRect(0, 0, W, H);
+
+    const cy       = H * 0.46;
+    const waveW    = W * 0.50;   // wave zone ends here
+    const convX    = W * 0.525;  // convergence tip
+    const dotLeft  = W * 0.545;
+    const dotRight = W * 0.975;
+
+    /* ── A. BASE GRAY WAVES ── */
+    WAVES.forEach((w,wi) => {
+      c.beginPath();
+      c.strokeStyle = w.gray;
+      c.lineWidth   = w.lw;
+      c.lineCap = c.lineJoin = 'round';
+      for(let x = 0; x <= waveW; x += 0.8){
+        x < 0.9 ? c.moveTo(x, wy(x,W,H,wi)) : c.lineTo(x, wy(x,W,H,wi));
+      }
+      c.lineTo(convX, cy);
+      c.stroke();
+    });
+
+    /* ── B. BASE GRAY CONNECTOR ── */
+    c.beginPath();
+    c.strokeStyle = 'rgba(220,220,226,1)';
+    c.lineWidth   = 1.1;
+    c.moveTo(convX, cy);
+    c.lineTo(dotRight + 8, cy);
+    c.stroke();
+
+    /* ── C. BLUE PULSE OVERLAY ON WAVES ── */
+    // pulse 0 → WEND maps across waveW pixels
+    if(pulse < WEND + TAIL){
+      const headFrac = Math.min(pulse / WEND, 1);         // 0→1 within wave zone
+      const tailFrac = Math.max((pulse - TAIL) / WEND, 0);
+      const headX    = headFrac * waveW;
+      const tailX    = tailFrac * waveW;
+
+      WAVES.forEach((w,wi) => {
+        // draw blue segment on this wave from tailX to headX
+        const step = 1.2;
+        for(let x = tailX; x <= Math.min(headX, waveW); x += step){
+          const localP = (headX - tailX < 1) ? 1 : (x - tailX) / (headX - tailX);
+          const alpha  = 0.08 + localP * 0.82; // fade tail→head
+          const x2     = Math.min(x + step, headX, waveW);
+          c.beginPath();
+          c.strokeStyle = `rgba(10,74,214,${alpha})`;
+          c.lineWidth   = w.lw + 0.8;
+          c.lineCap     = 'round';
+          c.moveTo(x,  wy(x,  W, H, wi));
+          c.lineTo(x2, wy(x2, W, H, wi));
+          c.stroke();
+        }
+        // extend into convergence segment once head passes waveW
+        if(headFrac >= 1){
+          const extAlpha = Math.min((pulse - WEND) / 0.04, 1) * 0.85;
+          c.beginPath();
+          c.strokeStyle = `rgba(10,74,214,${extAlpha})`;
+          c.lineWidth   = w.lw + 0.6;
+          c.lineCap     = 'round';
+          c.moveTo(waveW, wy(waveW,W,H,wi));
+          c.lineTo(convX, cy);
+          c.stroke();
+        }
+      });
+    }
+
+    /* ── D. BLUE PULSE ON CONNECTOR ── */
+    if(pulse >= WEND){
+      const dp      = (pulse - WEND) / (1 - WEND);       // 0→1 in dot zone
+      const dpTail  = Math.max((pulse - TAIL - WEND) / (1 - WEND), 0);
+      const headCX  = dotLeft + dp     * (dotRight - dotLeft);
+      const tailCX  = dotLeft + dpTail * (dotRight - dotLeft);
+
+      const seg = Math.max(headCX - tailCX, 2);
+      const grd = c.createLinearGradient(tailCX, 0, headCX, 0);
+      grd.addColorStop(0,   'rgba(10,74,214,0.0)');
+      grd.addColorStop(0.5, 'rgba(10,74,214,0.4)');
+      grd.addColorStop(1,   'rgba(10,74,214,0.92)');
+
+      c.beginPath();
+      c.strokeStyle = grd;
+      c.lineWidth   = 2.0;
+      c.lineCap     = 'round';
+      c.moveTo(Math.max(tailCX, convX), cy);
+      c.lineTo(Math.min(headCX + 1, dotRight + 8), cy);
+      c.stroke();
+    }
+
+    /* ── E. DOTS ── */
+    // dotProg: how far the pulse is through the dot zone (0→1)
+    const dotProg = pulse >= WEND
+      ? (pulse - WEND) / (1 - WEND)
+      : 0;
+    // tailProg: trailing edge
+    const tailProg = pulse >= WEND
+      ? Math.max((pulse - TAIL - WEND) / (1 - WEND), 0)
+      : 0;
+
+    DOTS.forEach((d, i) => {
+      const x = dotLeft + d.frac * (dotRight - dotLeft);
+
+      // "lit" = pulse head has reached or passed this dot
+      // "faded" = pulse tail has passed this dot (dot goes back to gray)
+      const headPast = dotProg  >= d.frac;
+      const tailPast = tailProg >= d.frac + 0.01;
+
+      // smooth light-up: 0→1 as pulse head crosses dot
+      const lightUp  = headPast
+        ? Math.min((dotProg  - d.frac) / 0.055, 1)
+        : 0;
+      // smooth fade-out after tail passes
+      const fadeOut  = tailPast
+        ? Math.min((tailProg - d.frac) / 0.07, 1)
+        : 0;
+
+      const lit = Math.max(0, lightUp - fadeOut);
+
+      // draw dot
+      const r = (i === DOTS.length - 1) ? 6 : 5;
+
+      // gray base
+      c.beginPath();
+      c.arc(x, cy, r, 0, Math.PI * 2);
+      c.fillStyle = '#CCCCCE';
+      c.fill();
+
+      // blue overlay
+      if(lit > 0.01){
+        c.beginPath();
+        c.arc(x, cy, r, 0, Math.PI * 2);
+        c.fillStyle = `rgba(10,74,214,${lit})`;
+        c.fill();
+        // soft glow ring
+        c.beginPath();
+        c.arc(x, cy, r + 3.5, 0, Math.PI * 2);
+        c.strokeStyle = `rgba(10,74,214,${lit * 0.22})`;
+        c.lineWidth   = 2;
+        c.stroke();
+      }
+
+      // label
+      c.font      = '500 8.5px DM Mono,monospace';
+      c.fillStyle  = lit > 0.45 ? '#0A4AD6' : '#BDBDC8';
+      c.textAlign  = 'center';
+      c.fillText(d.lbl, x, cy + 21);
+    });
+
+    /* ── F. LABELS ── */
+    c.font      = '500 8px DM Mono,monospace';
+    c.textAlign = 'center';
+    c.fillStyle = 'rgba(188,188,196,0.8)';
+    c.fillText('UNSTRUCTURED', waveW * 0.47, H - 6);
+    c.fillStyle = '#0A4AD6';
+    c.fillText('PROTOCOL', dotLeft + (dotRight - dotLeft) * 0.5, H - 6);
+  }
+
+  /* ── LOOP ── */
+  function loop(){
+    waveT += WSPD;
+    pulse += PSPD;
+    if(pulse > 1.06) pulse = 0;   // reset — tiny pause at end
+    render();
+    raf = requestAnimationFrame(loop);
+  }
+
+  /* ── INIT ── */
+  setSize();
+  window.addEventListener('resize', () => { setSize(); if(rm) render(); });
+
+  if(rm){
+    pulse = 0.82; render(); // static: all dots lit
+  } else {
+    const io = new IntersectionObserver(es => {
+      es.forEach(e => {
+        if(e.isIntersecting){ if(!raf) loop(); }
+        else{ if(raf){ cancelAnimationFrame(raf); raf = null; } }
+      });
+    }, { threshold: 0.05 });
+    io.observe(canvas);
+  }
+})();
+
+/* ── CRISIS NODE MAP ANIMATION ── */
+(function(){
+  const svg = document.getElementById('nm-svg');
+  if(!svg) return;
+  const rm = matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  /* helpers */
+  function el(id){ return document.getElementById(id); }
+  function op(id, v){ el(id).setAttribute('opacity', v); }
+  function dash(id, v){ el(id).style.strokeDashoffset = v; }
+  function col(id, attr, v){ el(id).setAttribute(attr, v); }
+
+  const BLUE = '#0A4AD6';
+  const GRAY_TXT = '#5A5A66';
+  const GRAY_SUB = '#9A9AA6';
+
+  /* static lit state for reduced-motion */
+  if(rm){
+    op('nm-line-blue', 1); dash('nm-line-blue', 0);
+    op('nm-proto-fill', 1);
+    col('nm-proto-txt1', 'fill', BLUE); col('nm-proto-txt2', 'fill', BLUE);
+    ['1','2','3','4'].forEach(function(n){
+      op('nm-b'+n+'-blue', 1); dash('nm-b'+n+'-blue', 0);
+      op('nm-d'+n+'-fill', 1);
+    });
+    col('nm-d1-txt', 'fill', BLUE);
+    col('nm-d2-txt', 'fill', BLUE);
+    col('nm-d3-txt1', 'fill', BLUE); col('nm-d3-txt2', 'fill', BLUE);
+    col('nm-d4-txt1', 'fill', BLUE); col('nm-d4-txt2', 'fill', BLUE);
+    return;
+  }
+
+  /* easing */
+  function ease(t){ return t < 0.5 ? 2*t*t : -1+(4-2*t)*t; }
+  function lerp(a, b, t){ return a + (b - a) * t; }
+
+  /* phase durations */
+  var P1 = 900, P2 = 300, P3 = 800, P4 = 400, P5 = 600, P6 = 500, PW = 600;
+  var TOTAL = P1 + P2 + P3 + P4 + P5 + P6 + PW;
+
+  var raf = null;
+  var startTime = null;
+
+  function resetAll(){
+    op('nm-line-blue', 0); dash('nm-line-blue', 140);
+    op('nm-proto-fill', 0);
+    col('nm-proto-txt1', 'fill', GRAY_SUB); col('nm-proto-txt2', 'fill', GRAY_SUB);
+    ['1','2','3','4'].forEach(function(n){
+      op('nm-b'+n+'-blue', 0); dash('nm-b'+n+'-blue', 220);
+      op('nm-d'+n+'-fill', 0);
+    });
+    col('nm-d1-txt', 'fill', GRAY_TXT);
+    col('nm-d2-txt', 'fill', GRAY_TXT);
+    col('nm-d3-txt1', 'fill', GRAY_TXT); col('nm-d3-txt2', 'fill', GRAY_SUB);
+    col('nm-d4-txt1', 'fill', GRAY_TXT); col('nm-d4-txt2', 'fill', GRAY_SUB);
+  }
+
+  function frame(ts){
+    if(!startTime) startTime = ts;
+    var elapsed = (ts - startTime) % TOTAL;
+    var t, e;
+
+    if(elapsed < P1){
+      /* Phase 1: line travels Observer → Protocol */
+      t = elapsed / P1; e = ease(t);
+      op('nm-line-blue', lerp(0, 1, e));
+      dash('nm-line-blue', lerp(140, 0, e));
+    } else if(elapsed < P1+P2){
+      /* Phase 2: Protocol node lights up */
+      t = (elapsed - P1) / P2; e = ease(t);
+      op('nm-line-blue', 1); dash('nm-line-blue', 0);
+      op('nm-proto-fill', e);
+      col('nm-proto-txt1', 'fill', BLUE); col('nm-proto-txt2', 'fill', BLUE);
+    } else if(elapsed < P1+P2+P3){
+      /* Phase 3: all 4 branches travel */
+      t = (elapsed - P1 - P2) / P3; e = ease(t);
+      op('nm-proto-fill', 1);
+      ['1','2','3','4'].forEach(function(n){
+        op('nm-b'+n+'-blue', lerp(0, 1, e));
+        dash('nm-b'+n+'-blue', lerp(220, 0, e));
+      });
+    } else if(elapsed < P1+P2+P3+P4){
+      /* Phase 4: destinations light up */
+      t = (elapsed - P1 - P2 - P3) / P4; e = ease(t);
+      ['1','2','3','4'].forEach(function(n){
+        op('nm-b'+n+'-blue', 1); dash('nm-b'+n+'-blue', 0);
+        op('nm-d'+n+'-fill', e);
+      });
+      op('nm-proto-fill', lerp(1, 0.5, e));
+      col('nm-d1-txt', 'fill', BLUE);
+      col('nm-d2-txt', 'fill', BLUE);
+      col('nm-d3-txt1', 'fill', BLUE); col('nm-d3-txt2', 'fill', BLUE);
+      col('nm-d4-txt1', 'fill', BLUE); col('nm-d4-txt2', 'fill', BLUE);
+    } else if(elapsed < P1+P2+P3+P4+P5){
+      /* Phase 5: hold — everything stays lit */
+      op('nm-proto-fill', 0.5);
+      ['1','2','3','4'].forEach(function(n){
+        op('nm-b'+n+'-blue', 1); dash('nm-b'+n+'-blue', 0);
+        op('nm-d'+n+'-fill', 1);
+      });
+    } else if(elapsed < P1+P2+P3+P4+P5+P6){
+      /* Phase 6: fade out to gray */
+      t = (elapsed - P1 - P2 - P3 - P4 - P5) / P6; e = ease(t);
+      op('nm-line-blue', lerp(1, 0, e));
+      op('nm-proto-fill', lerp(0.5, 0, e));
+      ['1','2','3','4'].forEach(function(n){
+        op('nm-b'+n+'-blue', lerp(1, 0, e));
+        op('nm-d'+n+'-fill', lerp(1, 0, e));
+      });
+      if(e > 0.5){
+        col('nm-proto-txt1', 'fill', GRAY_SUB); col('nm-proto-txt2', 'fill', GRAY_SUB);
+        col('nm-d1-txt', 'fill', GRAY_TXT);
+        col('nm-d2-txt', 'fill', GRAY_TXT);
+        col('nm-d3-txt1', 'fill', GRAY_TXT); col('nm-d3-txt2', 'fill', GRAY_SUB);
+        col('nm-d4-txt1', 'fill', GRAY_TXT); col('nm-d4-txt2', 'fill', GRAY_SUB);
+      }
+    } else {
+      /* Pause: reset state */
+      resetAll();
+    }
+
+    raf = requestAnimationFrame(frame);
+  }
+
+  /* visibility-driven start/stop */
+  resetAll();
+  var nmIO = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(e.isIntersecting){
+        if(!raf){ startTime = null; raf = requestAnimationFrame(frame); }
+      } else {
+        if(raf){ cancelAnimationFrame(raf); raf = null; }
+      }
+    });
+  }, { threshold: 0.2 });
+  nmIO.observe(svg);
+})();
+</script>
+</body>
+</html>
