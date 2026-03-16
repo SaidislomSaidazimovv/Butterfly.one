@@ -5,8 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>butterfly.one — The 30-Second Check-In Protocol</title>
-  <link rel="icon" type="image/svg+xml"
-    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230A4AD6'/%3E%3Cpath d='M16 7c-3.5 0-6 2.8-6 6.2 0 2.2 1.5 4.5 4 6.3L16 21l2-1.5c2.5-1.8 4-4.1 4-6.3C22 9.8 19.5 7 16 7zm0 2c2.2 0 4 1.8 4 4.2 0 1.5-1 3.2-3 4.8l-1 .8-1-.8c-2-1.6-3-3.3-3-4.8C12 10.8 13.8 9 16 9z' fill='white' opacity='.9'/%3E%3C/svg%3E">
+  <link rel="icon" type="image/png" href="/logo.png">
   <meta name="description" content="A deployable protocol for emotional stability at organizational scale.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,6 +25,10 @@
       --blue: #5ceec7;
       --bsoft: #E8FBF4;
       --green: #1F8A5B;
+      --warm: #FAF8F5;
+      --slate: #F0F2F5;
+      --mint-wash: #F2FDF9;
+      --ink-soft: #1A1A2E;
       --r-sm: 8px;
       --r-md: 14px;
       --r: 24px;
@@ -104,12 +107,7 @@
     }
 
     .S {
-      padding: clamp(80px, 10vw, 140px) 40px;
-      border-top: 1px solid var(--line)
-    }
-
-    .S:first-of-type {
-      border-top: none
+      padding: clamp(80px, 10vw, 140px) 40px
     }
 
     /* Type */
@@ -299,7 +297,7 @@
       position: sticky;
       top: 0;
       z-index: 300;
-      height: 56px;
+      height: 64px;
       background: transparent;
       border-bottom: 1px solid transparent;
       transition: background .3s, border-color .3s, box-shadow .3s, backdrop-filter .3s
@@ -355,11 +353,29 @@
       font-size: 14px;
       font-weight: 500;
       color: var(--ghost);
-      transition: color .15s
+      transition: color .15s;
+      position: relative;
+      padding-bottom: 4px
+    }
+
+    .nav-ul a::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 2px;
+      background: #5ceec7;
+      border-radius: 1px;
+      transition: width .25s ease
     }
 
     .nav-ul a:hover {
       color: var(--ink)
+    }
+
+    .nav-ul a:hover::after {
+      width: 100%
     }
 
     .nav-bg {
@@ -381,7 +397,7 @@
     .mob {
       display: none;
       position: fixed;
-      inset: 56px 0 0;
+      inset: 64px 0 0;
       background: rgba(255, 255, 255, .97);
       backdrop-filter: blur(28px);
       z-index: 299;
@@ -424,8 +440,8 @@
 
     /* ── HERO ── */
     #hero {
-      margin-top: -56px;
-      padding: calc(clamp(100px, 12vw, 160px) + 56px) 40px clamp(80px, 9vw, 120px);
+      margin-top: -64px;
+      padding: calc(clamp(100px, 12vw, 160px) + 64px) 40px clamp(80px, 9vw, 120px);
       border-top: none;
       position: relative;
       overflow: hidden
@@ -622,7 +638,7 @@
     }
 
     .hl-t:hover {
-      background: #FAFAFA;
+      background: var(--mint-wash);
       transform: translateY(-3px);
       box-shadow: var(--shadow-md);
       z-index: 1;
@@ -873,136 +889,33 @@
       max-width: none
     }
 
-    /* ── PROTOCOL STEPPER ── */
-    .pt-g {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      align-items: start;
-      margin-top: 56px
-    }
+    /* ── PROTOCOL STEPPER (scroll-driven) ── */
+    .pt-scroll{height:400vh;position:relative}
+    .pt-pin{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;justify-content:center;overflow:hidden}
+    .pt-pin .W{position:relative;z-index:1}
+    .pt-head{margin-bottom:48px}
+    .pt-g{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
 
-    .pt-sticky {
-      position: sticky;
-      top: 80px
-    }
+    /* Left: step nav */
+    .pt-viz{display:flex;flex-direction:column;gap:6px}
+    .pt-layer{display:flex;align-items:center;gap:14px;padding:16px 22px;border:1px solid var(--line);border-radius:var(--r-md);cursor:pointer;transition:all .3s cubic-bezier(.25,.1,.25,1);opacity:.4}
+    .pt-layer.lit{border-color:var(--blue);background:var(--bsoft);opacity:1;box-shadow:var(--shadow-blue)}
+    .pt-num{font-family:var(--mono);font-size:12px;font-weight:600;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--line);color:var(--ghost);transition:all .3s}
+    .pt-layer.lit .pt-num{background:var(--blue);color:var(--ink)}
+    .pt-lbl{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--ink);transition:color .3s}
+    .pt-layer.lit .pt-lbl{color:var(--blue)}
+    .pt-bar{flex:1;height:2px;background:var(--line);border-radius:1px;overflow:hidden}
+    .pt-bar-fill{height:100%;width:0;background:var(--blue);border-radius:1px;transition:width .1s linear}
 
-    .pt-viz {
-      display: flex;
-      flex-direction: column;
-      gap: 5px
-    }
-
-    .pt-layer {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 16px 22px;
-      border: 1px solid var(--line);
-      border-radius: var(--r-md);
-      cursor: pointer;
-      transition: all .3s cubic-bezier(.25, .1, .25, 1)
-    }
-
-    .pt-layer.lit {
-      border-color: var(--blue);
-      background: var(--bsoft);
-      transform: scale(1.02);
-      box-shadow: var(--shadow-blue)
-    }
-
-    .pt-num {
-      font-family: var(--mono);
-      font-size: 10px;
-      font-weight: 500;
-      color: var(--ghost);
-      width: 18px
-    }
-
-    .pt-layer.lit .pt-num {
-      color: var(--blue)
-    }
-
-    .pt-lbl {
-      font-family: var(--mono);
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: .07em;
-      text-transform: uppercase;
-      color: var(--ink)
-    }
-
-    .pt-layer.lit .pt-lbl {
-      color: var(--blue)
-    }
-
-    .pt-bar {
-      flex: 1;
-      height: 2px;
-      background: var(--line);
-      border-radius: 1px;
-      overflow: hidden
-    }
-
-    .pt-layer.lit .pt-bar::after {
-      content: '';
-      display: block;
-      height: 100%;
-      background: var(--blue);
-      animation: fb .45s ease forwards
-    }
-
-    @keyframes fb {
-      from {
-        width: 0
-      }
-
-      to {
-        width: 100%
-      }
-    }
-
-    .pt-items {
-      display: flex;
-      flex-direction: column
-    }
-
-    .pt-item {
-      padding: 48px 0;
-      border-bottom: 1px solid var(--line);
-      opacity: .25;
-      transform: translateX(-6px);
-      transition: opacity .35s, transform .35s;
-      cursor: pointer
-    }
-
-    .pt-item:last-child {
-      border-bottom: none
-    }
-
-    .pt-item.lit {
-      opacity: 1;
-      transform: none
-    }
-
-    .pt-badge {
-      font-family: var(--mono);
-      font-size: 11px;
-      letter-spacing: .06em;
-      color: var(--blue);
-      margin-bottom: 12px
-    }
-
-    .pt-item h3 {
-      font-size: clamp(22px, 2.2vw, 28px);
-      margin-bottom: 14px
-    }
-
-    .pt-item p {
-      font-size: 16px;
-      max-width: 44ch;
-      line-height: 1.65
-    }
+    /* Right: step content */
+    .pt-content{position:relative;min-height:280px}
+    .pt-item{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;opacity:0;transform:translateX(30px);pointer-events:none;transition:opacity .3s ease,transform .3s ease}
+    .pt-item.lit{opacity:1;transform:none;pointer-events:auto;position:relative}
+    .pt-item.exit{opacity:0;transform:translateX(-30px)}
+    .pt-badge{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--blue);margin-bottom:12px}
+    .pt-item h3{font-size:clamp(22px,2.2vw,28px);margin-bottom:14px}
+    .pt-item p{font-size:16px;max-width:44ch;line-height:1.65}
+    .pt-card{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:48px 44px;box-shadow:var(--shadow-md)}
 
     /* ── ROI ── */
     .roi-g {
@@ -1120,23 +1033,31 @@
       position: relative
     }
 
+    .gap-viz{opacity:0;transform:translateY(20px);transition:opacity .5s ease-out,transform .5s ease-out}
+    .gap-viz.on{opacity:1;transform:none}
+
     .gap-f {
       position: absolute;
       bottom: 0;
       left: 0;
       right: 0;
       border-radius: 8px 8px 0 0;
-      height: 0;
-      transition: height 1.3s cubic-bezier(.25, .1, .25, 1)
+      height: 0
     }
 
     .gap-f.av {
-      background: #C4C4C8
+      background: #C4C4C8;
+      transition: height 1.2s ease-out
     }
 
     .gap-f.us {
-      background: var(--blue)
+      background: var(--blue);
+      transition: height .8s ease-out .3s
     }
+
+    .gap-pct-num{display:inline}
+    .gap-range{opacity:0;transition:opacity .4s ease-out .9s}
+    .gap-viz.on .gap-range{opacity:1}
 
     .gap-pct {
       font-family: var(--serif);
@@ -1367,7 +1288,10 @@
       left: 0;
       right: 0;
       height: 1px;
-      background: var(--line)
+      background: var(--line);
+      transform-origin: left;
+      transform: scaleX(0);
+      transition: transform 1.2s ease-out
     }
 
     .tl-nodes {
@@ -1398,8 +1322,11 @@
       font-size: 10px;
       font-weight: 500;
       color: var(--ghost);
-      transition: all .25s
+      transition: all .25s;
+      transform: scale(0)
     }
+    .tl-node.lit .tl-dot{transform:scale(1);transition:transform .5s cubic-bezier(.34,1.56,.64,1),background .25s,border-color .25s,color .25s}
+    .tl-track.anim .tl-line{transform:scaleX(1)}
 
     .tl-node:hover .tl-dot,
     .tl-node.lit .tl-dot {
@@ -1432,8 +1359,18 @@
       overflow: hidden;
       background: var(--off);
       margin-top: 48px;
-      max-width: 800px
+      max-width: 800px;
+      opacity:0;transform:translateY(16px);transition:opacity .6s ease-out,transform .6s ease-out,box-shadow .6s ease-out
     }
+    .dash-mock.on{opacity:1;transform:none;box-shadow:var(--shadow-md)}
+    .dash-t{opacity:0;transform:translateY(24px);transition:opacity .5s ease-out,transform .5s ease-out}
+    .dash-mock.on .dash-t:nth-child(1){transition-delay:.15s}
+    .dash-mock.on .dash-t:nth-child(2){transition-delay:.3s}
+    .dash-mock.on .dash-t:nth-child(3){transition-delay:.45s}
+    .dash-mock.on .dash-t:nth-child(4){transition-delay:.6s}
+    .dash-mock.on .dash-t{opacity:1;transform:none}
+    .dash-trend{opacity:0;transition:opacity .3s ease-out}
+    .dash-mock.counted .dash-trend{opacity:1}
 
     .dash-head {
       display: flex;
@@ -1572,7 +1509,7 @@
     }
 
     .cl-row:hover {
-      background: #FAFAFA
+      background: rgba(92,238,199,.04)
     }
 
     .cl-v {
@@ -1878,7 +1815,9 @@
     /* ── FOOTER ── */
     footer {
       padding: clamp(60px, 7vw, 88px) 40px 40px;
-      border-top: 1px solid var(--line)
+      border-top: none;
+      background: var(--ink-soft);
+      color: rgba(255,255,255,.7)
     }
 
     .ft-g {
@@ -1888,19 +1827,20 @@
       grid-template-columns: 1.5fr 1fr 1fr;
       gap: 48px;
       padding-bottom: 36px;
-      border-bottom: 1px solid var(--line);
+      border-bottom: 1px solid rgba(255,255,255,.1);
       margin-bottom: 24px
     }
 
     .ft-wm {
       font-size: 15px;
       font-weight: 700;
-      letter-spacing: -.02em
+      letter-spacing: -.02em;
+      color: #fff
     }
 
     .ft-desc {
       font-size: 13px;
-      color: var(--ghost);
+      color: rgba(255,255,255,.45);
       margin-top: 8px;
       line-height: 1.6
     }
@@ -1914,7 +1854,7 @@
       font-size: 10px;
       letter-spacing: .09em;
       text-transform: uppercase;
-      color: var(--ghost);
+      color: rgba(255,255,255,.35);
       margin-bottom: 14px
     }
 
@@ -1927,12 +1867,12 @@
 
     .ft-ul a {
       font-size: 13px;
-      color: var(--ghost);
+      color: rgba(255,255,255,.5);
       transition: color .14s
     }
 
     .ft-ul a:hover {
-      color: var(--ink)
+      color: #fff
     }
 
     .ft-bar {
@@ -1945,16 +1885,16 @@
       gap: 8px;
       font-family: var(--mono);
       font-size: 11px;
-      color: var(--ghost)
+      color: rgba(255,255,255,.3)
     }
 
     .ft-bar a {
-      color: var(--ghost);
+      color: rgba(255,255,255,.4);
       transition: color .14s
     }
 
     .ft-bar a:hover {
-      color: var(--ink)
+      color: var(--blue)
     }
 
     /* ── RESPONSIVE ── */
@@ -1971,14 +1911,13 @@
         gap: 52px
       }
 
-      .pt-g {
-        grid-template-columns: 1fr
-      }
-
-      .pt-sticky {
-        position: relative;
-        top: 0
-      }
+      .pt-scroll{height:auto !important}
+      .pt-pin{position:relative !important;height:auto !important;padding:clamp(80px,10vw,140px) 0}
+      .pt-g{grid-template-columns:1fr;gap:40px}
+      .pt-content{min-height:0}
+      .pt-item{position:relative !important;opacity:1 !important;transform:none !important;pointer-events:auto !important;padding:24px 0;border-bottom:1px solid var(--line)}
+      .pt-item:last-child{border-bottom:none}
+      .pt-card{padding:28px 24px}
 
       .cat-cards,
       .val-cards {
@@ -2251,7 +2190,7 @@
     }
 
     #gap::before {
-      background-image: url('https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=1200&q=80')
+      background-image: url('https://images.unsplash.com/photo-1504439468489-c8920d796a29?w=1400&q=80')
     }
 
     #gap::after {
@@ -2429,7 +2368,7 @@
     </section>
 
     <!-- § 1 HIGHLIGHTS -->
-    <section class="S" id="highlights" aria-labelledby="hl-h2" style="position:relative;overflow:hidden">
+    <section class="S" id="highlights" aria-labelledby="hl-h2" style="position:relative;overflow:hidden;background:var(--warm)">
       <div class="accent-orb blue" style="width:400px;height:400px;top:-100px;right:-80px" aria-hidden="true"></div>
       <div class="W">
         <span class="mono-label fu">At a Glance</span>
@@ -2512,7 +2451,7 @@
     </section>
 
     <!-- § 3 CATEGORY -->
-    <section class="S" id="category" aria-labelledby="cat-h2">
+    <section class="S" id="category" aria-labelledby="cat-h2" style="background:var(--warm)">
       <div class="W">
         <span class="mono-label fu">What This Is</span>
         <h2 id="cat-h2" class="fu d1">A standard, not a program.</h2>
@@ -2542,70 +2481,67 @@
       </div>
     </section>
 
-    <!-- § 4 PROTOCOL STEPPER -->
-    <section class="S" id="protocol" aria-labelledby="pt-h2" style="position:relative;overflow:hidden">
-      <div class="accent-orb teal" style="width:350px;height:350px;bottom:-80px;left:-60px" aria-hidden="true"></div>
-      <div class="W">
-        <span class="mono-label fu">How It Works</span>
-        <h2 id="pt-h2" class="fu d1">Signal → Script → Route → Measure.</h2>
-        <p class="fu d2" style="margin-top:14px">Four steps. Trained in 90 minutes. Deployed in 30 days.</p>
-        <div class="pt-g">
-          <div class="pt-sticky fu d1" aria-hidden="true">
+    <!-- § 4 PROTOCOL STEPPER (scroll-driven) -->
+    <div class="pt-scroll" id="protocol-scroll">
+      <div class="pt-pin" id="protocol">
+        <div class="accent-orb teal" style="width:350px;height:350px;bottom:-80px;left:-60px;position:absolute" aria-hidden="true"></div>
+        <div class="W">
+          <div class="pt-head">
+            <span class="mono-label" aria-labelledby="pt-h2">How It Works</span>
+            <h2 id="pt-h2">Signal → Script → Route → Measure.</h2>
+            <p style="margin-top:14px">Four steps. Trained in 90 minutes. Deployed in 30 days.</p>
+          </div>
+          <div class="pt-g">
             <div class="pt-viz" id="pt-viz">
               <div class="pt-layer lit" data-pt="0" role="button" tabindex="0" aria-label="Step 1: Signal">
                 <span class="pt-num">01</span><span class="pt-lbl">Signal</span>
-                <div class="pt-bar"></div>
+                <div class="pt-bar"><div class="pt-bar-fill" id="pt-fill-0"></div></div>
               </div>
-              <div style="height:6px"></div>
               <div class="pt-layer" data-pt="1" role="button" tabindex="0" aria-label="Step 2: Script">
                 <span class="pt-num">02</span><span class="pt-lbl">Script</span>
-                <div class="pt-bar"></div>
+                <div class="pt-bar"><div class="pt-bar-fill" id="pt-fill-1"></div></div>
               </div>
-              <div style="height:6px"></div>
               <div class="pt-layer" data-pt="2" role="button" tabindex="0" aria-label="Step 3: Route">
                 <span class="pt-num">03</span><span class="pt-lbl">Route</span>
-                <div class="pt-bar"></div>
+                <div class="pt-bar"><div class="pt-bar-fill" id="pt-fill-2"></div></div>
               </div>
-              <div style="height:6px"></div>
               <div class="pt-layer" data-pt="3" role="button" tabindex="0" aria-label="Step 4: Measure">
                 <span class="pt-num">04</span><span class="pt-lbl">Measure</span>
-                <div class="pt-bar"></div>
+                <div class="pt-bar"><div class="pt-bar-fill" id="pt-fill-3"></div></div>
               </div>
             </div>
-          </div>
-          <div id="pt-items">
-            <div class="pt-item lit fu" data-pt-item="0">
-              <div class="pt-badge">01 — Signal</div>
-              <h3>The gesture that opens the door.</h3>
-              <p>A trained observer notices withdrawal, tone shift, pattern break — or someone shows the butterfly
-                gesture: "I need support."</p>
-            </div>
-            <div class="pt-item fu" data-pt-item="1">
-              <div class="pt-badge">02 — Script</div>
-              <h3>No improvisation. No clinical language.</h3>
-              <p>"I noticed [X]. Can I check in for 30 seconds?" Pre-decided language reduces friction to near
-                zero.<sup>2</sup></p>
-            </div>
-            <div class="pt-item fu" data-pt-item="2">
-              <div class="pt-badge">03 — Route</div>
-              <h3>The right support, every time.</h3>
-              <p>Peer → Manager → EAP → 988 → Local services. A decision tree so no one figures it out
-                alone.<sup>4</sup></p>
-            </div>
-            <div class="pt-item fu" data-pt-item="3">
-              <div class="pt-badge">04 — Measure</div>
-              <h3>Data that earns organizational trust.</h3>
-              <p>Adoption rate, routing frequency, follow-through. Aggregate only. ESG-ready reporting from day one.</p>
+            <div class="pt-content" id="pt-content">
+              <div class="pt-card">
+                <div class="pt-item lit" data-pt-item="0">
+                  <div class="pt-badge">01 — Signal</div>
+                  <h3>The gesture that opens the door.</h3>
+                  <p>A trained observer notices withdrawal, tone shift, pattern break — or someone shows the butterfly gesture: "I need support."</p>
+                </div>
+                <div class="pt-item" data-pt-item="1">
+                  <div class="pt-badge">02 — Script</div>
+                  <h3>No improvisation. No clinical language.</h3>
+                  <p>"I noticed [X]. Can I check in for 30 seconds?" Pre-decided language reduces friction to near zero.<sup>2</sup></p>
+                </div>
+                <div class="pt-item" data-pt-item="2">
+                  <div class="pt-badge">03 — Route</div>
+                  <h3>The right support, every time.</h3>
+                  <p>Peer → Manager → EAP → 988 → Local services. A decision tree so no one figures it out alone.<sup>4</sup></p>
+                </div>
+                <div class="pt-item" data-pt-item="3">
+                  <div class="pt-badge">04 — Measure</div>
+                  <h3>Data that earns organizational trust.</h3>
+                  <p>Adoption rate, routing frequency, follow-through. Aggregate only. ESG-ready reporting from day one.</p>
+                </div>
+              </div>
+              <p class="fn" style="margin-top:24px">² Gollwitzer &amp; Sheeran meta-analysis — medium-to-large effect sizes. &nbsp;³ WHO Surgical Safety Checklist. &nbsp;⁴ Lifeline evaluation, caller-reported outcomes.</p>
             </div>
           </div>
         </div>
-        <p class="fn fu">² Gollwitzer &amp; Sheeran meta-analysis — medium-to-large effect sizes. &nbsp;³ WHO Surgical
-          Safety Checklist. &nbsp;⁴ Lifeline evaluation, caller-reported outcomes.</p>
       </div>
-    </section>
+    </div>
 
     <!-- § 5 KIT PREVIEW -->
-    <section class="S" id="kit" aria-labelledby="kit-h2">
+    <section class="S" id="kit" aria-labelledby="kit-h2" style="background:var(--warm)">
       <div class="W">
         <span class="mono-label fu">What You Get</span>
         <h2 id="kit-h2" class="fu d1">Looks simple. Is precise.</h2>
@@ -2675,7 +2611,7 @@
     </section>
 
     <!-- § 6 ROI -->
-    <section class="S" id="roi" aria-labelledby="roi-h2">
+    <section class="S" id="roi" aria-labelledby="roi-h2" style="background:var(--slate)">
       <div class="W">
         <div class="roi-g">
           <div class="fu">
@@ -2718,19 +2654,19 @@
               is high. The protocol closes this gap upstream, before crisis.<sup>5</sup></p>
             <p class="fn">⁵ Multiple industry sources on EAP utilization rates.</p>
           </div>
-          <div class="gap-viz fu d1" role="img" aria-label="Bar chart: 100% support offered versus 3-6% accessed">
+          <div class="gap-viz" id="gap-viz" role="img" aria-label="Bar chart: 100% support offered versus 3-6% accessed">
             <div class="gap-col">
               <div class="gap-bw" style="max-height:200px">
                 <div class="gap-f av" data-gh="200px"></div>
               </div>
-              <div class="gap-pct">100%</div>
+              <div class="gap-pct"><span class="gap-pct-num" id="gap-num">0</span>%</div>
               <div class="gap-lbl">Support programs<br>offered</div>
             </div>
             <div class="gap-col">
               <div class="gap-bw" style="max-height:200px">
                 <div class="gap-f us" data-gh="13px"></div>
               </div>
-              <div class="gap-pct">~3–6%</div>
+              <div class="gap-pct"><span class="gap-range">~3–6%</span></div>
               <div class="gap-lbl">Employees who<br>access them<sup>5</sup></div>
             </div>
           </div>
@@ -2758,7 +2694,7 @@
     </section>
 
     <!-- § 10 CRISIS ROUTING -->
-    <section class="S" id="crisis" aria-labelledby="cr-h2">
+    <section class="S" id="crisis" aria-labelledby="cr-h2" style="background:var(--slate)">
       <div class="W">
         <span class="mono-label fu">Safety Net</span>
         <h2 id="cr-h2" class="fu d1">Route to real help.</h2>
@@ -2855,10 +2791,10 @@
         <span class="mono-label fu">From Day One</span>
         <h2 id="tl-h2" class="fu d1">Deploy &amp; Measure.</h2>
         <p class="fu d2" style="margin-top:14px">Pilot. Train. Route. Measure. Expand only after baseline is stable.</p>
-        <div class="tl-track fu d2">
+        <div class="tl-track" id="tl-track">
           <div class="tl-line" aria-hidden="true"></div>
           <div class="tl-nodes" role="list">
-            <div class="tl-node lit" role="listitem">
+            <div class="tl-node" role="listitem">
               <div class="tl-dot" aria-label="Week 0">W0</div>
               <div class="tl-wk">Week 0</div>
               <div class="tl-task">Pilot design</div>
@@ -2887,7 +2823,7 @@
         </div>
         <p class="fu d3" style="margin-top:56px">A minimal index: adoption rate, stability signals, routing outcomes,
           follow-through. No invasive surveillance. No individual tracking. ESG-ready aggregate reporting.</p>
-        <div class="dash-mock fu d4" style="margin-top:56px" role="img"
+        <div class="dash-mock" id="dash-mock" style="margin-top:56px" role="img"
           aria-label="Dashboard: adoption 78%, routing 34/month, follow-through 91%, stability index 0.84">
           <div class="dash-head">
             <div class="dash-title">Butterfly Protocol — Organizational Dashboard</div>
@@ -2896,22 +2832,22 @@
           <div class="dash-tiles">
             <div class="dash-t">
               <div class="dash-lbl">Adoption Rate</div>
-              <div class="dash-val">78%</div>
+              <div class="dash-val"><span class="dash-num" data-to="78" data-dur="1400" data-delay="0" data-suffix="%">0</span></div>
               <div class="dash-trend">↑ +12% vs baseline</div>
             </div>
             <div class="dash-t">
               <div class="dash-lbl">Routing Frequency</div>
-              <div class="dash-val">34</div>
+              <div class="dash-val"><span class="dash-num" data-to="34" data-dur="1000" data-delay="150">0</span></div>
               <div class="dash-trend" style="color:var(--ghost)">Monthly check-ins</div>
             </div>
             <div class="dash-t">
               <div class="dash-lbl">Follow-through Rate</div>
-              <div class="dash-val">91%</div>
+              <div class="dash-val"><span class="dash-num" data-to="91" data-dur="1500" data-delay="300" data-suffix="%">0</span></div>
               <div class="dash-trend">↑ Routed to support</div>
             </div>
             <div class="dash-t">
               <div class="dash-lbl">Stability Index</div>
-              <div class="dash-val">0.84</div>
+              <div class="dash-val"><span class="dash-num" data-to="0.84" data-dur="1600" data-delay="450" data-dec="2">0</span></div>
               <div class="dash-trend" style="color:var(--ghost)">Aggregate signal</div>
             </div>
           </div>
@@ -2920,7 +2856,7 @@
     </section>
 
     <!-- § 14 VALUES -->
-    <section class="S" id="values" aria-labelledby="val-h2" style="position:relative;overflow:hidden">
+    <section class="S" id="values" aria-labelledby="val-h2" style="position:relative;overflow:hidden;background:var(--warm)">
       <div class="accent-orb violet" style="width:380px;height:380px;top:-60px;left:50%;margin-left:-190px"
         aria-hidden="true"></div>
       <div class="W">
@@ -2962,7 +2898,7 @@
     </section>
 
     <!-- § 15 GOVERNANCE -->
-    <section class="S" id="governance" aria-labelledby="gov-h2">
+    <section class="S" id="governance" aria-labelledby="gov-h2" style="background:var(--slate)">
       <div class="W">
         <div class="gov-g">
           <div class="fu">
@@ -3032,7 +2968,7 @@
     </section>
 
     <!-- § 17 FAQ -->
-    <section class="S" id="faq" aria-labelledby="faq-h2">
+    <section class="S" id="faq" aria-labelledby="faq-h2" style="background:var(--mint-wash)">
       <div class="W">
         <span class="mono-label fu">Questions</span>
         <h2 id="faq-h2" class="fu d1">Questions, answered.</h2>
@@ -3263,26 +3199,47 @@
         });
       });
 
-      /* PROTOCOL STEPPER – click sync */
+      /* PROTOCOL STEPPER – scroll-driven sticky */
+      const ptWrap = document.getElementById('protocol-scroll');
       const ptLayers = document.querySelectorAll('.pt-layer');
       const ptItems = document.querySelectorAll('.pt-item');
-      function ptSet(i) {
-        ptLayers.forEach(l => l.classList.remove('lit'));
-        ptItems.forEach(x => x.classList.remove('lit'));
-        ptLayers[i].classList.add('lit');
-        ptItems[i].classList.add('lit');
+      const ptFills = [0,1,2,3].map(i => document.getElementById('pt-fill-'+i));
+      let ptCur = 0;
+      function ptSet(i, fillPct) {
+        if (i !== ptCur) {
+          ptItems[ptCur].classList.add('exit');
+          ptItems[ptCur].classList.remove('lit');
+          ptLayers[ptCur].classList.remove('lit');
+          setTimeout(() => { ptItems.forEach(x => x.classList.remove('exit')); }, 300);
+          ptItems[i].classList.add('lit');
+          ptLayers[i].classList.add('lit');
+          ptCur = i;
+        }
+        ptFills.forEach((f, idx) => {
+          if (idx < i) f.style.width = '100%';
+          else if (idx === i) f.style.width = (fillPct * 100) + '%';
+          else f.style.width = '0';
+        });
       }
+      /* click/keyboard still works */
       ptLayers.forEach((l, i) => {
-        l.addEventListener('click', () => ptSet(i));
-        l.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') ptSet(i); });
+        l.addEventListener('click', () => ptSet(i, 0));
+        l.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') ptSet(i, 0); });
       });
-      ptItems.forEach((item, i) => item.addEventListener('click', () => ptSet(i)));
-      /* scroll-driven */
-      if (!rm) {
-        const ptIO = new IntersectionObserver(es => {
-          es.forEach(e => { if (e.isIntersecting) ptSet(parseInt(e.target.dataset.ptItem)); });
-        }, { threshold: .6 });
-        ptItems.forEach(el => ptIO.observe(el));
+      if (!rm && ptWrap) {
+        addEventListener('scroll', () => {
+          const r = ptWrap.getBoundingClientRect();
+          const scrollable = r.height - innerHeight;
+          if (scrollable <= 0) return;
+          const progress = Math.max(0, Math.min(1, -r.top / scrollable));
+          const step = Math.min(3, Math.floor(progress * 4));
+          const stepProgress = (progress * 4) - step;
+          ptSet(step, Math.min(1, stepProgress));
+        }, { passive: true });
+      } else {
+        /* reduced-motion: just show all lit */
+        ptItems[0].classList.add('lit');
+        ptLayers[0].classList.add('lit');
       }
 
       /* BAR CHARTS */
@@ -3291,25 +3248,123 @@
       }, { threshold: .5 });
       document.querySelectorAll('.bc-fill').forEach(el => bcIO.observe(el));
 
-      /* GAP BARS */
-      const gapIO = new IntersectionObserver(es => {
-        es.forEach(e => { if (e.isIntersecting) { e.target.style.height = e.target.dataset.gh; gapIO.unobserve(e.target); } });
-      }, { threshold: .3 });
-      document.querySelectorAll('.gap-f').forEach(el => gapIO.observe(el));
+      /* GAP BARS — enhanced entrance */
+      const gapViz = document.getElementById('gap-viz');
+      const gapNum = document.getElementById('gap-num');
+      if (gapViz) {
+        let gapDone = false;
+        const gapIO = new IntersectionObserver(es => {
+          es.forEach(e => {
+            if (e.isIntersecting && !gapDone) {
+              gapDone = true;
+              gapIO.unobserve(gapViz);
+              /* 1. entrance fade+slide */
+              gapViz.classList.add('on');
+              /* 2. trigger bars after entrance settles */
+              setTimeout(() => {
+                document.querySelectorAll('.gap-f').forEach(el => {
+                  el.style.height = el.dataset.gh;
+                });
+              }, 400);
+              /* 3. count 0→100 */
+              if (!rm && gapNum) {
+                let t0 = null;
+                const DUR = 1200;
+                const tick = ts => {
+                  if (!t0) t0 = ts;
+                  const p = Math.min((ts - t0) / DUR, 1);
+                  const ease = 1 - Math.pow(1 - p, 3);
+                  gapNum.textContent = Math.round(ease * 100);
+                  if (p < 1) requestAnimationFrame(tick);
+                };
+                setTimeout(() => requestAnimationFrame(tick), 400);
+              } else if (gapNum) {
+                gapNum.textContent = '100';
+              }
+            }
+          });
+        }, { threshold: .3 });
+        gapIO.observe(gapViz);
+      }
 
-      /* TIMELINE sequential reveal */
+      /* TIMELINE — bounce-in nodes + line draw */
       const tlNodes = document.querySelectorAll('.tl-node');
-      if (!rm) {
+      const tlTrack = document.querySelector('.tl-track');
+      if (!rm && tlTrack) {
         const tlIO = new IntersectionObserver(es => {
           es.forEach(e => {
             if (e.isIntersecting) {
-              tlNodes.forEach((n, i) => setTimeout(() => n.classList.add('lit'), i * 120));
+              tlTrack.classList.add('anim');
+              tlNodes.forEach((n, i) => setTimeout(() => n.classList.add('lit'), i * 200));
               tlIO.disconnect();
             }
           });
         }, { threshold: .4 });
-        const tlt = document.querySelector('.tl-track');
-        if (tlt) tlIO.observe(tlt);
+        tlIO.observe(tlTrack);
+      } else {
+        tlNodes.forEach(n => n.classList.add('lit'));
+        if (tlTrack) tlTrack.classList.add('anim');
+      }
+
+      /* DASHBOARD — card entrance + count-up + trend fade */
+      const dashMock = document.getElementById('dash-mock');
+      if (dashMock) {
+        const dashNums = dashMock.querySelectorAll('.dash-num');
+        let dashDone = false;
+        /* card entrance observer */
+        const dashCardIO = new IntersectionObserver(es => {
+          es.forEach(e => {
+            if (e.isIntersecting) {
+              dashMock.classList.add('on');
+              dashCardIO.unobserve(dashMock);
+            }
+          });
+        }, { threshold: .2 });
+        dashCardIO.observe(dashMock);
+        /* count-up observer */
+        const dashCountIO = new IntersectionObserver(es => {
+          es.forEach(e => {
+            if (e.isIntersecting && !dashDone) {
+              dashDone = true;
+              dashCountIO.unobserve(dashMock);
+              if (rm) {
+                dashNums.forEach(el => {
+                  const v = parseFloat(el.dataset.to);
+                  const dec = parseInt(el.dataset.dec || '0');
+                  el.textContent = dec > 0 ? v.toFixed(dec) : v + (el.dataset.suffix || '');
+                });
+                dashMock.classList.add('counted');
+                return;
+              }
+              dashNums.forEach(el => {
+                const target = parseFloat(el.dataset.to);
+                const dur = parseInt(el.dataset.dur);
+                const delay = parseInt(el.dataset.delay);
+                const suffix = el.dataset.suffix || '';
+                const dec = parseInt(el.dataset.dec || '0');
+                setTimeout(() => {
+                  let t0 = null;
+                  const tick = ts => {
+                    if (!t0) t0 = ts;
+                    const p = Math.min((ts - t0) / dur, 1);
+                    const ease = 1 - Math.pow(1 - p, 3);
+                    const v = ease * target;
+                    el.textContent = dec > 0 ? v.toFixed(dec) : Math.round(v) + (p >= 1 ? suffix : '');
+                    if (p < 1) requestAnimationFrame(tick);
+                    else {
+                      el.textContent = dec > 0 ? target.toFixed(dec) : target + suffix;
+                    }
+                  };
+                  requestAnimationFrame(tick);
+                }, delay);
+              });
+              /* show trends after longest count finishes */
+              const maxTime = Math.max(...Array.from(dashNums).map(el => parseInt(el.dataset.dur) + parseInt(el.dataset.delay)));
+              setTimeout(() => dashMock.classList.add('counted'), maxTime + 100);
+            }
+          });
+        }, { threshold: .4 });
+        dashCountIO.observe(dashMock);
       }
 
       /* ROI COUNT-UP */
