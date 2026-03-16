@@ -908,14 +908,14 @@
     .pt-bar-fill{height:100%;width:0;background:var(--blue);border-radius:1px;transition:width .1s linear}
 
     /* Right: step content */
-    .pt-content{position:relative;min-height:280px}
+    .pt-content{position:relative;min-height:280px;overflow:hidden}
     .pt-item{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;opacity:0;transform:translateX(30px);pointer-events:none;transition:opacity .3s ease,transform .3s ease}
     .pt-item.lit{opacity:1;transform:none;pointer-events:auto;position:relative}
     .pt-item.exit{opacity:0;transform:translateX(-30px)}
     .pt-badge{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--blue);margin-bottom:12px}
     .pt-item h3{font-size:clamp(22px,2.2vw,28px);margin-bottom:14px}
     .pt-item p{font-size:16px;max-width:44ch;line-height:1.65}
-    .pt-card{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:48px 44px;box-shadow:var(--shadow-md)}
+    .pt-card{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:48px 44px;box-shadow:var(--shadow-md);overflow:hidden}
 
     /* ── ROI ── */
     .roi-g {
@@ -1132,6 +1132,22 @@
       margin-bottom: 4px
     }
 
+    /* ── BEHAVIORAL 2-COL + CUBE ── */
+    .beh-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+    .cube-wrap{display:flex;flex-direction:column;align-items:center;justify-self:end;padding-left:40px}
+    .cube-scene{width:240px;height:240px;perspective:600px;cursor:grab;user-select:none;position:relative;z-index:1}
+    .cube-scene:active{cursor:grabbing}
+    .cube{width:100%;height:100%;position:relative;transform-style:preserve-3d;will-change:transform}
+    .cube-face{position:absolute;width:240px;height:240px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:20px;box-sizing:border-box;border-radius:12px;border:1.5px solid rgba(92,238,199,.3);background:#ffffff;-webkit-backface-visibility:hidden;backface-visibility:hidden}
+    .cube-face.active{border-color:rgba(92,238,199,.8);background:#f0fdf9}
+    .face-front{transform:translateZ(120px)}.face-back{transform:rotateY(180deg) translateZ(120px)}.face-right{transform:rotateY(90deg) translateZ(120px)}.face-left{transform:rotateY(-90deg) translateZ(120px)}.face-top{transform:rotateX(90deg) translateZ(120px)}.face-bottom{transform:rotateX(-90deg) translateZ(120px)}
+    .face-trigger{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:#888;font-family:var(--mono)}
+    .face-arrow{font-size:20px;color:var(--blue);font-weight:500}
+    .face-response{font-size:13px;font-weight:600;color:var(--ink);text-align:center;line-height:1.4}
+    .face-label{font-size:10px;color:var(--blue);letter-spacing:.1em;text-transform:uppercase;font-family:var(--mono)}
+    .cube-hint{position:relative;z-index:2;text-align:center;font-size:11px;color:#aaa;letter-spacing:.08em;margin-top:20px;font-family:var(--mono);pointer-events:none}
+    #behavioral{padding-bottom:80px}
+
     /* ── CHECKLIST ── */
     .chl-g {
       display: grid;
@@ -1200,31 +1216,45 @@
       background: var(--bsoft)
     }
 
-    /* ── CRISIS NODE MAP ── */
-    .node-map-wrap {
+    /* ── CRISIS CIRCUIT BOARD ── */
+    .circuit-wrap {
       margin: 52px auto 0;
-      max-width: 700px;
-      display: flex;
-      justify-content: center
+      max-width: 580px
     }
-
-    .node-svg {
+    .circuit-svg {
       width: 100%;
-      max-width: 700px;
       overflow: visible
     }
-
-    .node-svg .nm-base {
-      stroke: var(--line);
-      fill: var(--off)
+    .circuit-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 40px
     }
-
-    .node-svg .nm-label {
-      fill: var(--sub)
+    .cc-card {
+      background: #fff;
+      border: 1px solid rgba(92,238,199,.2);
+      border-radius: 10px;
+      padding: 16px
     }
-
-    .node-svg .nm-sublabel {
-      fill: var(--ghost)
+    .cc-label {
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 6px
+    }
+    .cc-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 4px
+    }
+    .cc-desc {
+      font-size: 11px;
+      color: #888;
+      line-height: 1.5
     }
 
     /* ── KIT ── */
@@ -1952,6 +1982,8 @@
 
     @media(max-width:600px) {
 
+      .circuit-cards{grid-template-columns:1fr;gap:10px}
+
       .W,
       .S,
       #hero,
@@ -2035,6 +2067,12 @@
         flex-wrap: wrap
       }
 
+      .beh-grid{grid-template-columns:1fr;text-align:center}
+      .beh-grid>div:first-child{order:2}
+      .beh-grid .cube-wrap{order:1}
+      .cube-scene{width:200px;height:200px}
+      .cube-face{width:200px;height:200px}
+      .face-front{transform:translateZ(100px)}.face-back{transform:rotateY(180deg) translateZ(100px)}.face-right{transform:rotateY(90deg) translateZ(100px)}.face-left{transform:rotateY(-90deg) translateZ(100px)}.face-top{transform:rotateX(90deg) translateZ(100px)}.face-bottom{transform:rotateX(-90deg) translateZ(100px)}
       .beh-chip {
         flex-direction: column;
         max-width: 300px
@@ -2677,18 +2715,63 @@
     <!-- § 8 BEHAVIORAL SCIENCE -->
     <section class="S" id="behavioral" aria-labelledby="beh-h2">
       <div class="W">
-        <div style="max-width:640px">
-          <span class="mono-label fu">The Mechanism</span>
-          <h2 id="beh-h2" class="fu d1">If&#8209;then plans, operationalized.</h2>
-          <p class="fu d2" style="margin-top:16px">Implementation intentions — pre-deciding "if X happens, I will do Y"
-            — show medium-to-large effects on goal attainment. The protocol converts this logic into a workplace
-            micro-behavior.<sup>2</sup></p>
-          <div class="beh-chip fu d3" role="img" aria-label="If signal observed then script activates">
-            <div class="ch-if"><small>Trigger</small>If [signal observed]</div>
-            <div class="ch-arr" aria-hidden="true">→</div>
-            <div class="ch-then"><small>Response</small>Script activates</div>
+        <div class="beh-grid">
+          <div>
+            <span class="mono-label fu">The Mechanism</span>
+            <h2 id="beh-h2" class="fu d1">If&#8209;then plans, operationalized.</h2>
+            <p class="fu d2" style="margin-top:16px">Implementation intentions — pre-deciding "if X happens, I will do Y"
+              — show medium-to-large effects on goal attainment. The protocol converts this logic into a workplace
+              micro-behavior.<sup>2</sup></p>
+            <div class="beh-chip fu d3" role="img" aria-label="If signal observed then script activates">
+              <div class="ch-if"><small>Trigger</small>If [signal observed]</div>
+              <div class="ch-arr" aria-hidden="true">→</div>
+              <div class="ch-then"><small>Response</small>Script activates</div>
+            </div>
+            <p class="fn fu d3">² Gollwitzer &amp; Sheeran meta-analysis of implementation intentions.</p>
           </div>
-          <p class="fn fu d3">² Gollwitzer &amp; Sheeran meta-analysis of implementation intentions.</p>
+          <div class="cube-wrap">
+            <div class="cube-scene" id="cube-scene">
+              <div class="cube" id="if-then-cube">
+                <div class="cube-face face-front active">
+                  <span class="face-trigger">Trigger</span>
+                  <span class="face-arrow">→</span>
+                  <span class="face-response">Signal observed</span>
+                  <span class="face-label">Script activates</span>
+                </div>
+                <div class="cube-face face-back">
+                  <span class="face-trigger">Trigger</span>
+                  <span class="face-arrow">→</span>
+                  <span class="face-response">Withdrawal noticed</span>
+                  <span class="face-label">Check in now</span>
+                </div>
+                <div class="cube-face face-right">
+                  <span class="face-trigger">Trigger</span>
+                  <span class="face-arrow">→</span>
+                  <span class="face-response">Tone shift detected</span>
+                  <span class="face-label">Route to manager</span>
+                </div>
+                <div class="cube-face face-left">
+                  <span class="face-trigger">Trigger</span>
+                  <span class="face-arrow">→</span>
+                  <span class="face-response">Pattern break seen</span>
+                  <span class="face-label">Open the door</span>
+                </div>
+                <div class="cube-face face-top">
+                  <span class="face-trigger">Trigger</span>
+                  <span class="face-arrow">→</span>
+                  <span class="face-response">Gesture shown</span>
+                  <span class="face-label">30-sec check-in</span>
+                </div>
+                <div class="cube-face face-bottom">
+                  <span class="face-trigger">Trigger</span>
+                  <span class="face-arrow">→</span>
+                  <span class="face-response">Crisis signal</span>
+                  <span class="face-label">Route to EAP / 988</span>
+                </div>
+              </div>
+            </div>
+            <p class="cube-hint">drag to rotate</p>
+          </div>
         </div>
       </div>
     </section>
@@ -2702,83 +2785,102 @@
           call helped and many reported it prevented self-harm. Routing is a safety system, not a slogan.<sup>4</sup>
         </p>
 
-        <div class="node-map-wrap fu d2" role="img"
-          aria-label="Route map: Observer detects, Protocol routes to Manager, EAP, 988 Crisis Line, and Local Services">
-          <svg id="nm-svg" class="node-svg" viewBox="0 0 700 290" fill="none" xmlns="http://www.w3.org/2000/svg"
+        <div class="circuit-wrap fu d2" role="img"
+          aria-label="Circuit board route map: Observer detects, Protocol routes to Manager, EAP, 988 Crisis Line, and Local Services">
+          <svg id="cb-svg" class="circuit-svg" viewBox="0 0 540 260" fill="none" xmlns="http://www.w3.org/2000/svg"
             aria-hidden="true">
+            <defs>
+              <filter id="glow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+            </defs>
 
-            <!-- CONNECTOR: Observer → Protocol (gray base + blue overlay) -->
-            <line x1="140" y1="145" x2="280" y2="145" stroke="var(--line)" stroke-width="1.2" />
-            <line id="nm-line-blue" x1="140" y1="145" x2="280" y2="145" stroke="var(--blue)" stroke-width="1.8"
-              stroke-dasharray="140" stroke-dashoffset="140" opacity="0" />
+            <!-- BACKGROUND GRID -->
+            <line x1="100" y1="0" x2="100" y2="260" stroke="#e8ede8" stroke-width=".5"/>
+            <line x1="200" y1="0" x2="200" y2="260" stroke="#e8ede8" stroke-width=".5"/>
+            <line x1="300" y1="0" x2="300" y2="260" stroke="#e8ede8" stroke-width=".5"/>
+            <line x1="400" y1="0" x2="400" y2="260" stroke="#e8ede8" stroke-width=".5"/>
+            <line x1="0" y1="60" x2="540" y2="60" stroke="#e8ede8" stroke-width=".5"/>
+            <line x1="0" y1="120" x2="540" y2="120" stroke="#e8ede8" stroke-width=".5"/>
+            <line x1="0" y1="180" x2="540" y2="180" stroke="#e8ede8" stroke-width=".5"/>
+            <line x1="0" y1="240" x2="540" y2="240" stroke="#e8ede8" stroke-width=".5"/>
 
-            <!-- BRANCH LINES: gray bases + blue overlays -->
-            <path id="nm-b1-base" d="M370,145 C430,145 460,50 540,50" stroke="var(--line)" stroke-width="1.2"
-              fill="none" />
-            <path id="nm-b1-blue" d="M370,145 C430,145 460,50 540,50" stroke="var(--blue)" stroke-width="1.8"
-              fill="none" stroke-dasharray="220" stroke-dashoffset="220" opacity="0" />
-            <path id="nm-b2-base" d="M370,145 C430,145 460,110 540,110" stroke="var(--line)" stroke-width="1.2"
-              fill="none" />
-            <path id="nm-b2-blue" d="M370,145 C430,145 460,110 540,110" stroke="var(--blue)" stroke-width="1.8"
-              fill="none" stroke-dasharray="220" stroke-dashoffset="220" opacity="0" />
-            <path id="nm-b3-base" d="M370,145 C430,145 460,175 540,175" stroke="var(--line)" stroke-width="1.2"
-              fill="none" />
-            <path id="nm-b3-blue" d="M370,145 C430,145 460,175 540,175" stroke="var(--blue)" stroke-width="1.8"
-              fill="none" stroke-dasharray="220" stroke-dashoffset="220" opacity="0" />
-            <path id="nm-b4-base" d="M370,145 C430,145 460,238 540,238" stroke="var(--line)" stroke-width="1.2"
-              fill="none" />
-            <path id="nm-b4-blue" d="M370,145 C430,145 460,238 540,238" stroke="var(--blue)" stroke-width="1.8"
-              fill="none" stroke-dasharray="220" stroke-dashoffset="220" opacity="0" />
+            <!-- CIRCUIT PATHS (base) -->
+            <polyline id="cb-p1" points="60,120 200,120 200,50 420,50" stroke="rgba(92,238,199,.18)" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
+            <polyline id="cb-p2" points="60,120 420,120" stroke="rgba(92,238,199,.18)" stroke-width="1.5" fill="none"/>
+            <polyline id="cb-p3" points="60,120 200,120 200,180 420,180" stroke="rgba(92,238,199,.18)" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
+            <polyline id="cb-p4" points="60,120 200,120 200,220 420,220" stroke="rgba(92,238,199,.18)" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
 
             <!-- NODE: Observer -->
-            <circle id="nm-obs-ring" cx="80" cy="145" r="52" class="nm-base" stroke-width="1.2" />
-            <text id="nm-obs-txt1" x="80" y="140" font-size="13" fill="#5A5A66" text-anchor="middle"
-              font-family="DM Sans,system-ui,sans-serif" font-weight="500">Observer</text>
-            <text id="nm-obs-txt2" x="80" y="158" font-size="10" fill="#9A9AA6" text-anchor="middle"
-              font-family="DM Mono,monospace">detects</text>
+            <rect id="cb-obs" x="10" y="100" width="50" height="40" rx="6" fill="#fff" stroke="rgba(92,238,199,.4)" stroke-width="1.5"/>
+            <rect id="cb-obs-glow" x="10" y="100" width="50" height="40" rx="6" fill="rgba(92,238,199,.06)" stroke="#5ceec7" stroke-width="2" opacity="0"/>
+            <text x="35" y="117" font-size="10" fill="#5A5A66" text-anchor="middle" font-family="DM Mono,monospace" font-weight="600">OBS</text>
+            <text x="35" y="131" font-size="8" fill="#9A9AA6" text-anchor="middle" font-family="DM Mono,monospace">detects</text>
 
-            <!-- NODE: Protocol (gray base + blue overlay) -->
-            <circle id="nm-proto-ring" cx="325" cy="145" r="52" class="nm-base" stroke-width="1.2" />
-            <circle id="nm-proto-fill" cx="325" cy="145" r="52" stroke="var(--blue)" stroke-width="1.8"
-              fill="var(--bsoft)" opacity="0" />
-            <text id="nm-proto-txt1" x="325" y="140" font-size="13" fill="#9A9AA6" text-anchor="middle"
-              font-family="DM Sans,system-ui,sans-serif" font-weight="600">Protocol</text>
-            <text id="nm-proto-txt2" x="325" y="158" font-size="10" fill="#9A9AA6" text-anchor="middle"
-              font-family="DM Mono,monospace" opacity=".6">routes</text>
+            <!-- NODE: Protocol (IC chip style) -->
+            <rect id="cb-proto" x="175" y="100" width="65" height="40" rx="6" fill="#fff" stroke="rgba(92,238,199,.3)" stroke-width="1.5"/>
+            <rect id="cb-proto-glow" x="175" y="100" width="65" height="40" rx="6" fill="rgba(92,238,199,.06)" stroke="#5ceec7" stroke-width="2" opacity="0"/>
+            <!-- IC pins top -->
+            <line class="cb-pin" x1="192" y1="100" x2="192" y2="93" stroke="rgba(92,238,199,.3)" stroke-width="1"/>
+            <line class="cb-pin" x1="204" y1="100" x2="204" y2="93" stroke="rgba(92,238,199,.3)" stroke-width="1"/>
+            <line class="cb-pin" x1="216" y1="100" x2="216" y2="93" stroke="rgba(92,238,199,.3)" stroke-width="1"/>
+            <line class="cb-pin" x1="228" y1="100" x2="228" y2="93" stroke="rgba(92,238,199,.3)" stroke-width="1"/>
+            <!-- IC pins bottom -->
+            <line class="cb-pin" x1="192" y1="140" x2="192" y2="147" stroke="rgba(92,238,199,.3)" stroke-width="1"/>
+            <line class="cb-pin" x1="204" y1="140" x2="204" y2="147" stroke="rgba(92,238,199,.3)" stroke-width="1"/>
+            <line class="cb-pin" x1="216" y1="140" x2="216" y2="147" stroke="rgba(92,238,199,.3)" stroke-width="1"/>
+            <line class="cb-pin" x1="228" y1="140" x2="228" y2="147" stroke="rgba(92,238,199,.3)" stroke-width="1"/>
+            <text x="207" y="117" font-size="10" fill="#5A5A66" text-anchor="middle" font-family="DM Mono,monospace" font-weight="600">PROTO</text>
+            <text x="207" y="131" font-size="8" fill="#9A9AA6" text-anchor="middle" font-family="DM Mono,monospace">routes</text>
 
             <!-- DESTINATION: Manager -->
-            <circle id="nm-d1-ring" cx="605" cy="50" r="44" class="nm-base" stroke-width="1.2" />
-            <circle id="nm-d1-fill" cx="605" cy="50" r="44" stroke="var(--blue)" stroke-width="1.2" fill="var(--bsoft)"
-              opacity="0" />
-            <text id="nm-d1-txt" x="605" y="55" font-size="12" fill="#5A5A66" text-anchor="middle"
-              font-family="DM Sans,system-ui,sans-serif" font-weight="500">Manager</text>
+            <rect id="cb-d1" x="420" y="32" width="90" height="36" rx="6" fill="#fff" stroke="rgba(92,238,199,.25)" stroke-width="1.5"/>
+            <rect id="cb-d1-glow" x="420" y="32" width="90" height="36" rx="6" fill="rgba(92,238,199,.06)" stroke="#5ceec7" stroke-width="2" opacity="0"/>
+            <text x="465" y="55" font-size="11" fill="#5A5A66" text-anchor="middle" font-family="DM Sans,system-ui,sans-serif" font-weight="500">Manager</text>
 
             <!-- DESTINATION: EAP -->
-            <circle id="nm-d2-ring" cx="605" cy="110" r="34" class="nm-base" stroke-width="1.2" />
-            <circle id="nm-d2-fill" cx="605" cy="110" r="34" stroke="var(--blue)" stroke-width="1.2" fill="var(--bsoft)"
-              opacity="0" />
-            <text id="nm-d2-txt" x="605" y="114" font-size="12" fill="#5A5A66" text-anchor="middle"
-              font-family="DM Sans,system-ui,sans-serif" font-weight="500">EAP</text>
+            <rect id="cb-d2" x="420" y="102" width="90" height="36" rx="6" fill="#fff" stroke="rgba(92,238,199,.25)" stroke-width="1.5"/>
+            <rect id="cb-d2-glow" x="420" y="102" width="90" height="36" rx="6" fill="rgba(92,238,199,.06)" stroke="#5ceec7" stroke-width="2" opacity="0"/>
+            <text x="465" y="125" font-size="11" fill="#5A5A66" text-anchor="middle" font-family="DM Sans,system-ui,sans-serif" font-weight="500">EAP</text>
 
-            <!-- DESTINATION: 988 -->
-            <circle id="nm-d3-ring" cx="605" cy="175" r="34" class="nm-base" stroke-width="1.2" />
-            <circle id="nm-d3-fill" cx="605" cy="175" r="34" stroke="var(--blue)" stroke-width="1.2" fill="var(--bsoft)"
-              opacity="0" />
-            <text id="nm-d3-txt1" x="605" y="171" font-size="13" fill="#5A5A66" text-anchor="middle"
-              font-family="DM Sans,system-ui,sans-serif" font-weight="600">988</text>
-            <text id="nm-d3-txt2" x="605" y="186" font-size="9.5" fill="#9A9AA6" text-anchor="middle"
-              font-family="DM Mono,monospace" opacity=".6">Crisis Line</text>
+            <!-- DESTINATION: 988 Crisis -->
+            <rect id="cb-d3" x="420" y="162" width="90" height="36" rx="6" fill="#fff" stroke="rgba(92,238,199,.25)" stroke-width="1.5"/>
+            <rect id="cb-d3-glow" x="420" y="162" width="90" height="36" rx="6" fill="rgba(92,238,199,.06)" stroke="#5ceec7" stroke-width="2" opacity="0"/>
+            <text x="465" y="178" font-size="11" fill="#5A5A66" text-anchor="middle" font-family="DM Sans,system-ui,sans-serif" font-weight="600">988</text>
+            <text x="465" y="191" font-size="8" fill="#9A9AA6" text-anchor="middle" font-family="DM Mono,monospace">Crisis Line</text>
 
             <!-- DESTINATION: Local Services -->
-            <circle id="nm-d4-ring" cx="605" cy="238" r="44" class="nm-base" stroke-width="1.2" />
-            <circle id="nm-d4-fill" cx="605" cy="238" r="44" stroke="var(--blue)" stroke-width="1.2" fill="var(--bsoft)"
-              opacity="0" />
-            <text id="nm-d4-txt1" x="605" y="234" font-size="11.5" fill="#5A5A66" text-anchor="middle"
-              font-family="DM Sans,system-ui,sans-serif" font-weight="500">Local</text>
-            <text id="nm-d4-txt2" x="605" y="249" font-size="11.5" fill="#9A9AA6" text-anchor="middle"
-              font-family="DM Sans,system-ui,sans-serif">Services</text>
+            <rect id="cb-d4" x="420" y="202" width="90" height="36" rx="6" fill="#fff" stroke="rgba(92,238,199,.25)" stroke-width="1.5"/>
+            <rect id="cb-d4-glow" x="420" y="202" width="90" height="36" rx="6" fill="rgba(92,238,199,.06)" stroke="#5ceec7" stroke-width="2" opacity="0"/>
+            <text x="465" y="218" font-size="10" fill="#5A5A66" text-anchor="middle" font-family="DM Sans,system-ui,sans-serif" font-weight="500">Local</text>
+            <text x="465" y="231" font-size="10" fill="#9A9AA6" text-anchor="middle" font-family="DM Sans,system-ui,sans-serif">Services</text>
 
+            <!-- PULSE DOTS (animated via JS) -->
+            <circle id="cb-tail1" r="3" fill="#5ceec7" opacity="0"/>
+            <circle id="cb-tail2" r="3" fill="#5ceec7" opacity="0"/>
+            <circle id="cb-tail3" r="3" fill="#5ceec7" opacity="0"/>
+            <circle id="cb-tail4" r="3" fill="#5ceec7" opacity="0"/>
+            <circle id="cb-dot1" r="5" fill="#5ceec7" filter="url(#glow)" opacity="0"/>
+            <circle id="cb-dot2" r="5" fill="#5ceec7" filter="url(#glow)" opacity="0"/>
+            <circle id="cb-dot3" r="5" fill="#5ceec7" filter="url(#glow)" opacity="0"/>
+            <circle id="cb-dot4" r="5" fill="#5ceec7" filter="url(#glow)" opacity="0"/>
           </svg>
+
+          <div class="circuit-cards">
+            <div class="cc-card">
+              <div class="cc-label">Signal</div>
+              <div class="cc-title">Observer detects</div>
+              <div class="cc-desc">Withdrawal, tone shift, or gesture shown</div>
+            </div>
+            <div class="cc-card">
+              <div class="cc-label">Route</div>
+              <div class="cc-title">Protocol decides</div>
+              <div class="cc-desc">Decision tree — peer, manager, EAP, crisis</div>
+            </div>
+            <div class="cc-card">
+              <div class="cc-label">Connect</div>
+              <div class="cc-title">Help arrives</div>
+              <div class="cc-desc">Right support, every time</div>
+            </div>
+          </div>
         </div>
 
         <p class="fn fu d3">⁴ National Suicide Prevention Lifeline evaluation. Caller-reported outcomes.</p>
@@ -3653,125 +3755,227 @@
       }
     })();
 
-    /* ── CRISIS NODE MAP ANIMATION ── */
+    /* ── 3D CUBE — BEHAVIORAL SECTION ── */
+    (function(){
+      var scene=document.getElementById('cube-scene');
+      var cube=document.getElementById('if-then-cube');
+      if(!scene||!cube) return;
+
+      var rotX=-18,rotY=28,dragging=false,lastX=0,lastY=0,spinning=true;
+      var rm=matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+      function render(){
+        cube.style.transform='rotateX('+rotX+'deg) rotateY('+rotY+'deg)';
+      }
+      render();
+
+      if(!rm){
+        function autoSpin(){
+          if(!dragging&&spinning){rotY+=0.22;}
+          render();
+          requestAnimationFrame(autoSpin);
+        }
+        autoSpin();
+      }
+
+      scene.addEventListener('mousedown',function(e){
+        dragging=true;lastX=e.clientX;lastY=e.clientY;
+      });
+      window.addEventListener('mouseup',function(){dragging=false;});
+      window.addEventListener('mousemove',function(e){
+        if(!dragging)return;
+        rotY+=(e.clientX-lastX)*0.55;
+        rotX-=(e.clientY-lastY)*0.55;
+        rotX=Math.max(-80,Math.min(80,rotX));
+        lastX=e.clientX;lastY=e.clientY;
+        render();
+      });
+
+      scene.addEventListener('touchstart',function(e){
+        dragging=true;lastX=e.touches[0].clientX;lastY=e.touches[0].clientY;
+      },{passive:true});
+      window.addEventListener('touchend',function(){dragging=false;});
+      window.addEventListener('touchmove',function(e){
+        if(!dragging)return;
+        rotY+=(e.touches[0].clientX-lastX)*0.55;
+        rotX-=(e.touches[0].clientY-lastY)*0.55;
+        rotX=Math.max(-80,Math.min(80,rotX));
+        lastX=e.touches[0].clientX;lastY=e.touches[0].clientY;
+        render();
+      },{passive:true});
+
+      var behObs=new IntersectionObserver(function(entries){
+        spinning=entries[0].isIntersecting;
+      },{threshold:0.2});
+      behObs.observe(document.getElementById('behavioral'));
+    })();
+
+    /* ── CRISIS CIRCUIT BOARD ANIMATION ── */
     (function () {
-      const svg = document.getElementById('nm-svg');
+      var svg = document.getElementById('cb-svg');
       if (!svg) return;
-      const rm = matchMedia('(prefers-reduced-motion:reduce)').matches;
+      var rm = matchMedia('(prefers-reduced-motion:reduce)').matches;
 
-      /* helpers */
-      function el(id) { return document.getElementById(id); }
-      function op(id, v) { el(id).setAttribute('opacity', v); }
-      function dash(id, v) { el(id).style.strokeDashoffset = v; }
-      function col(id, attr, v) { el(id).setAttribute(attr, v); }
+      /* cache refs */
+      function g(id) { return document.getElementById(id); }
+      var dots = [], tails = [], glows = [];
+      for (var i = 1; i <= 4; i++) {
+        dots.push(g('cb-dot' + i));
+        tails.push(g('cb-tail' + i));
+        glows.push(g('cb-d' + i + '-glow'));
+      }
+      var obsGlow = g('cb-obs-glow');
+      var protoGlow = g('cb-proto-glow');
+      var pins = svg.querySelectorAll('.cb-pin');
 
-      const BLUE = '#5ceec7';
-      const GRAY_TXT = '#5A5A66';
-      const GRAY_SUB = '#9A9AA6';
+      /* 4 angular paths (polyline coords) */
+      var paths = [
+        [[60,120],[200,120],[200,50],[420,50]],
+        [[60,120],[420,120]],
+        [[60,120],[200,120],[200,180],[420,180]],
+        [[60,120],[200,120],[200,220],[420,220]]
+      ];
 
-      /* static lit state for reduced-motion */
-      if (rm) {
-        op('nm-line-blue', 1); dash('nm-line-blue', 0);
-        op('nm-proto-fill', 1);
-        col('nm-proto-txt1', 'fill', BLUE); col('nm-proto-txt2', 'fill', BLUE);
-        ['1', '2', '3', '4'].forEach(function (n) {
-          op('nm-b' + n + '-blue', 1); dash('nm-b' + n + '-blue', 0);
-          op('nm-d' + n + '-fill', 1);
-        });
-        col('nm-d1-txt', 'fill', BLUE);
-        col('nm-d2-txt', 'fill', BLUE);
-        col('nm-d3-txt1', 'fill', BLUE); col('nm-d3-txt2', 'fill', BLUE);
-        col('nm-d4-txt1', 'fill', BLUE); col('nm-d4-txt2', 'fill', BLUE);
-        return;
+      /* travel along polyline */
+      function getPolyPoint(pts, progress) {
+        var segs = [], total = 0;
+        for (var i = 0; i < pts.length - 1; i++) {
+          var dx = pts[i+1][0] - pts[i][0], dy = pts[i+1][1] - pts[i][1];
+          var len = Math.sqrt(dx * dx + dy * dy);
+          segs.push({ fx: pts[i][0], fy: pts[i][1], tx: pts[i+1][0], ty: pts[i+1][1], len: len });
+          total += len;
+        }
+        var target = progress * total, acc = 0;
+        for (var i = 0; i < segs.length; i++) {
+          if (acc + segs[i].len >= target) {
+            var t = (target - acc) / segs[i].len;
+            return { x: segs[i].fx + (segs[i].tx - segs[i].fx) * t, y: segs[i].fy + (segs[i].ty - segs[i].fy) * t };
+          }
+          acc += segs[i].len;
+        }
+        var last = pts[pts.length - 1];
+        return { x: last[0], y: last[1] };
       }
 
       /* easing */
-      function ease(t) { return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t; }
+      function easeOut(t) { return 1 - (1 - t) * (1 - t) * (1 - t); }
+      function clamp01(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
       function lerp(a, b, t) { return a + (b - a) * t; }
 
-      /* phase durations */
-      var P1 = 900, P2 = 300, P3 = 800, P4 = 400, P5 = 600, P6 = 500, PW = 600;
-      var TOTAL = P1 + P2 + P3 + P4 + P5 + P6 + PW;
+      /* reduced-motion: show all glows static */
+      if (rm) {
+        obsGlow.setAttribute('opacity', '0.9');
+        protoGlow.setAttribute('opacity', '0.9');
+        for (var i = 0; i < 4; i++) glows[i].setAttribute('opacity', '0.9');
+        return;
+      }
 
-      var raf = null;
-      var startTime = null;
+      /* timing */
+      var durations = [1800, 1600, 1900, 2100];
+      var delays = [0, 400, 800, 1200];
+      var GLOW_IN = 500, GLOW_OUT = 700;
+      var HOLD = 800, FADE_OUT = 1000, PAUSE = 400;
+      /* last pulse arrives at: delays[3] + durations[3] = 1200+2100 = 3300 */
+      var TRAVEL_END = 3300;
+      var TOTAL = TRAVEL_END + GLOW_IN + HOLD + FADE_OUT + PAUSE; /* 3300+500+800+1000+400 = 6000 */
+
+      var raf = null, startTime = null;
+
+      function setPos(el, x, y) { el.setAttribute('cx', x); el.setAttribute('cy', y); }
 
       function resetAll() {
-        op('nm-line-blue', 0); dash('nm-line-blue', 140);
-        op('nm-proto-fill', 0);
-        col('nm-proto-txt1', 'fill', GRAY_SUB); col('nm-proto-txt2', 'fill', GRAY_SUB);
-        ['1', '2', '3', '4'].forEach(function (n) {
-          op('nm-b' + n + '-blue', 0); dash('nm-b' + n + '-blue', 220);
-          op('nm-d' + n + '-fill', 0);
-        });
-        col('nm-d1-txt', 'fill', GRAY_TXT);
-        col('nm-d2-txt', 'fill', GRAY_TXT);
-        col('nm-d3-txt1', 'fill', GRAY_TXT); col('nm-d3-txt2', 'fill', GRAY_SUB);
-        col('nm-d4-txt1', 'fill', GRAY_TXT); col('nm-d4-txt2', 'fill', GRAY_SUB);
+        obsGlow.setAttribute('opacity', '0');
+        protoGlow.setAttribute('opacity', '0');
+        for (var i = 0; i < 4; i++) {
+          dots[i].setAttribute('opacity', '0');
+          tails[i].setAttribute('opacity', '0');
+          glows[i].setAttribute('opacity', '0');
+        }
+        for (var j = 0; j < pins.length; j++) pins[j].setAttribute('stroke', 'rgba(92,238,199,.3)');
       }
 
       function frame(ts) {
         if (!startTime) startTime = ts;
-        var elapsed = (ts - startTime) % TOTAL;
-        var t, e;
+        var el = (ts - startTime) % TOTAL;
 
-        if (elapsed < P1) {
-          /* Phase 1: line travels Observer → Protocol */
-          t = elapsed / P1; e = ease(t);
-          op('nm-line-blue', lerp(0, 1, e));
-          dash('nm-line-blue', lerp(140, 0, e));
-        } else if (elapsed < P1 + P2) {
-          /* Phase 2: Protocol node lights up */
-          t = (elapsed - P1) / P2; e = ease(t);
-          op('nm-line-blue', 1); dash('nm-line-blue', 0);
-          op('nm-proto-fill', e);
-          col('nm-proto-txt1', 'fill', BLUE); col('nm-proto-txt2', 'fill', BLUE);
-        } else if (elapsed < P1 + P2 + P3) {
-          /* Phase 3: all 4 branches travel */
-          t = (elapsed - P1 - P2) / P3; e = ease(t);
-          op('nm-proto-fill', 1);
-          ['1', '2', '3', '4'].forEach(function (n) {
-            op('nm-b' + n + '-blue', lerp(0, 1, e));
-            dash('nm-b' + n + '-blue', lerp(220, 0, e));
-          });
-        } else if (elapsed < P1 + P2 + P3 + P4) {
-          /* Phase 4: destinations light up */
-          t = (elapsed - P1 - P2 - P3) / P4; e = ease(t);
-          ['1', '2', '3', '4'].forEach(function (n) {
-            op('nm-b' + n + '-blue', 1); dash('nm-b' + n + '-blue', 0);
-            op('nm-d' + n + '-fill', e);
-          });
-          op('nm-proto-fill', lerp(1, 0.5, e));
-          col('nm-d1-txt', 'fill', BLUE);
-          col('nm-d2-txt', 'fill', BLUE);
-          col('nm-d3-txt1', 'fill', BLUE); col('nm-d3-txt2', 'fill', BLUE);
-          col('nm-d4-txt1', 'fill', BLUE); col('nm-d4-txt2', 'fill', BLUE);
-        } else if (elapsed < P1 + P2 + P3 + P4 + P5) {
-          /* Phase 5: hold — everything stays lit */
-          op('nm-proto-fill', 0.5);
-          ['1', '2', '3', '4'].forEach(function (n) {
-            op('nm-b' + n + '-blue', 1); dash('nm-b' + n + '-blue', 0);
-            op('nm-d' + n + '-fill', 1);
-          });
-        } else if (elapsed < P1 + P2 + P3 + P4 + P5 + P6) {
-          /* Phase 6: fade out to gray */
-          t = (elapsed - P1 - P2 - P3 - P4 - P5) / P6; e = ease(t);
-          op('nm-line-blue', lerp(1, 0, e));
-          op('nm-proto-fill', lerp(0.5, 0, e));
-          ['1', '2', '3', '4'].forEach(function (n) {
-            op('nm-b' + n + '-blue', lerp(1, 0, e));
-            op('nm-d' + n + '-fill', lerp(1, 0, e));
-          });
-          if (e > 0.5) {
-            col('nm-proto-txt1', 'fill', GRAY_SUB); col('nm-proto-txt2', 'fill', GRAY_SUB);
-            col('nm-d1-txt', 'fill', GRAY_TXT);
-            col('nm-d2-txt', 'fill', GRAY_TXT);
-            col('nm-d3-txt1', 'fill', GRAY_TXT); col('nm-d3-txt2', 'fill', GRAY_SUB);
-            col('nm-d4-txt1', 'fill', GRAY_TXT); col('nm-d4-txt2', 'fill', GRAY_SUB);
+        /* ── Observer glow: pulse at start ── */
+        var obsT = clamp01(el / 300);
+        if (el < TRAVEL_END + GLOW_IN + HOLD) {
+          obsGlow.setAttribute('opacity', '' + lerp(0, 0.9, easeOut(obsT)));
+        }
+
+        /* ── Traveling pulse dots ── */
+        for (var i = 0; i < 4; i++) {
+          var tStart = delays[i];
+          var tEnd = tStart + durations[i];
+          var progress = clamp01((el - tStart) / durations[i]);
+
+          if (el >= tStart && el < tEnd) {
+            var ep = easeOut(progress);
+            var pos = getPolyPoint(paths[i], ep);
+            dots[i].setAttribute('opacity', '1');
+            setPos(dots[i], pos.x, pos.y);
+
+            /* tail follows behind */
+            var tailP = easeOut(clamp01((el - tStart - 80) / durations[i]));
+            var tPos = getPolyPoint(paths[i], tailP);
+            tails[i].setAttribute('opacity', '0.35');
+            setPos(tails[i], tPos.x, tPos.y);
+
+            /* Protocol glow pulse when dot passes through area x:175-240 */
+            if (pos.x >= 175 && pos.x <= 240 && Math.abs(pos.y - 120) < 25) {
+              protoGlow.setAttribute('opacity', '' + (0.8 * (1 - clamp01((pos.x - 175) / 65))));
+              for (var j = 0; j < pins.length; j++) pins[j].setAttribute('stroke', '#5ceec7');
+            }
+          } else if (el >= tEnd) {
+            /* dot arrived — hide dot, show glow */
+            dots[i].setAttribute('opacity', '0');
+            tails[i].setAttribute('opacity', '0');
+
+            var glowProgress = clamp01((el - tEnd) / GLOW_IN);
+            var glowVal = easeOut(glowProgress) * 0.9;
+            glows[i].setAttribute('opacity', '' + glowVal);
+          } else {
+            dots[i].setAttribute('opacity', '0');
+            tails[i].setAttribute('opacity', '0');
           }
-        } else {
-          /* Pause: reset state */
-          resetAll();
+        }
+
+        /* Protocol glow settles after all pulses pass */
+        if (el > TRAVEL_END && el < TRAVEL_END + GLOW_IN + HOLD) {
+          var protoSettleT = clamp01((el - TRAVEL_END) / 400);
+          protoGlow.setAttribute('opacity', '' + lerp(0.3, 0, easeOut(protoSettleT)));
+          for (var j = 0; j < pins.length; j++) {
+            pins[j].setAttribute('stroke', 'rgba(92,238,199,' + lerp(1, 0.3, easeOut(protoSettleT)) + ')');
+          }
+        }
+
+        /* ── Hold phase: all dest glows at 0.9 ── */
+        var holdStart = TRAVEL_END + GLOW_IN;
+        if (el >= holdStart && el < holdStart + HOLD) {
+          for (var i = 0; i < 4; i++) glows[i].setAttribute('opacity', '0.9');
+        }
+
+        /* ── Fade out cascade ── */
+        var fadeStart = holdStart + HOLD;
+        if (el >= fadeStart) {
+          var ft = el - fadeStart;
+
+          /* destinations fade: staggered reverse */
+          for (var i = 3; i >= 0; i--) {
+            var dOff = (3 - i) * 100;
+            var dT = clamp01((ft - dOff) / 250);
+            glows[i].setAttribute('opacity', '' + lerp(0.9, 0, easeOut(dT)));
+          }
+
+          /* observer fades */
+          var obFade = clamp01((ft - 200) / 300);
+          obsGlow.setAttribute('opacity', '' + lerp(0.9, 0, easeOut(obFade)));
+
+          /* protocol pins reset */
+          if (ft > 100) {
+            for (var j = 0; j < pins.length; j++) pins[j].setAttribute('stroke', 'rgba(92,238,199,.3)');
+          }
         }
 
         raf = requestAnimationFrame(frame);
@@ -3779,16 +3983,16 @@
 
       /* visibility-driven start/stop */
       resetAll();
-      var nmIO = new IntersectionObserver(function (es) {
+      var cbIO = new IntersectionObserver(function (es) {
         es.forEach(function (e) {
           if (e.isIntersecting) {
-            if (!raf) { startTime = null; raf = requestAnimationFrame(frame); }
+            if (!raf) { startTime = null; resetAll(); raf = requestAnimationFrame(frame); }
           } else {
             if (raf) { cancelAnimationFrame(raf); raf = null; }
           }
         });
       }, { threshold: 0.2 });
-      nmIO.observe(svg);
+      cbIO.observe(svg);
     })();
   </script>
 </body>
