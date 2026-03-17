@@ -290,17 +290,29 @@
         transform: none !important;
         transition: none !important
       }
+
+      #nav {
+        animation: none;
+        opacity: 1;
+        transform: none
+      }
     }
 
     /* ── NAV ── */
+    @keyframes navEntrance {
+      from { opacity: 0; transform: translateY(-8px) }
+      to   { opacity: 1; transform: translateY(0) }
+    }
+
     #nav {
       position: sticky;
       top: 0;
-      z-index: 300;
+      z-index: 1000;
       height: 64px;
       background: transparent;
       border-bottom: 1px solid transparent;
-      transition: background .3s, border-color .3s, box-shadow .3s, backdrop-filter .3s
+      transition: background .3s, border-color .3s, box-shadow .3s, backdrop-filter .3s;
+      animation: navEntrance 500ms cubic-bezier(.25,.1,.25,1) forwards
     }
 
     #nav.sc {
@@ -395,47 +407,80 @@
     }
 
     .mob {
-      display: none;
       position: fixed;
-      inset: 64px 0 0;
-      background: rgba(255, 255, 255, .97);
-      backdrop-filter: blur(28px);
-      z-index: 299;
-      padding: 36px;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: #ffffff;
+      z-index: 999;
+      display: flex;
       flex-direction: column;
-      gap: 2px
+      transform: translateY(-100%);
+      pointer-events: none;
+      transition: transform .35s cubic-bezier(.4,0,.2,1);
+      padding-top: 0
     }
 
     .mob.on {
+      transform: translateY(0);
+      pointer-events: auto
+    }
+
+    @media(prefers-reduced-motion:reduce) {
+      .mob { transition: none }
+    }
+
+    .mob-top {
       display: flex;
-      animation: sd .28s ease forwards
+      align-items: center;
+      justify-content: flex-end;
+      height: 64px;
+      padding: 0 20px;
+      border-bottom: 1px solid rgba(0,0,0,.06);
+      flex-shrink: 0
     }
 
-    @keyframes sd {
-      from {
-        opacity: 0;
-        transform: translateY(-10px)
-      }
-
-      to {
-        opacity: 1;
-        transform: none
-      }
+    .mob-close {
+      background: none;
+      border: none;
+      font-size: 28px;
+      color: var(--ink);
+      cursor: pointer;
+      padding: 8px;
+      line-height: 1
     }
 
-    .mob a {
-      font-family: var(--serif);
-      font-size: 26px;
-      font-weight: 300;
-      color: var(--sub);
-      padding: 12px 0;
-      border-bottom: 1px solid var(--line)
+    .mob-links {
+      display: flex;
+      flex-direction: column;
+      padding: 8px 0;
+      flex: 1
     }
 
-    .mob .gbtn {
-      margin-top: 24px;
+    .mob-links a {
       font-family: var(--sans);
-      align-self: flex-start
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--ink);
+      padding: 14px 24px;
+      min-height: 52px;
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid rgba(0,0,0,.06);
+      text-decoration: none
+    }
+
+    .mob-links .gbtn {
+      margin-top: 32px;
+      font-family: var(--sans);
+      font-size: 16px;
+      display: block;
+      text-align: center;
+      border: 1.5px solid var(--blue);
+      color: var(--blue);
+      padding: 16px;
+      border-radius: 999px;
+      background: none
     }
 
     /* ── HERO ── */
@@ -2068,8 +2113,8 @@
       }
 
       .beh-grid{grid-template-columns:1fr;text-align:center}
-      .beh-grid>div:first-child{order:2}
-      .beh-grid .cube-wrap{order:1}
+      .beh-grid>div:first-child{order:1}
+      .beh-grid .cube-wrap{order:2;margin-top:40px;padding-left:0;justify-self:center}
       .cube-scene{width:200px;height:200px}
       .cube-face{width:200px;height:200px}
       .face-front{transform:translateZ(100px)}.face-back{transform:rotateY(180deg) translateZ(100px)}.face-right{transform:rotateY(90deg) translateZ(100px)}.face-left{transform:rotateY(-90deg) translateZ(100px)}.face-top{transform:rotateX(90deg) translateZ(100px)}.face-bottom{transform:rotateX(-90deg) translateZ(100px)}
@@ -2336,12 +2381,17 @@
       </button>
     </div>
     <div class="mob" id="mob" role="menu">
-      <a href="#highlights">Overview</a>
-      <a href="#protocol">Protocol</a>
-      <a href="#roi">Evidence</a>
-      <a href="#governance">Governance</a>
-      <a href="#faq">FAQ</a>
-      <a href="#contact" class="gbtn">Request Brief</a>
+      <div class="mob-top">
+        <button class="mob-close" id="mob-close" aria-label="Close menu">&times;</button>
+      </div>
+      <div class="mob-links">
+        <a href="#highlights">Overview</a>
+        <a href="#protocol">Protocol</a>
+        <a href="#roi">Evidence</a>
+        <a href="#governance">Governance</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contact" class="gbtn">Request Brief</a>
+      </div>
     </div>
   </nav>
 
@@ -3244,19 +3294,36 @@
       addEventListener('scroll', () => nav.classList.toggle('sc', scrollY > 10), { passive: true });
       const burger = document.getElementById('burger');
       const mob = document.getElementById('mob');
-      burger.addEventListener('click', () => {
-        const o = mob.classList.toggle('on');
-        burger.setAttribute('aria-expanded', o);
+      const mobClose = document.getElementById('mob-close');
+
+      function openMob() {
+        mob.classList.add('on');
+        burger.setAttribute('aria-expanded', 'true');
+        document.body.style.overflow = 'hidden';
         const [a, b, c] = burger.querySelectorAll('span');
-        a.style.transform = o ? 'rotate(45deg) translate(5px,5px)' : '';
-        b.style.opacity = o ? '0' : '1';
-        c.style.transform = o ? 'rotate(-45deg) translate(5px,-5px)' : '';
-      });
-      mob.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+        a.style.transform = 'rotate(45deg) translate(5px,5px)';
+        b.style.opacity = '0';
+        c.style.transform = 'rotate(-45deg) translate(5px,-5px)';
+      }
+
+      function closeMob() {
         mob.classList.remove('on');
         burger.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
         burger.querySelectorAll('span').forEach(s => { s.style.transform = ''; s.style.opacity = '1'; });
-      }));
+      }
+
+      burger.addEventListener('click', () => {
+        mob.classList.contains('on') ? closeMob() : openMob();
+      });
+
+      mobClose.addEventListener('click', closeMob);
+
+      mob.querySelectorAll('.mob-links a').forEach(a => a.addEventListener('click', closeMob));
+
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape' && mob.classList.contains('on')) closeMob();
+      });
 
       /* SCROLL REVEAL */
       if (!rm) {
