@@ -23,6 +23,7 @@
       --ghost: #6E6E73;
       --line: #E9E9EF;
       --blue: #5ceec7;
+      --blue-text: #047857;
       --bsoft: #E8FBF4;
       --green: #1F8A5B;
       --warm: #FAF8F5;
@@ -133,7 +134,7 @@
 
     h1 em {
       font-style: italic;
-      color: var(--blue)
+      color: var(--blue-text)
     }
 
     h2 {
@@ -172,7 +173,7 @@
 
     sup {
       font-size: 10px;
-      color: var(--blue);
+      color: var(--blue-text);
       vertical-align: super;
       line-height: 0;
       font-weight: 600
@@ -188,7 +189,7 @@
       border-radius: var(--r-full);
       font-size: 14px;
       font-weight: 500;
-      color: var(--blue);
+      color: var(--blue-text);
       transition: background .16s, transform .16s;
       white-space: nowrap
     }
@@ -224,7 +225,7 @@
     }
 
     .tlink {
-      color: var(--blue);
+      color: var(--blue-text);
       font-size: 14px;
       font-weight: 500;
       border-bottom: 1px solid transparent;
@@ -232,7 +233,7 @@
     }
 
     .tlink:hover {
-      border-color: var(--blue)
+      border-color: var(--blue-text)
     }
 
     /* Animations */
@@ -394,8 +395,10 @@
       display: none;
       flex-direction: column;
       gap: 5px;
-      width: 28px;
-      padding: 3px
+      width: 44px;
+      height: 44px;
+      padding: 10px;
+      justify-content: center
     }
 
     .nav-bg span {
@@ -477,7 +480,7 @@
       display: block;
       text-align: center;
       border: 1.5px solid var(--blue);
-      color: var(--blue);
+      color: var(--blue-text);
       padding: 16px;
       border-radius: 999px;
       background: none
@@ -594,7 +597,7 @@
     }
 
     .hs-item.lit .hs-n {
-      color: var(--blue);
+      color: var(--blue-text);
       border-right-color: rgba(92, 238, 199, .15)
     }
 
@@ -616,7 +619,7 @@
     }
 
     .hs-item.lit .hs-name {
-      color: var(--blue)
+      color: var(--blue-text)
     }
 
     .hs-desc {
@@ -637,7 +640,7 @@
     }
 
     .hs-item.lit .hs-arr {
-      color: var(--blue)
+      color: var(--blue-text)
     }
 
     /* Progress bar at bottom of stack */
@@ -679,6 +682,7 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
+      position: relative;
       transition: background .18s, transform .18s
     }
 
@@ -686,8 +690,7 @@
       background: var(--mint-wash);
       transform: translateY(-3px);
       box-shadow: var(--shadow-md);
-      z-index: 1;
-      position: relative
+      z-index: 1
     }
 
     .hl-icon {
@@ -704,7 +707,7 @@
     }
 
     .hl-tiles .hl-t:nth-child(2) .hl-m {
-      color: var(--blue)
+      color: var(--blue-text)
     }
 
     .hl-lbl {
@@ -922,7 +925,7 @@
       font-weight: 500;
       letter-spacing: .08em;
       text-transform: uppercase;
-      color: var(--blue)
+      color: var(--blue-text)
     }
 
     .cat-card h3 {
@@ -944,11 +947,11 @@
     /* Left: step nav */
     .pt-viz{display:flex;flex-direction:column;gap:6px}
     .pt-layer{display:flex;align-items:center;gap:14px;padding:16px 22px;border:1px solid var(--line);border-radius:var(--r-md);cursor:pointer;transition:all .3s cubic-bezier(.25,.1,.25,1);opacity:.4}
-    .pt-layer.lit{border-color:var(--blue);background:var(--bsoft);opacity:1;box-shadow:var(--shadow-blue)}
+    .pt-layer.lit{border-color:var(--blue-text);background:var(--bsoft);opacity:1;box-shadow:var(--shadow-blue)}
     .pt-num{font-family:var(--mono);font-size:12px;font-weight:600;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--line);color:var(--ghost);transition:all .3s}
     .pt-layer.lit .pt-num{background:var(--blue);color:var(--ink)}
     .pt-lbl{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--ink);transition:color .3s}
-    .pt-layer.lit .pt-lbl{color:var(--blue)}
+    .pt-layer.lit .pt-lbl{color:var(--blue-text)}
     .pt-bar{flex:1;height:2px;background:var(--line);border-radius:1px;overflow:hidden}
     .pt-bar-fill{height:100%;width:0;background:var(--blue);border-radius:1px;transition:width .1s linear}
 
@@ -957,10 +960,24 @@
     .pt-item{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;opacity:0;transform:translateX(30px);pointer-events:none;transition:opacity .3s ease,transform .3s ease}
     .pt-item.lit{opacity:1;transform:none;pointer-events:auto;position:relative}
     .pt-item.exit{opacity:0;transform:translateX(-30px)}
-    .pt-badge{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--blue);margin-bottom:12px}
+    .pt-badge{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--blue-text);margin-bottom:12px}
     .pt-item h3{font-size:clamp(22px,2.2vw,28px);margin-bottom:14px}
     .pt-item p{font-size:16px;max-width:44ch;line-height:1.65}
     .pt-card{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:48px 44px;box-shadow:var(--shadow-md);overflow:hidden}
+
+    /* Protocol entrance animation */
+    .pt-enter .pt-head{opacity:0;transform:translateY(12px);transition:opacity .6s cubic-bezier(.25,.1,.25,1),transform .6s cubic-bezier(.25,.1,.25,1)}
+    .pt-enter .pt-layer{opacity:0;transform:translateY(8px);transition:opacity .5s cubic-bezier(.25,.1,.25,1),transform .5s cubic-bezier(.25,.1,.25,1)}
+    .pt-enter .pt-content{opacity:0;transform:translateY(12px);transition:opacity .6s cubic-bezier(.25,.1,.25,1) .15s,transform .6s cubic-bezier(.25,.1,.25,1) .15s}
+    .pt-enter .pt-layer:nth-child(1){transition-delay:0s}
+    .pt-enter .pt-layer:nth-child(2){transition-delay:.1s}
+    .pt-enter .pt-layer:nth-child(3){transition-delay:.2s}
+    .pt-enter .pt-layer:nth-child(4){transition-delay:.3s}
+    .pt-entered .pt-head{opacity:1;transform:none}
+    .pt-entered .pt-layer{transform:none}
+    .pt-entered .pt-layer.lit{opacity:1}
+    .pt-entered .pt-layer:not(.lit){opacity:.4}
+    .pt-entered .pt-content{opacity:1;transform:none}
 
     /* ── ROI ── */
     .roi-g {
@@ -976,7 +993,7 @@
       font-weight: 600;
       letter-spacing: -.05em;
       line-height: .88;
-      color: var(--blue);
+      color: var(--blue-text);
       display: block
     }
 
@@ -1113,7 +1130,7 @@
     }
 
     .gap-col:nth-child(2) .gap-pct {
-      color: var(--blue)
+      color: var(--blue-text)
     }
 
     .gap-lbl {
@@ -1156,14 +1173,14 @@
       justify-content: center;
       width: 44px;
       background: var(--bsoft);
-      color: var(--blue);
+      color: var(--blue-text);
       font-size: 18px
     }
 
     .ch-then {
       padding: 18px 24px;
       background: var(--bsoft);
-      color: var(--blue);
+      color: var(--blue-text);
       font-weight: 500
     }
 
@@ -1172,7 +1189,7 @@
       font-size: 9px;
       letter-spacing: .08em;
       text-transform: uppercase;
-      color: var(--blue);
+      color: var(--blue-text);
       opacity: .7;
       margin-bottom: 4px
     }
@@ -1187,79 +1204,11 @@
     .cube-face.active{border-color:rgba(92,238,199,.8);background:#f0fdf9}
     .face-front{transform:translateZ(120px)}.face-back{transform:rotateY(180deg) translateZ(120px)}.face-right{transform:rotateY(90deg) translateZ(120px)}.face-left{transform:rotateY(-90deg) translateZ(120px)}.face-top{transform:rotateX(90deg) translateZ(120px)}.face-bottom{transform:rotateX(-90deg) translateZ(120px)}
     .face-trigger{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:#888;font-family:var(--mono)}
-    .face-arrow{font-size:20px;color:var(--blue);font-weight:500}
+    .face-arrow{font-size:20px;color:var(--blue-text);font-weight:500}
     .face-response{font-size:13px;font-weight:600;color:var(--ink);text-align:center;line-height:1.4}
-    .face-label{font-size:10px;color:var(--blue);letter-spacing:.1em;text-transform:uppercase;font-family:var(--mono)}
+    .face-label{font-size:10px;color:var(--blue-text);letter-spacing:.1em;text-transform:uppercase;font-family:var(--mono)}
     .cube-hint{position:relative;z-index:2;text-align:center;font-size:11px;color:#aaa;letter-spacing:.08em;margin-top:20px;font-family:var(--mono);pointer-events:none}
     #behavioral{padding-bottom:80px}
-
-    /* ── CHECKLIST ── */
-    .chl-g {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      align-items: center
-    }
-
-    .chl-box {
-      border: 1px solid var(--line);
-      border-radius: var(--r);
-      padding: 40px;
-      background: var(--off);
-      display: flex;
-      align-items: center;
-      gap: 36px
-    }
-
-    .chl-items {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      flex: 1
-    }
-
-    .chl-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 15px;
-      color: var(--sub)
-    }
-
-    .chl-ck {
-      width: 18px;
-      height: 18px;
-      border-radius: 4px;
-      background: var(--green);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0
-    }
-
-    .chl-arrow {
-      font-size: 22px;
-      color: var(--ghost)
-    }
-
-    .proto-mini {
-      display: flex;
-      flex-direction: column;
-      gap: 4px
-    }
-
-    .pm-item {
-      font-family: var(--mono);
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: .05em;
-      text-transform: uppercase;
-      color: var(--blue);
-      padding: 7px 12px;
-      border: 1px solid rgba(92, 238, 199, .25);
-      border-radius: 8px;
-      background: var(--bsoft)
-    }
 
     /* ── CRISIS CIRCUIT BOARD ── */
     .circuit-wrap {
@@ -1287,7 +1236,7 @@
       font-size: 9px;
       letter-spacing: .12em;
       text-transform: uppercase;
-      color: var(--blue);
+      color: var(--blue-text);
       margin-bottom: 6px
     }
     .cc-title {
@@ -1405,7 +1354,7 @@
 
     .tl-node:hover .tl-dot,
     .tl-node.lit .tl-dot {
-      border-color: var(--blue);
+      border-color: var(--blue-text);
       background: var(--blue);
       color: #fff
     }
@@ -1414,7 +1363,7 @@
       font-family: var(--mono);
       font-size: 10px;
       font-weight: 600;
-      color: var(--blue);
+      color: var(--blue-text);
       letter-spacing: .04em;
       text-transform: uppercase
     }
@@ -1505,7 +1454,7 @@
     }
 
     .dash-tiles .dash-t:nth-child(3) .dash-val {
-      color: var(--blue)
+      color: var(--blue-text)
     }
 
     .dash-trend {
@@ -1592,7 +1541,7 @@
       font-family: var(--mono);
       font-size: 13px;
       font-weight: 500;
-      color: var(--blue);
+      color: var(--blue-text);
       border-right: 1px solid var(--line)
     }
 
@@ -1613,6 +1562,72 @@
       font-size: 14px;
       color: var(--sub)
     }
+
+    /* ── GOV WIDGET ── */
+    .gw-steps{margin-top:28px;padding-top:20px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:4px}
+    .gw-step{display:flex;gap:12px;padding:10px 0;cursor:pointer;align-items:flex-start;position:relative;overflow:hidden}
+    .gw-dot{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:9px;font-weight:600;color:var(--ghost);flex-shrink:0;transition:all .25s}
+    .gw-step.active .gw-dot{background:var(--blue);border-color:var(--blue);color:#fff}
+    .gw-step.done .gw-dot{background:var(--blue);border-color:var(--blue);color:#fff}
+    .gw-step-text{display:flex;flex-direction:column;gap:1px}
+    .gw-step-title{font-size:14px;font-weight:500;color:var(--ink);transition:color .2s}
+    .gw-step.active .gw-step-title{color:var(--blue-text)}
+    .gw-step-sub{font-size:13px;color:var(--ghost)}
+    .gw-step-bar{position:absolute;bottom:0;left:0;height:2px;width:0;background:var(--blue)}
+    .gw-step-bar.running{animation:gwBarFill 4s linear forwards}
+    @keyframes gwBarFill{from{width:0}to{width:100%}}
+
+    .gw-card{background:var(--bg);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden}
+    .gw-card-head{height:56px;border-bottom:1px solid var(--line);padding:0 24px;display:flex;align-items:center;justify-content:space-between}
+    .gw-card-title{font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:.04em;color:var(--ink)}
+    .gw-badge{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:6px}
+    .gw-badge.draft{background:var(--off);color:var(--ghost)}
+    .gw-badge.review{background:#FFF8E1;color:#8B6914}
+    .gw-badge.approved{background:var(--bsoft);color:var(--blue-text)}
+    .gw-badge.published{background:var(--bsoft);color:var(--blue-text)}
+    .gw-card-body{padding:24px;min-height:280px;position:relative}
+
+    .gw-panel{display:none;opacity:0;transform:translateY(8px)}
+    .gw-panel.active{display:block;animation:gwIn .35s cubic-bezier(.25,.1,.25,1) forwards}
+    @keyframes gwIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+    .gw-field{margin-bottom:16px}
+    .gw-field-label{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ghost);margin-bottom:6px}
+    .gw-field-val{font-size:12px;color:var(--sub);padding:8px 10px;background:var(--off);border-radius:8px;line-height:1.6}
+    .gw-field-val strong{font-weight:600;color:var(--ink)}
+    .gw-typewriter{border-right:2px solid var(--blue);padding-right:2px;animation:gwBlink .6s step-end infinite}
+    @keyframes gwBlink{50%{border-color:transparent}}
+
+    .gw-progress-row{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;color:var(--ghost);margin-bottom:8px}
+    .gw-progress-track{height:4px;background:var(--line);border-radius:2px;overflow:hidden;margin-bottom:20px}
+    .gw-progress-fill{height:100%;background:var(--blue);border-radius:2px;width:0;transition:width 1.8s cubic-bezier(.25,.1,.25,1)}
+
+    .gw-comment{background:var(--off);border-radius:8px;padding:10px 12px;margin-bottom:10px;opacity:0;transform:translateY(6px);transition:opacity .4s ease,transform .4s ease}
+    .gw-comment.show{opacity:1;transform:none}
+    .gw-comment-head{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+    .gw-avatar{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:#fff;flex-shrink:0}
+    .gw-comment-author{font-size:12px;font-weight:500;color:var(--ink)}
+    .gw-comment-date{font-family:var(--mono);font-size:10px;color:var(--ghost);margin-left:auto}
+    .gw-comment-body{font-size:12px;color:var(--sub);line-height:1.55}
+
+    .gw-vote-header{font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--ghost);margin-bottom:14px}
+    .gw-vote-row{background:var(--off);border-radius:6px;padding:8px 12px;display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;opacity:0;transform:translateY(6px);transition:opacity .35s ease,transform .35s ease}
+    .gw-vote-row.show{opacity:1;transform:none}
+    .gw-vote-name{font-size:12px;font-weight:500;color:var(--ink)}
+    .gw-vote-badge{font-size:11px;font-weight:500;padding:2px 8px;border-radius:4px}
+    .gw-vote-badge.yes{background:var(--bsoft);color:var(--blue-text)}
+    .gw-vote-badge.abstain{background:var(--off);color:var(--ghost)}
+    .gw-result{background:var(--bsoft);color:var(--blue-text);font-size:12px;font-weight:500;padding:10px 12px;border-radius:6px;margin-top:10px;opacity:0;transition:opacity .4s ease .96s}
+    .gw-result.show{opacity:1}
+
+    .gw-pub-new{border-left:2.5px solid var(--blue);background:rgba(92,238,199,.04);border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:16px;opacity:0;transform:translateX(-12px);transition:opacity .4s ease .12s,transform .4s ease .12s}
+    .gw-pub-new.show{opacity:1;transform:none}
+    .gw-pub-label{font-family:var(--mono);font-size:10px;font-weight:600;color:var(--blue-text);letter-spacing:.06em;margin-bottom:4px}
+    .gw-pub-title{font-size:13px;font-weight:500;color:var(--ink);margin-bottom:2px}
+    .gw-pub-sub{font-size:11px;color:var(--ghost)}
+
+    @media(max-width:960px){.gw-steps{flex-direction:row;gap:8px}.gw-step{flex-direction:column;align-items:center;text-align:center;flex:1;gap:6px}.gw-step-sub{display:none}}
+    @media(prefers-reduced-motion:reduce){.gw-panel.active{animation:none;opacity:1;transform:none}.gw-comment,.gw-vote-row,.gw-pub-new{opacity:1;transform:none;transition:none}.gw-result{opacity:1;transition:none}.gw-typewriter{border-right:none;animation:none}.gw-step-bar,.gw-step-bar.running{animation:none !important;width:0 !important}}
 
     .cl-row:first-child .cl-n {
       color: var(--ink);
@@ -1721,7 +1736,7 @@
     }
 
     .faq-q:hover {
-      color: var(--blue)
+      color: var(--blue-text)
     }
 
     .faq-q:focus-visible {
@@ -1747,7 +1762,7 @@
 
     .faq-i.op .faq-ic {
       background: var(--blue);
-      border-color: var(--blue);
+      border-color: var(--blue-text);
       color: #fff;
       transform: rotate(45deg)
     }
@@ -1837,7 +1852,7 @@
     }
 
     .fld:focus-within label {
-      color: var(--blue)
+      color: var(--blue-text)
     }
 
     .fld input,
@@ -2108,10 +2123,6 @@
         gap: 20px
       }
 
-      .r-branches {
-        flex-wrap: wrap
-      }
-
       .beh-grid{grid-template-columns:1fr;text-align:center}
       .beh-grid>div:first-child{order:1}
       .beh-grid .cube-wrap{order:2;margin-top:40px;padding-left:0;justify-self:center}
@@ -2295,7 +2306,7 @@
 
     .kit-c:hover .kit-icon {
       transform: scale(1.15);
-      color: var(--blue)
+      color: var(--blue-text)
     }
 
     .val-c .val-icon {
@@ -2304,7 +2315,7 @@
 
     .val-c:hover .val-icon {
       transform: scale(1.15);
-      color: var(--blue)
+      color: var(--blue-text)
     }
 
     /* Category card hover reveal */
@@ -2313,7 +2324,7 @@
       display: block;
       font-size: 12px;
       font-family: var(--mono);
-      color: var(--blue);
+      color: var(--blue-text);
       letter-spacing: .03em;
       max-height: 0;
       overflow: hidden;
@@ -2355,6 +2366,7 @@
       background-clip: text;
       animation: shimmer 1.5s ease-in-out
     }
+
   </style>
 </head>
 
@@ -2365,7 +2377,7 @@
   <nav id="nav" role="navigation" aria-label="Main">
     <div class="nav-in">
       <a href="/" class="nav-logo" aria-label="butterfly.one">
-        <img class="nav-glyph" src="/logo.png" alt="Butterfly Protocol" loading="lazy">
+        <img class="nav-glyph" src="/logo.png" alt="Butterfly Protocol" width="28" height="28">
         <span class="nav-wm">butterfly.one</span>
       </a>
       <ul class="nav-ul" role="list">
@@ -2385,12 +2397,12 @@
         <button class="mob-close" id="mob-close" aria-label="Close menu">&times;</button>
       </div>
       <div class="mob-links">
-        <a href="#highlights">Overview</a>
-        <a href="#protocol">Protocol</a>
-        <a href="#roi">Evidence</a>
-        <a href="#governance">Governance</a>
-        <a href="#faq">FAQ</a>
-        <a href="#contact" class="gbtn">Request Brief</a>
+        <a href="#highlights" role="menuitem">Overview</a>
+        <a href="#protocol" role="menuitem">Protocol</a>
+        <a href="#roi" role="menuitem">Evidence</a>
+        <a href="#governance" role="menuitem">Governance</a>
+        <a href="#faq" role="menuitem">FAQ</a>
+        <a href="#contact" class="gbtn" role="menuitem">Request Brief</a>
       </div>
     </div>
   </nav>
@@ -2564,7 +2576,7 @@
             <p>Integrates with existing EAP infrastructure, crisis lines, and HR systems. Complements, not replaces.</p>
           </div>
         </div>
-        <div style="margin-top:32px" class="fu d3"><a href="#" class="tlink">Read Scope &amp; Definitions (PDF) →</a>
+        <div style="margin-top:32px" class="fu d3"><a href="#" class="tlink">Read Scope &amp; Definitions →</a>
         </div>
       </div>
     </section>
@@ -2719,7 +2731,7 @@
               </div>
               <div class="bc-item">
                 <div class="bc-meta"><span class="bc-lbl">Average return</span><span class="bc-val"
-                    style="color:var(--blue)">£4.70</span></div>
+                    style="color:var(--blue-text)">£4.70</span></div>
                 <div class="bc-track">
                   <div class="bc-fill b" data-w="94%"></div>
                 </div>
@@ -2837,7 +2849,7 @@
 
         <div class="circuit-wrap fu d2" role="img"
           aria-label="Circuit board route map: Observer detects, Protocol routes to Manager, EAP, 988 Crisis Line, and Local Services">
-          <svg id="cb-svg" class="circuit-svg" viewBox="0 0 540 260" fill="none" xmlns="http://www.w3.org/2000/svg"
+          <svg id="cb-svg" class="circuit-svg" viewBox="0 0 540 280" fill="none" xmlns="http://www.w3.org/2000/svg"
             aria-hidden="true">
             <defs>
               <filter id="glow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
@@ -2852,12 +2864,13 @@
             <line x1="0" y1="120" x2="540" y2="120" stroke="#e8ede8" stroke-width=".5"/>
             <line x1="0" y1="180" x2="540" y2="180" stroke="#e8ede8" stroke-width=".5"/>
             <line x1="0" y1="240" x2="540" y2="240" stroke="#e8ede8" stroke-width=".5"/>
+            <line x1="0" y1="270" x2="540" y2="270" stroke="#e8ede8" stroke-width=".5"/>
 
             <!-- CIRCUIT PATHS (base) -->
             <polyline id="cb-p1" points="60,120 200,120 200,50 420,50" stroke="rgba(92,238,199,.18)" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
             <polyline id="cb-p2" points="60,120 420,120" stroke="rgba(92,238,199,.18)" stroke-width="1.5" fill="none"/>
             <polyline id="cb-p3" points="60,120 200,120 200,180 420,180" stroke="rgba(92,238,199,.18)" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
-            <polyline id="cb-p4" points="60,120 200,120 200,220 420,220" stroke="rgba(92,238,199,.18)" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
+            <polyline id="cb-p4" points="60,120 200,120 200,240 420,240" stroke="rgba(92,238,199,.18)" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
 
             <!-- NODE: Observer -->
             <rect id="cb-obs" x="10" y="100" width="50" height="40" rx="6" fill="#fff" stroke="rgba(92,238,199,.4)" stroke-width="1.5"/>
@@ -2898,10 +2911,10 @@
             <text x="465" y="191" font-size="8" fill="#9A9AA6" text-anchor="middle" font-family="DM Mono,monospace">Crisis Line</text>
 
             <!-- DESTINATION: Local Services -->
-            <rect id="cb-d4" x="420" y="202" width="90" height="36" rx="6" fill="#fff" stroke="rgba(92,238,199,.25)" stroke-width="1.5"/>
-            <rect id="cb-d4-glow" x="420" y="202" width="90" height="36" rx="6" fill="rgba(92,238,199,.06)" stroke="#5ceec7" stroke-width="2" opacity="0"/>
-            <text x="465" y="218" font-size="10" fill="#5A5A66" text-anchor="middle" font-family="DM Sans,system-ui,sans-serif" font-weight="500">Local</text>
-            <text x="465" y="231" font-size="10" fill="#9A9AA6" text-anchor="middle" font-family="DM Sans,system-ui,sans-serif">Services</text>
+            <rect id="cb-d4" x="420" y="222" width="90" height="36" rx="6" fill="#fff" stroke="rgba(92,238,199,.25)" stroke-width="1.5"/>
+            <rect id="cb-d4-glow" x="420" y="222" width="90" height="36" rx="6" fill="rgba(92,238,199,.06)" stroke="#5ceec7" stroke-width="2" opacity="0"/>
+            <text x="465" y="238" font-size="10" fill="#5A5A66" text-anchor="middle" font-family="DM Sans,system-ui,sans-serif" font-weight="500">Local</text>
+            <text x="465" y="251" font-size="10" fill="#9A9AA6" text-anchor="middle" font-family="DM Sans,system-ui,sans-serif">Services</text>
 
             <!-- PULSE DOTS (animated via JS) -->
             <circle id="cb-tail1" r="3" fill="#5ceec7" opacity="0"/>
@@ -3052,7 +3065,7 @@
     <!-- § 15 GOVERNANCE -->
     <section class="S" id="governance" aria-labelledby="gov-h2" style="background:var(--slate)">
       <div class="W">
-        <div class="gov-g">
+        <div class="gov-g" id="gov-widget">
           <div class="fu">
             <span class="mono-label">Standard Governance</span>
             <h2 id="gov-h2">Versioned.<br>Governed.<br>Auditable.</h2>
@@ -3063,23 +3076,72 @@
               <a href="#" class="tlink">Change Control Policy →</a>
               <a href="#" class="tlink">Public Record →</a>
             </div>
+            <div class="gw-steps" id="gw-steps">
+              <div class="gw-step active" data-gw="0">
+                <div class="gw-dot">1</div>
+                <div class="gw-step-text"><span class="gw-step-title">Proposal submitted</span><span class="gw-step-sub">Change request with rationale</span></div>
+                <div class="gw-step-bar" id="gw-bar-0"></div>
+              </div>
+              <div class="gw-step" data-gw="1">
+                <div class="gw-dot">2</div>
+                <div class="gw-step-text"><span class="gw-step-title">60-day public comment</span><span class="gw-step-sub">Open for review and objections</span></div>
+                <div class="gw-step-bar" id="gw-bar-1"></div>
+              </div>
+              <div class="gw-step" data-gw="2">
+                <div class="gw-dot">3</div>
+                <div class="gw-step-text"><span class="gw-step-title">Board vote</span><span class="gw-step-sub">Independent approval required</span></div>
+                <div class="gw-step-bar" id="gw-bar-2"></div>
+              </div>
+              <div class="gw-step" data-gw="3">
+                <div class="gw-dot">4</div>
+                <div class="gw-step-text"><span class="gw-step-title">Published to record</span><span class="gw-step-sub">Permanent. Verifiable. Public.</span></div>
+                <div class="gw-step-bar" id="gw-bar-3"></div>
+              </div>
+            </div>
           </div>
           <div class="fu d1">
-            <div class="changelog" role="table" aria-label="Version history">
-              <div class="cl-row" role="row">
-                <div class="cl-v" role="cell">v1.0</div>
-                <div class="cl-d" role="cell">May 2026</div>
-                <div class="cl-n" role="cell">Initial publication. Effective date.</div>
+            <div class="gw-card" id="gw-card">
+              <div class="gw-card-head">
+                <span class="gw-card-title" id="gw-title">Change Proposal</span>
+                <span class="gw-badge draft" id="gw-badge">Draft</span>
               </div>
-              <div class="cl-row" role="row">
-                <div class="cl-v" role="cell">v0.9</div>
-                <div class="cl-d" role="cell">Feb 2026</div>
-                <div class="cl-n" role="cell">Draft under review.</div>
-              </div>
-              <div class="cl-row" role="row">
-                <div class="cl-v" role="cell">v0.8</div>
-                <div class="cl-d" role="cell">Dec 2025</div>
-                <div class="cl-n" role="cell">Working draft. Internal.</div>
+              <div class="gw-card-body">
+                <!-- Panel 1: Proposal -->
+                <div class="gw-panel active" id="gw-p0">
+                  <div class="gw-field"><div class="gw-field-label">Proposed Change</div><div class="gw-field-val"><span id="gw-tw"></span></div></div>
+                  <div class="gw-field"><div class="gw-field-label">Rationale</div><div class="gw-field-val">Implementation evidence from 3 deployments shows the ROUTE step needs a secondary escalation path for crisis situations outside business hours.</div></div>
+                  <div class="gw-field"><div class="gw-field-label">Proposed Version</div><div class="gw-field-val"><strong>v1.1</strong></div></div>
+                </div>
+                <!-- Panel 2: Comment Period -->
+                <div class="gw-panel" id="gw-p1">
+                  <div class="gw-progress-row"><span>Comment period</span><span id="gw-day">Day 0 of 60</span></div>
+                  <div class="gw-progress-track"><div class="gw-progress-fill" id="gw-bar"></div></div>
+                  <div class="gw-comment" id="gw-c1"><div class="gw-comment-head"><div class="gw-avatar" style="background:#4A7BF7">SH</div><span class="gw-comment-author">Sarah H. — HR Director</span><span class="gw-comment-date">Day 4</span></div><div class="gw-comment-body">Strongly support. After-hours routing gap has caused escalation delays in our org.</div></div>
+                  <div class="gw-comment" id="gw-c2"><div class="gw-comment-head"><div class="gw-avatar" style="background:#D4930A">MP</div><span class="gw-comment-author">M. Patel — Research</span><span class="gw-comment-date">Day 18</span></div><div class="gw-comment-body">Request clarification: does this affect the MEASURE schema for routing frequency metrics?</div></div>
+                  <div class="gw-comment" id="gw-c3"><div class="gw-comment-head"><div class="gw-avatar" style="background:var(--blue)">GC</div><span class="gw-comment-author">Gov. Committee</span><span class="gw-comment-date">Day 22</span></div><div class="gw-comment-body">Confirmed: MEASURE schema unchanged. Secondary routing logged under existing metric.</div></div>
+                </div>
+                <!-- Panel 3: Board Vote -->
+                <div class="gw-panel" id="gw-p2">
+                  <div class="gw-vote-header">Board Vote — v1.1 Change Proposal</div>
+                  <div class="gw-vote-row" id="gw-v1"><span class="gw-vote-name">Board Member 1</span><span class="gw-vote-badge yes">✓ In favour</span></div>
+                  <div class="gw-vote-row" id="gw-v2"><span class="gw-vote-name">Board Member 2</span><span class="gw-vote-badge yes">✓ In favour</span></div>
+                  <div class="gw-vote-row" id="gw-v3"><span class="gw-vote-name">Board Member 3</span><span class="gw-vote-badge yes">✓ In favour</span></div>
+                  <div class="gw-vote-row" id="gw-v4"><span class="gw-vote-name">Board Member 4</span><span class="gw-vote-badge abstain">Abstain</span></div>
+                  <div class="gw-result" id="gw-result">3–0 (1 abstention) — Change approved</div>
+                </div>
+                <!-- Panel 4: Published -->
+                <div class="gw-panel" id="gw-p3">
+                  <div class="gw-pub-new" id="gw-pub">
+                    <div class="gw-pub-label">↑ Just Published</div>
+                    <div class="gw-pub-title">v1.1 — Secondary after-hours routing path</div>
+                    <div class="gw-pub-sub">Effective immediately · One Humanity Foundation · 501(c)(3)</div>
+                  </div>
+                  <div class="changelog" role="table" aria-label="Version history">
+                    <div class="cl-row" role="row"><div class="cl-v" role="cell">v1.0</div><div class="cl-d" role="cell">May 2026</div><div class="cl-n" role="cell">Initial publication. Effective date.</div></div>
+                    <div class="cl-row" role="row"><div class="cl-v" role="cell">v0.9</div><div class="cl-d" role="cell">Feb 2026</div><div class="cl-n" role="cell">Draft under review.</div></div>
+                    <div class="cl-row" role="row"><div class="cl-v" role="cell">v0.8</div><div class="cl-d" role="cell">Dec 2025</div><div class="cl-n" role="cell">Working draft. Internal.</div></div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -3396,19 +3458,42 @@
         l.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') ptSet(i, 0); });
       });
       if (!rm && ptWrap) {
+        let ptTicking = false;
+        const ptDesktop = matchMedia('(min-width:961px)');
         addEventListener('scroll', () => {
-          const r = ptWrap.getBoundingClientRect();
-          const scrollable = r.height - innerHeight;
-          if (scrollable <= 0) return;
-          const progress = Math.max(0, Math.min(1, -r.top / scrollable));
-          const step = Math.min(3, Math.floor(progress * 4));
-          const stepProgress = (progress * 4) - step;
-          ptSet(step, Math.min(1, stepProgress));
+          if (!ptDesktop.matches || ptTicking) return;
+          ptTicking = true;
+          requestAnimationFrame(() => {
+            const r = ptWrap.getBoundingClientRect();
+            const scrollable = r.height - innerHeight;
+            if (scrollable > 0) {
+              const progress = Math.max(0, Math.min(1, -r.top / scrollable));
+              const step = Math.min(3, Math.floor(progress * 4));
+              const stepProgress = (progress * 4) - step;
+              ptSet(step, Math.min(1, stepProgress));
+            }
+            ptTicking = false;
+          });
         }, { passive: true });
       } else {
         /* reduced-motion: just show all lit */
         ptItems[0].classList.add('lit');
         ptLayers[0].classList.add('lit');
+      }
+
+      /* PROTOCOL ENTRANCE ANIMATION */
+      const ptPin = document.getElementById('protocol');
+      if (ptPin && !rm) {
+        ptPin.classList.add('pt-enter');
+        const ptEnterIO = new IntersectionObserver(es => {
+          es.forEach(e => {
+            if (e.isIntersecting) {
+              ptPin.classList.add('pt-entered');
+              ptEnterIO.unobserve(e.target);
+            }
+          });
+        }, { threshold: .15 });
+        ptEnterIO.observe(ptPin);
       }
 
       /* BAR CHARTS */
@@ -3830,20 +3915,19 @@
 
       var rotX=-18,rotY=28,dragging=false,lastX=0,lastY=0,spinning=true;
       var rm=matchMedia('(prefers-reduced-motion:reduce)').matches;
+      var cubeRaf=null;
 
       function render(){
         cube.style.transform='rotateX('+rotX+'deg) rotateY('+rotY+'deg)';
       }
       render();
 
-      if(!rm){
-        function autoSpin(){
-          if(!dragging&&spinning){rotY+=0.22;}
-          render();
-          requestAnimationFrame(autoSpin);
-        }
-        autoSpin();
+      function autoSpin(){
+        if(!dragging&&spinning){rotY+=0.22;}
+        render();
+        cubeRaf=requestAnimationFrame(autoSpin);
       }
+      if(!rm){autoSpin();}
 
       scene.addEventListener('mousedown',function(e){
         dragging=true;lastX=e.clientX;lastY=e.clientY;
@@ -3873,6 +3957,10 @@
 
       var behObs=new IntersectionObserver(function(entries){
         spinning=entries[0].isIntersecting;
+        if(!rm){
+          if(spinning&&!cubeRaf){autoSpin();}
+          else if(!spinning&&cubeRaf){cancelAnimationFrame(cubeRaf);cubeRaf=null;}
+        }
       },{threshold:0.2});
       behObs.observe(document.getElementById('behavioral'));
     })();
@@ -3900,7 +3988,7 @@
         [[60,120],[200,120],[200,50],[420,50]],
         [[60,120],[420,120]],
         [[60,120],[200,120],[200,180],[420,180]],
-        [[60,120],[200,120],[200,220],[420,220]]
+        [[60,120],[200,120],[200,240],[420,240]]
       ];
 
       /* travel along polyline */
@@ -4061,7 +4149,132 @@
       }, { threshold: 0.2 });
       cbIO.observe(svg);
     })();
+
+    /* ── GOVERNANCE WIDGET ── */
+    (function(){
+      var rm=matchMedia('(prefers-reduced-motion:reduce)').matches;
+      var steps=document.querySelectorAll('.gw-step');
+      var panels=[0,1,2,3].map(function(i){return document.getElementById('gw-p'+i);});
+      var title=document.getElementById('gw-title');
+      var badge=document.getElementById('gw-badge');
+      var widget=document.getElementById('gov-widget');
+      var cur=0,timer=null,paused=false;
+      var titles=['Change Proposal','Public Comment Period','Governance Board Vote','Public Record'];
+      var badges=[['Draft','draft'],['In Review','review'],['Approved','approved'],['v1.1 Published','published']];
+      var twText='Add secondary escalation path for after-hours crisis routing in ROUTE step.';
+      var twEl=document.getElementById('gw-tw');
+      var twTimer=null;
+
+      /* progress bars */
+      function stopAllBars(){
+        for(var j=0;j<4;j++){var b=document.getElementById('gw-bar-'+j);if(b){b.classList.remove('running');b.style.animation='none';}}
+      }
+      function startBar(i){
+        var b=document.getElementById('gw-bar-'+i);
+        if(!b)return;
+        b.classList.remove('running');b.style.animation='none';
+        void b.offsetWidth;
+        b.classList.add('running');
+      }
+
+      /* auto-loop timer */
+      function startTimer(){
+        clearTimeout(timer);
+        timer=setTimeout(function(){goTo((cur+1)%4);},4000);
+      }
+
+      function typewrite(){
+        if(rm||!twEl)return;
+        twEl.textContent='';twEl.classList.add('gw-typewriter');
+        var i=0;clearTimeout(twTimer);
+        function tick(){if(i<=twText.length){twEl.textContent=twText.slice(0,i);i++;twTimer=setTimeout(tick,28);}else{twEl.classList.remove('gw-typewriter');}}
+        tick();
+      }
+
+      function animateP1(){
+        var bar=document.getElementById('gw-bar');
+        var day=document.getElementById('gw-day');
+        if(bar)bar.style.width='0';
+        ['gw-c1','gw-c2','gw-c3'].forEach(function(id){var c=document.getElementById(id);if(c)c.classList.remove('show');});
+        if(rm){
+          if(bar)bar.style.width='37%';if(day)day.textContent='Day 22 of 60';
+          ['gw-c1','gw-c2','gw-c3'].forEach(function(id){var c=document.getElementById(id);if(c)c.classList.add('show');});
+          return;
+        }
+        setTimeout(function(){if(bar)bar.style.width='37%';},50);
+        var t0=null,dur=1400;
+        function countDay(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/dur,1);var ease=1-Math.pow(1-p,3);if(day)day.textContent='Day '+Math.round(ease*22)+' of 60';if(p<1)requestAnimationFrame(countDay);}
+        requestAnimationFrame(countDay);
+        setTimeout(function(){var c=document.getElementById('gw-c1');if(c)c.classList.add('show');},0);
+        setTimeout(function(){var c=document.getElementById('gw-c2');if(c)c.classList.add('show');},420);
+        setTimeout(function(){var c=document.getElementById('gw-c3');if(c)c.classList.add('show');},840);
+      }
+
+      function animateP2(){
+        ['gw-v1','gw-v2','gw-v3','gw-v4'].forEach(function(id){var r=document.getElementById(id);if(r)r.classList.remove('show');});
+        var res=document.getElementById('gw-result');if(res)res.classList.remove('show');
+        if(rm){
+          ['gw-v1','gw-v2','gw-v3','gw-v4'].forEach(function(id){var r=document.getElementById(id);if(r)r.classList.add('show');});
+          if(res)res.classList.add('show');return;
+        }
+        [0,180,360,540].forEach(function(d,i){setTimeout(function(){var r=document.getElementById('gw-v'+(i+1));if(r)r.classList.add('show');},d);});
+        setTimeout(function(){if(res)res.classList.add('show');},960);
+      }
+
+      function animateP3(){
+        var pub=document.getElementById('gw-pub');if(pub)pub.classList.remove('show');
+        if(rm){if(pub)pub.classList.add('show');return;}
+        setTimeout(function(){if(pub)pub.classList.add('show');},50);
+      }
+
+      function goTo(idx){
+        if(idx===cur&&panels[idx].classList.contains('active'))return;
+        steps.forEach(function(s,i){
+          s.classList.remove('active');
+          if(i<idx)s.classList.add('done');else s.classList.remove('done');
+          var dot=s.querySelector('.gw-dot');
+          if(i<idx&&dot)dot.textContent='✓';
+          else if(dot)dot.textContent=''+(i+1);
+        });
+        steps[idx].classList.add('active');
+        panels.forEach(function(p){p.classList.remove('active');});
+        panels[idx].classList.remove('active');
+        void panels[idx].offsetWidth;
+        panels[idx].classList.add('active');
+        title.textContent=titles[idx];
+        badge.textContent=badges[idx][0];
+        badge.className='gw-badge '+badges[idx][1];
+        cur=idx;
+        if(idx===0)typewrite();
+        if(idx===1)animateP1();
+        if(idx===2)animateP2();
+        if(idx===3)animateP3();
+        if(!rm){stopAllBars();startBar(idx);if(!paused)startTimer();}
+      }
+
+      steps.forEach(function(s,i){s.addEventListener('click',function(){goTo(i);});});
+
+      /* hover pause/resume */
+      if(widget&&!rm){
+        widget.addEventListener('mouseenter',function(){
+          paused=true;clearTimeout(timer);
+          var b=document.getElementById('gw-bar-'+cur);
+          if(b)b.style.animationPlayState='paused';
+        });
+        widget.addEventListener('mouseleave',function(){
+          paused=false;
+          var b=document.getElementById('gw-bar-'+cur);
+          if(b)b.style.animationPlayState='running';
+          startTimer();
+        });
+      }
+
+      /* init */
+      if(rm&&twEl){twEl.textContent=twText;}
+      else{typewrite();startBar(0);startTimer();}
+    })();
   </script>
+
 </body>
 
 </html>
